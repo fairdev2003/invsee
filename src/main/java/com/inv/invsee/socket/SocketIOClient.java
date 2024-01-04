@@ -37,7 +37,8 @@ public class SocketIOClient {
                 @Override
                 public void call(Object... args) {
                     Player player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers().get(0);
-                    player.sendSystemMessage(Component.literal(args[0].toString()));
+                    String chat_message = args[0].toString();
+                    player.sendSystemMessage(Component.literal(chat_message));
                 }
             });
 
@@ -55,7 +56,11 @@ public class SocketIOClient {
         }
     }
 
-    public void disconnect() {
+    public static Socket Socket() {
+        return socket;
+    }
+
+    public static void disconnect() {
         if (socket != null) {
             socket.disconnect();
         }

@@ -34,10 +34,11 @@ public class SendInventories {
     @SubscribeEvent()
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
 
-        if (socket == null) {
-            SocketIOClient.Connect("http://localhost:3005");
-        }
+        Socket socket = SocketIOClient.Socket();
 
+        SocketIOClient.Connect("http://localhost:3005");
+
+        socket.emit("send", event.getEntity().getName().getString() + " joined the game");
 
         var player_data = getData(event);
 
@@ -48,10 +49,9 @@ public class SendInventories {
     @SubscribeEvent()
     public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
 
-        if (socket == null) {
-            SocketIOClient.MessageToSocket("chuj");
-        }
+        Socket socket = SocketIOClient.Socket();
 
+        socket.emit("send", event.getEntity().getName().getString() + " left the game");
 
         var player_data = getData(event);
 
@@ -84,7 +84,6 @@ public class SendInventories {
 
                 // Your code to be executed every 10 minutes goes here
                 // For example, you can call a method or trigger an event
-                System.out.println("chujec");
 
                 
             }

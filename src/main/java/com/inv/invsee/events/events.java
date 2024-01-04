@@ -10,6 +10,7 @@ import com.inv.invsee.InvSee;
 import com.inv.invsee.socket.SocketIOClient;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
+import io.socket.client.Socket;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,7 +43,15 @@ import org.slf4j.Logger;
 @Mod.EventBusSubscriber(modid = InvSee.MODID)
 public class events implements EventListener {
 
+    @SubscribeEvent()
+    public  static void onServerStart(ServerStartedEvent event) {
 
+        Socket socket = SocketIOClient.Socket();
+
+        if (socket == null) {
+            SocketIOClient.Connect("http://localhost:3005");
+        }
+    }
     @SubscribeEvent
     public static void LivingHurtEvent(LivingHurtEvent event) {
         if (event.getEntity() instanceof Sheep) {
@@ -101,7 +111,6 @@ public class events implements EventListener {
 
             BlockEntity tileEntity = world.getBlockEntity(pos);
 
-            SocketIOClient.MessageToSocket("chuj");
 
 
             if (player.isHolding(Items.STICK)) {
