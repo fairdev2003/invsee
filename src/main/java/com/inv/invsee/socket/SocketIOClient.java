@@ -23,16 +23,13 @@ public class SocketIOClient {
 
             socket.on(Socket.EVENT_CONNECT_ERROR, args -> System.out.println("Connection error"));
 
-            // Add more event listeners as needed
-
             socket.on(Socket.EVENT_CONNECT, args -> {
                 System.out.println("Connected to the Socket.IO server");
-                // Emit the initial message or perform any other actions upon connection
-                // For example, you can emit a welcome message here
+
                 socket.emit("send_message", "Hello, server!");
             });
 
-            // Add the event listener for "hello"
+
             socket.on("hello", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {

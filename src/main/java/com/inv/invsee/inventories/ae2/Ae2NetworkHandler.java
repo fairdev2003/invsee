@@ -1,14 +1,27 @@
 package com.inv.invsee.inventories.ae2;
 
+
+
+// ae2 network
 import appeng.api.networking.GridHelper;
 import appeng.api.networking.IGridNode;
+
+// ae2 keys
+import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
-import appeng.crafting.pattern.AECraftingPattern;
+
+// data save
 import com.google.gson.JsonArray;
+
+// main class
 import com.inv.invsee.InvSee;
-import com.inv.invsee.socket.SocketIOClient;
+
+// server
 import io.socket.client.Socket;
+import com.inv.invsee.socket.SocketIOClient;
+
+// generics
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +32,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+// java methods
 import java.util.EventListener;
 
 @Mod.EventBusSubscriber(modid = InvSee.MODID)
@@ -27,6 +41,7 @@ public class Ae2NetworkHandler implements EventListener {
 
     private static JsonArray ae2_inevntory;
     private static String network_author;
+
 
     @SubscribeEvent()
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -43,7 +58,6 @@ public class Ae2NetworkHandler implements EventListener {
                 if (tileEntity.getBlockState().getBlock().getDescriptionId().equals("block.ae2.controller")) {
                     IGridNode gridnode = GridHelper.getExposedNode(event.getLevel(), event.getPos(), event.getEntity().getDirection());
                     JsonArray array = new JsonArray();
-
 
                     for (var entry : gridnode.getGrid().getStorageService().getInventory().getAvailableStacks()) {
                         var resource = entry.getKey();
@@ -63,6 +77,7 @@ public class Ae2NetworkHandler implements EventListener {
 
                         }
                     }
+
                         network_author = player.getDisplayName().getString();
                         ae2_inevntory = array;
 
