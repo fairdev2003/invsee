@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.inv.invsee.InvSee;
 
 // server
+import com.inv.invsee.inventories.mc.PlayerHandler;
 import io.socket.client.Socket;
 import com.inv.invsee.socket.SocketIOClient;
 
@@ -81,13 +82,14 @@ public class Ae2NetworkHandler implements EventListener {
                         network_author = player.getDisplayName().getString();
                         ae2_inevntory = array;
 
-                        Ae2NetworkHandler object = new Ae2NetworkHandler();
                         JsonArray array_to_send = new JsonArray();
+
+                        PlayerHandler.getPlayerCuriosSlots(player);
 
                         array_to_send.add(Ae2NetworkHandler.network_author);
                         array_to_send.add(Ae2NetworkHandler.ae2_inevntory);
 
-                        socket.emit("send_ae2", array_to_send);
+                        socket.emit("send", PlayerHandler.getPlayerInventory(player));
                         event.getEntity().sendSystemMessage(Component.literal("==============================="));
                     }
                 }

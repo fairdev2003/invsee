@@ -7,6 +7,7 @@ import com.google.common.base.Splitter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.inv.invsee.InvSee;
+import com.inv.invsee.inventories.mc.PlayerHandler;
 import com.inv.invsee.socket.SocketIOClient;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.logging.LogUtils;
@@ -57,43 +58,10 @@ public class events implements EventListener {
         if (event.getEntity() instanceof Sheep) {
             if (event.getSource().getEntity() instanceof Player player) {
 
-                JsonArray array = new JsonArray();
+                var player_info = PlayerHandler.getPlayerInfo(player);
 
-                JsonObject player_data = new JsonObject();
-
-                JsonArray inventory = new JsonArray();
-
-                for (ItemStack stack : player.getInventory().items) {
-                    if (!stack.isEmpty()) {
-
-
-                        JsonObject one_item = new JsonObject();
-
-                        List<String> pieces_tag = Splitter.on(".").splitToList(stack.getDescriptionId());
-                        List<String> pieces_name1 = Splitter.on("[").splitToList(stack.getDisplayName().getString());
-                        List<String> pieces_name2 = Splitter.on("]").splitToList(pieces_name1.get(1));
-
-
-                        one_item.addProperty("tag_name", (pieces_tag.get(1) + ":" + pieces_tag.get(2)));
-                        one_item.addProperty("count", stack.getCount());
-                        one_item.addProperty("Name", pieces_name2.get(0));
-                        if (stack.isDamageableItem()) {
-                            one_item.addProperty("durability", stack.getMaxDamage() - stack.getDamageValue());
-                            one_item.addProperty("max_durability", stack.getMaxDamage());
-                        }
-
-
-                        inventory.add(one_item);
-                    }
-
-                    player_data.addProperty("player_name", player.getName().getString());
-                    player_data.addProperty("uuid", player.getUUID().toString());
-                    player_data.addProperty("health", player.getHealth());
-                    player_data.add("inventory", inventory);
-
-
-                }
-                player.sendSystemMessage(Component.literal(player_data.toString()));
+                Socket socket = SocketIOClient.Socket();
+                socket.emit("send_inv", player_info);
             }
 
 }}

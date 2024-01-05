@@ -3,6 +3,7 @@ package com.inv.invsee.commands;
 import com.google.common.base.Splitter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.inv.invsee.inventories.mc.PlayerHandler;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -21,17 +22,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class BruhCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher){
-        dispatcher.register(Commands.literal("inventory").then(Commands.literal("all").executes((command) -> {
-            try {
-                return all(command);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        dispatcher.register(Commands.literal("inventory").then(Commands.literal("me").executes((command) -> {
+            PlayerHandler.getPlayerInfoCommand(command.getSource().getPlayer());
+            return 1;
         })));
-        dispatcher.register(Commands.literal("inventory").then(Commands.literal("chest_data").executes((command) -> {
-            return chest_data(command);
-        })));
-
 
     }
 

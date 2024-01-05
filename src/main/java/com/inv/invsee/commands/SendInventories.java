@@ -8,8 +8,6 @@ import com.inv.invsee.socket.SocketIOClient;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

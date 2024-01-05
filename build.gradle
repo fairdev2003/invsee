@@ -125,6 +125,15 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     mavenCentral()
 
+    repositories {
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        }
+    }
+
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -176,12 +185,15 @@ dependencies {
     implementation(fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}"))
     compileOnly(fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}:api"))
     runtimeOnly(fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}"))
+    runtimeOnly(fg.deobf("curse.maven:botania-225643:4557912"))
 
-    implementation 'net.dv8tion:JDA:5.0.0-beta.18'
-    minecraftLibrary ('io.socket:socket.io-client:2.1.0') {
+    runtimeOnly(fg.deobf("curse.maven:patchouli-306770:4031402"))
+    compileOnly(fg.deobf("curse.maven:project-306770:4031402-sources-debof-api"))
 
-    }
+    runtimeOnly(fg.deobf("curse.maven:curios-309927:4902099"))
+    compileOnly(fg.deobf("curse.maven:project-309927:4902099-sources-debof-api"))
 
+    minecraftLibrary ('io.socket:socket.io-client:2.1.0')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
