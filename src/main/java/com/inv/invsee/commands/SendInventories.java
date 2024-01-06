@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.inv.invsee.InvSee;
+import com.inv.invsee.inventories.mc.PlayerHandler;
 import com.inv.invsee.socket.SocketIOClient;
 
 import io.socket.client.IO;
@@ -15,6 +16,7 @@ import net.minecraftforge.client.event.ClientChatEvent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,20 +25,40 @@ import net.minecraftforge.fml.loading.FMLServiceProvider;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Mod.EventBusSubscriber(modid = InvSee.MODID)
 public class SendInventories {
 
     private static SocketIOClient socket;
 
+    private static int seconds = 60;
+
     @SubscribeEvent()
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
 
-        Socket socket = SocketIOClient.Socket();
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                if (seconds == 0) {
+//                    var uuid = event.getEntity().getUUID();
+//                    var player = event.getEntity().getServer().getPlayerList().getPlayer(uuid);
+//                    socket.emit("send_inv", PlayerHandler.getPlayerInfo(player));
+//                    seconds = 60;
+//                } else {
+//                    seconds = seconds - 1;
+//                }
+//
+//            }
+//        }, 0, 1000);
 
         SocketIOClient.Connect("http://localhost:3005");
+        Socket socket = SocketIOClient.Socket();
 
-        socket.emit("send", event.getEntity().getName().getString() + " joined the game");
+        socket.emit("send_message", event.getEntity().getName().getString() + " joined the game");
 
         var player_data = getData(event);
 
@@ -49,7 +71,7 @@ public class SendInventories {
 
         Socket socket = SocketIOClient.Socket();
 
-        socket.emit("send", event.getEntity().getName().getString() + " left the game");
+        socket.emit("send_message", event.getEntity().getName().getString() + " left the game");
 
         var player_data = getData(event);
 
@@ -57,35 +79,32 @@ public class SendInventories {
 
     }
 
-    private static int ticksElapsed = 0;
-    private static final int TICKS_PER_MINUTE = 10;
     @SubscribeEvent()
     public static void chatService(ServerChatEvent.Submitted event) {
         System.out.println(event.getMessage());
 
-        if (socket == null) {
-            String formatted_text = "<" + event.getPlayer().getName().getString() + "> " + event.getRawText();
+        Socket socket = SocketIOClient.Socket();
 
-            SocketIOClient.MessageToSocket(formatted_text);
-        }
+        String formatted_text = "<" + event.getPlayer().getName().getString() + "> " + event.getRawText();
+        socket.emit("send_message", formatted_text);
     }
 
     @SubscribeEvent()
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            ticksElapsed++;
+    public static void onPlayerDeath(LivingDeathEvent event) {
 
-            // Check if 10 minutes (6000 ticks) have passed
-            if (ticksElapsed >= 10 * TICKS_PER_MINUTE) {
-                // Reset the counter
-                ticksElapsed = 0;
+        Socket socket = SocketIOClient.Socket();
+        System.out.println("working here");
 
-                // Your code to be executed every 10 minutes goes here
-                // For example, you can call a method or trigger an event
+        String player_name = event.getEntity().getDisplayName().getString();
+        String uuid = event.getEntity().getUUID().toString();
+        String source = event.getSource().getLocalizedDeathMessage(event.getEntity()).getString().replace( player_name, "**" + player_name + "**" );
 
-                
-            }
-        }
+        JsonObject json = new JsonObject();
+        json.addProperty("name", player_name);
+        json.addProperty("message", source);
+        json.addProperty("uuid", uuid);
+
+        socket.emit("player_death", json);
     }
 
     /// function i will use

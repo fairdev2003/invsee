@@ -29,37 +29,26 @@ public class SocketIOClient {
                 socket.emit("send_message", "Hello, server!");
             });
 
-
-            socket.on("hello", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    Player player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers().get(0);
-                    String chat_message = args[0].toString();
-                    player.sendSystemMessage(Component.literal(chat_message));
-                }
-            });
-
             socket.connect();
+
+            socket.on("hello", args -> {
+                Player player = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers().get(0);
+                String chat_message = args[0].toString();
+                player.sendSystemMessage(Component.literal(chat_message));
+            });
+            socket.on("get_server_info", args -> {
+                int server = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerCount();
+                System.out.println(server);
+                socket.emit("send_server_data", server);
+
+
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void MessageToSocket(String message) {
-        if (socket != null && socket.connected()) {
-            socket.emit("send", message);
-        } else {
-            System.out.println("Socket not connected. Message not sent: " + message);
-        }
-    }
-
     public static Socket Socket() {
         return socket;
-    }
-
-    public static void disconnect() {
-        if (socket != null) {
-            socket.disconnect();
-        }
     }
 }

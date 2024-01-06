@@ -44,15 +44,6 @@ import org.slf4j.Logger;
 @Mod.EventBusSubscriber(modid = InvSee.MODID)
 public class events implements EventListener {
 
-    @SubscribeEvent()
-    public  static void onServerStart(ServerStartedEvent event) {
-
-        Socket socket = SocketIOClient.Socket();
-
-        if (socket == null) {
-            SocketIOClient.Connect("http://localhost:3005");
-        }
-    }
     @SubscribeEvent
     public static void LivingHurtEvent(LivingHurtEvent event) {
         if (event.getEntity() instanceof Sheep) {

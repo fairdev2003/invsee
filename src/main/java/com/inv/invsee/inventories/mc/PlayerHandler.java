@@ -39,12 +39,11 @@ public class PlayerHandler {
         JsonArray inventory = new JsonArray();
         JsonArray enchants = new JsonArray();
 
-
-
         for (var entry : player.getInventory().items) {
             JsonObject single_item_data = new JsonObject();
 
             single_item_data.addProperty("display_name", new ItemStack(entry.getItem()).getDisplayName().getString());
+            single_item_data.addProperty("amount", entry.getCount());
 
             if (entry.isDamageableItem()) {
                 single_item_data.addProperty("type", "damageable");
@@ -76,7 +75,10 @@ public class PlayerHandler {
 
         JsonObject curios = new JsonObject();
 
-        var curios_equipped = CuriosApi.getCuriosHelper().getEquippedCurios(player);
+        var curios_equipped = CuriosApi.getCuriosHelper().getEquippedCurios(player).cast();
+        player.sendSystemMessage(Component.literal(curios_equipped.toString()));
+
+
 
         return curios;
     }
