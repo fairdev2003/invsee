@@ -2,6 +2,7 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io')
+require('dotenv').config()
 const cors = require("cors")
 const { Client, IntentsBitField, EmbedBuilder } =  require("discord.js")
 const client = new Client({ 
@@ -179,7 +180,7 @@ app.get("send_message", (req, res) => {
     
 })
 
-client.login('MTAzMjM1OTUxMzY3MzcwNzU5MQ.Gmv7fN.9HrczpVBPTRseRBswBymXQJp4zGNYr3RB0oVDM');
+client.login(process.env.DISCORD_TOKEN);
 
 server.listen(3005, () => {
   console.log('server running at http://localhost:3005');
