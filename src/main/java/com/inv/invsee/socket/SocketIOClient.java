@@ -25,8 +25,6 @@ public class SocketIOClient {
 
             socket.on(Socket.EVENT_CONNECT, args -> {
                 System.out.println("Connected to the Socket.IO server");
-
-                socket.emit("send_message", "Hello, server!");
             });
 
             socket.connect();
@@ -40,9 +38,8 @@ public class SocketIOClient {
                 int server = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerCount();
                 System.out.println(server);
                 socket.emit("send_server_data", server);
-
-
             });
+            socket.off("send_server_data");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.inv.invsee;
 
 
 import com.inv.invsee.commands.BruhCommand;
+import com.inv.invsee.socket.SocketIOClient;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BlockItem;
@@ -106,6 +107,7 @@ public class InvSee
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            SocketIOClient.Connect("http://localhost:3005");
         }
 
     }

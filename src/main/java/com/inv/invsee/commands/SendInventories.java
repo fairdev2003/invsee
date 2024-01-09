@@ -55,27 +55,48 @@ public class SendInventories {
 //            }
 //        }, 0, 1000);
 
-        SocketIOClient.Connect("http://localhost:3005");
+
         Socket socket = SocketIOClient.Socket();
 
-        socket.emit("send_message", event.getEntity().getName().getString() + " joined the game");
+        JsonObject join_object = new JsonObject();
 
-        var player_data = getData(event);
+        String player_name = event.getEntity().getName().getString();
+        String uuid = event.getEntity().getUUID().toString();
 
-        BruhCommand.sendAsyncData(String.valueOf(player_data));
+        String message = String.format("%s joined the game", player_name);
+
+
+        join_object.addProperty("user_name", player_name);
+        join_object.addProperty("uuid", uuid);
+        join_object.addProperty("type", "player_joined");
+        join_object.addProperty("message", message);
+
+
+        socket.emit("send_message", join_object);
 
     }
 
     @SubscribeEvent()
     public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent event) {
 
+        SocketIOClient.Connect("http://localhost:3005");
         Socket socket = SocketIOClient.Socket();
 
-        socket.emit("send_message", event.getEntity().getName().getString() + " left the game");
+        JsonObject left_object = new JsonObject();
 
-        var player_data = getData(event);
+        String player_name = event.getEntity().getName().getString();
+        String uuid = event.getEntity().getUUID().toString();
 
-        BruhCommand.sendAsyncData(String.valueOf(player_data));
+        String message = String.format("%s left the game", player_name);
+
+
+        left_object.addProperty("user_name", player_name);
+        left_object.addProperty("uuid", uuid);
+        left_object.addProperty("type", "player_left");
+        left_object.addProperty("message", message);
+
+
+        socket.emit("send_message", left_object);
 
     }
 
@@ -85,26 +106,40 @@ public class SendInventories {
 
         Socket socket = SocketIOClient.Socket();
 
-        String formatted_text = "<" + event.getPlayer().getName().getString() + "> " + event.getRawText();
-        socket.emit("send_message", formatted_text);
+        JsonObject chat_object = new JsonObject();
+
+        String player_name = event.getPlayer().getName().getString();
+        String uuid = event.getPlayer().getUUID().toString();
+        String message = String.format("%s", event.getMessage().getString());
+
+        chat_object.addProperty("user_name", player_name);
+        chat_object.addProperty("uuid", uuid);
+        chat_object.addProperty("type", "player_chat");
+        chat_object.addProperty("message", message);
+
+        socket.emit("send_message", chat_object);
     }
 
     @SubscribeEvent()
     public static void onPlayerDeath(LivingDeathEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            Socket socket = SocketIOClient.Socket();
+            System.out.println("working here");
 
-        Socket socket = SocketIOClient.Socket();
-        System.out.println("working here");
+            String player_name = event.getEntity().getDisplayName().getString();
+            String uuid = event.getEntity().getUUID().toString();
+            String source = event.getSource().getLocalizedDeathMessage(event.getEntity()).getString().replace( player_name, player_name);
 
-        String player_name = event.getEntity().getDisplayName().getString();
-        String uuid = event.getEntity().getUUID().toString();
-        String source = event.getSource().getLocalizedDeathMessage(event.getEntity()).getString().replace( player_name, "**" + player_name + "**" );
+            JsonObject death_object = new JsonObject();
+            death_object.addProperty("user_name", player_name);
+            death_object.addProperty("message", source);
+            death_object.addProperty("type", "player_death");
+            death_object.addProperty("uuid", uuid);
 
-        JsonObject json = new JsonObject();
-        json.addProperty("name", player_name);
-        json.addProperty("message", source);
-        json.addProperty("uuid", uuid);
+            socket.emit("send_message", death_object);
 
-        socket.emit("player_death", json);
+        }
+
     }
 
     /// function i will use

@@ -18,11 +18,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on("messageCreate", (mess) => {
-    if(!mess.author.bot) {
-        io.emit("hello", `<From discord ${mess.author.displayName}> ${mess.content}`)
-    }
-})
+
   
 
 const app = express();
@@ -64,18 +60,23 @@ app.post('/send', (req, res) => {
 
 io.on('connection', (socket) => {
 
+    client.on("messageCreate", (mess) => {
+        if(!mess.author.bot) {
+            io.emit("hello", `<From discord ${mess.author.displayName}> ${mess.content}`)
+            io.emit("send_message", "chuj")
+        }
+    })
+
     socket.on("authentication", (userid) => {
         
     })
-
-    const id = socket.handshake.query.id
-    socket.join(id)
-    console.log(socket.id)
     
     socket.on("send", message => {
         console.log(message.name)
 
         const channelId = '1176199719660290128';
+
+        io.emit("hello", message)
 
         // Replace 'Hello, this is a message!' with your actual message
 
@@ -124,21 +125,32 @@ io.on('connection', (socket) => {
         const channel = client.channels.cache.get(channelId);
         channel.send(`======================\nInventory items of ${name}:\n\n${message}\n======================`)
     })
-    socket.on("send_message", message => {
+    socket.on("send_message", object => {
 
-        io.emit("receive_message", message);
+        const parser = JSON.parse(object)
+        const message = parser.message
+        const user_name = parser.user_name
+        const uuid = parser.uuid
+        const type = parser.type
 
-        console.log(message);
+        const message_info = {
+            message: message,
+            user_name: user_name,
+            uuid: uuid,
+            type: type
+        };
+
+        io.emit("receive_message", message_info);
 
         const id = '1176199719660290128';
 
-        const chuj = client.channels.cache.get(id);
-        chuj.send(message);
+        const channel = client.channels.cache.get(id);
+        channel.send(message);
     })
     socket.on("player_death", object => {
 
         const parser = JSON.parse(object)
-        const name = parser.name
+        const user_name = parser.user_name
         const message = parser.message
         const uuid = parser.uuid
 
@@ -147,7 +159,7 @@ io.on('connection', (socket) => {
         console.log()
         
         const embed = new EmbedBuilder()
-        .setAuthor({name: name, iconURL: `https://mc-heads.net/avatar/${uuid}`}).setTitle("Player dead").setDescription(message)
+        .setAuthor({name: user_name, iconURL: `https://mc-heads.net/avatar/${uuid}`}).setTitle("Player dead").setDescription(message)
 
         const channelId = '1176199719660290128';
 
@@ -164,7 +176,7 @@ io.on('connection', (socket) => {
 
 
     socket.on("send_server_data", data => {
-        socket.broadcast.emit("receive_server_info", data)
+        io.emit("receive_server_info", data)
     })
 
     

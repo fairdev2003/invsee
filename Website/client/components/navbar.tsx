@@ -18,13 +18,13 @@ export default function Navbar() {
         </div>
         <div className="flex gap-2">
             <HoverCard openDelay={1} closeDelay={1}>
-                <HoverCardTrigger><Link href='/installation' className="text-white"><b>Installation</b></Link></HoverCardTrigger>
+                <HoverCardTrigger><a href='/usage' className="text-white"><b>How to use</b></a></HoverCardTrigger>
                 <HoverCardContent className="">
                     Learn how to install the mod and use on the server
                 </HoverCardContent>
             </HoverCard>
             <HoverCard openDelay={1} closeDelay={1}>
-                <HoverCardTrigger><Link href='/installation' className="text-white"><b>Wiki</b></Link></HoverCardTrigger>
+                <HoverCardTrigger><a href='/usage' className="text-white"><b>Wiki</b></a></HoverCardTrigger>
                 <HoverCardContent className="">
                     Learn more about modded world and explore new horizons!
                 </HoverCardContent>

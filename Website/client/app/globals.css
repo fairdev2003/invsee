@@ -7,6 +7,9 @@
 body, html {
   background-color: #16181c;
 }
+#chat-box::-webkit-scrollbar {
+  display: none;
+}
  
 @layer base {
   :root {
