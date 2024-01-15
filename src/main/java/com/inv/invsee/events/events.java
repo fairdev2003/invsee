@@ -71,6 +71,12 @@ public class events implements EventListener {
             BlockEntity tileEntity = world.getBlockEntity(pos);
 
 
+            Socket socket = SocketIOClient.Socket();
+
+
+
+            socket.emit("test_message", PlayerHandler.getPlayerInfo(event.getEntity()));
+
 
             if (player.isHolding(Items.STICK)) {
 

@@ -36,7 +36,9 @@ function Chat() {
   const [isClient, setIsClient] = useState(false)
   const [socket] = useState<any>(io("http://localhost:3005")) 
 
-  const [playerscount, setplayerscount] = useState(0)
+  const chatbox_ref = useRef<any>();
+
+  const [server_info, setServerInfo]: any = useState({})
 
   useEffect(() => {
 
@@ -53,13 +55,15 @@ function Chat() {
     })
 
     socket.on("receive_server_info", (server_info: any) => {
-        setplayerscount(server_info)
+        setServerInfo(server_info)
+        console.log(server_info)
     })
     
     return () => {
         socket.off("connect");
         socket.off("receive_message");
         socket.off("server_info");
+        socket.off("receive_server_info")
     };
 
   })
@@ -86,9 +90,13 @@ function Chat() {
         </Alert>)
     }
     if (object.type === "player_chat") {
-        return (<Alert variant="message" className='gap-2 items-center bg-[#dad2d2]'>
-            <AlertTitle>{object.user_name}</AlertTitle>
-            <AlertDescription>{object.message}</AlertDescription>
+        return (<Alert variant="message" className='flex gap-5 items-center bg-[#dad2d2]'>
+            <img src={`https://mc-heads.net/avatar/${object.uuid}`} alt={`image-${object.user_name}`} className='w-10 h-10 rounded-lg'/>
+            <div>
+                <AlertTitle>{object.user_name}</AlertTitle>
+                <AlertDescription>{object.message}</AlertDescription>
+            </div>
+            
         </Alert>)
     }
     if (object.type === "web_chat") {
@@ -110,16 +118,16 @@ function Chat() {
 
     <div>
         {isClient ? <div><Navbar></Navbar>
-        <div className='px-[100px] py-[50px] flex flex-grow flex-row gap-5 justify-center'>
-            <div key='left-menu' className='w-[400px] h-[850px] bg-[#26292f] rounded-lg px-10 py-10'>
+        <div className='px-[50px] py-[50px] flex flex-grow flex-row gap-5 justify-center'>
+            <div key='left-menu' className='w-[700px] h-[850px] bg-[#26292f] rounded-lg px-10 py-10'>
                 <h1 className='text-white text-2xl font-[700] ml-1 mb-3 flex items-center'>Server Info</h1>
                 <div className='bg-[#213f21] w-full h-[60px] rounded-lg flex items-center gap-3 px-5'>
                     <FaUser size={25} className="text-white "/>
-                    <p className='font-[700] text-lg text-white'>{playerscount}/8 Players Online</p>
+                    <p className='font-[700] text-lg text-white'>{server_info ? server_info.count : 0}/8 Players Online</p>
                 </div>
             </div>
-            <div className='w-[1000px] h-[850px] bg-[#26292f] rounded-lg'>
-                <div id="chat-box" className='h-[88%] bg-[#26292f] m-5 mb-0 rounded-lg flex flex-col gap-3 overflow-y-scroll max-h-[85%]'>
+            <div className='w-[1200px] h-[850px] bg-[#26292f] rounded-lg'>
+                <div ref={chatbox_ref} id="chat-box" className='h-[88%] bg-[#26292f] m-5 mb-0 rounded-lg flex flex-col gap-3 overflow-y-scroll max-h-[85%]'>
                     <h1 className='text-white text-2xl font-[700] ml-1 mb-3 flex items-center'>Live Chat</h1>
                     
                     

@@ -1,4 +1,7 @@
 const express = require('express');
+
+const images = require('./icons')
+
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io')
@@ -14,14 +17,17 @@ const client = new Client({
     ]
   })
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-});
+// client.on('ready', () => {
+//     console.log(`Logged in as ${client.user.tag}!`);
+// });
 
 
   
 
 const app = express();
+
+app.use("/images", images)
+
 app.use(express.json())
 const server = createServer(app);
 const io = new Server(server, {
@@ -46,12 +52,6 @@ app.post('/send', (req, res) => {
 
     const channelId = '1176199719660290128';
 
-    // Replace 'Hello, this is a message!' with your actual message
-
-    // Find the channel by ID
-    const channel = client.channels.cache.get(channelId);
-
-    // Send the message to the channel
     channel.send(message);
 
     io.emit("hello", message)
@@ -77,37 +77,28 @@ io.on('connection', (socket) => {
         const channelId = '1176199719660290128';
 
         io.emit("hello", message)
-
-        // Replace 'Hello, this is a message!' with your actual message
-
-        // Find the channel by ID
-        const channel = client.channels.cache.get(channelId);
-
-        // Send the message to the channel
-        channel.send(message);
     })
 
-    socket.on("send_ae2", array => {
-        console.log(array)
+    // socket.on("send_ae2", array => {
+    //     console.log(array);
         
-        const parser = JSON.parse(array)
-        const author = parser[0]
-        const inventory = parser[1]
+    //     const parser = JSON.parse(array);
+    //     const author = parser[0];
+    //     const inventory = parser[1];
 
-        const channelId = '1176199719660290128';
+    //     const channelId = '1176199719660290128';
 
-        const channel = client.channels.cache.get(channelId);
+    //     const channel = client.channels.cache.get(channelId);
 
-        var all_items_names = []
-
+    //     var all_items_names = [];
         
-        inventory.map((item, num) => {
-            all_items_names.push(`${num + 1}. ${item}`)
-        })
+    //     inventory.map((item, num) => {
+    //         all_items_names.push(`${num + 1}. ${item}`)
+    //     })
 
-        var message = all_items_names.join("\n")
-        channel.send(`======================\nAe2 System Storage of ${author}:\n\n${message}\n======================`);
-    })
+    //     var message = all_items_names.join("\n")
+    //     channel.send(`======================\nAe2 System Storage of ${author}:\n\n${message}\n======================`);
+    // })
     socket.on("send_inv", array => {
         const parser = JSON.parse(array)
         const inventory = parser.inventory
@@ -120,18 +111,39 @@ io.on('connection', (socket) => {
 
         var message = all_items_names.join("\n")
 
-        const channelId = '1176199719660290128';
+        const message_info = {
+            message: JSON.stringify(parser),
+            user_name: "dev",
+            uuid: "123",
+            type: "player_chat"
+        };
 
-        const channel = client.channels.cache.get(channelId);
-        channel.send(`======================\nInventory items of ${name}:\n\n${message}\n======================`)
+        io.emit("receive_message", message_info);
     })
+
+    socket.on("test_message", object => {
+        const parser = JSON.parse(object);
+
+        console.log(parser)
+
+        const message_info = {
+            message: object,
+            user_name: "Dev",
+            uuid: "chuj",
+            type: "player_chat"
+        }
+
+        io.emit("receive_message", message_info);
+    })
+        
+
     socket.on("send_message", object => {
 
-        const parser = JSON.parse(object)
-        const message = parser.message
-        const user_name = parser.user_name
-        const uuid = parser.uuid
-        const type = parser.type
+        const parser = JSON.parse(object);
+        const message = parser.message;
+        const user_name = parser.user_name;
+        const uuid = parser.uuid;
+        const type = parser.type;
 
         const message_info = {
             message: message,
@@ -142,10 +154,6 @@ io.on('connection', (socket) => {
 
         io.emit("receive_message", message_info);
 
-        const id = '1176199719660290128';
-
-        const channel = client.channels.cache.get(id);
-        channel.send(message);
     })
     socket.on("player_death", object => {
 
@@ -176,7 +184,10 @@ io.on('connection', (socket) => {
 
 
     socket.on("send_server_data", data => {
-        io.emit("receive_server_info", data)
+
+        const parser = JSON.parse(data)
+
+        io.emit("receive_server_info", parser)
     })
 
     
@@ -192,7 +203,7 @@ app.get("send_message", (req, res) => {
     
 })
 
-client.login(process.env.DISCORD_TOKEN);
+// client.login(process.env.DISCORD_TOKEN);
 
 server.listen(3005, () => {
   console.log('server running at http://localhost:3005');

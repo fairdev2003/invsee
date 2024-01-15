@@ -34,7 +34,46 @@ public class PlayerHandler {
     }
 
 
+    public static JsonObject getItemInMainHand(Player player) {
+        JsonObject item_data = new JsonObject();
+        var entry = player.getMainHandItem();
+        JsonArray enchants = new JsonArray();
+
+        JsonObject single_item_data = new JsonObject();
+
+        String nbt_data = entry.getTags().toString();
+
+        item_data.addProperty("display_name", new ItemStack(entry.getItem()).getDisplayName().getString());
+        item_data.addProperty("amount", entry.getCount());
+        item_data.addProperty("registry_name", entry.getItem().getDescriptionId().replace("block.", "").replace("item.", "").replace(".", "__"));
+
+        player.sendSystemMessage(Component.literal(nbt_data));
+
+        if (entry.isDamageableItem()) {
+            item_data.addProperty("type", "damageable");
+
+            item_data.addProperty("max_durability", entry.getMaxDamage());
+            item_data.addProperty("durability_left", entry.getDamageValue() - entry.getDamageValue());
+        } else {
+            if (entry.isStackable()) {
+                item_data.addProperty("type", "block/item");
+            } else {
+                item_data.addProperty("type", "other");
+            }
+        }
+
+        if (entry.isEnchantable() && entry.isEnchanted()) {
+            for (var enchanted_entry : entry.getEnchantmentTags()) {
+                enchants.add(enchanted_entry.toString());
+            }
+        }
+
+
+        return item_data;
+    }
+
     public static JsonArray getPlayerInventory(Player player) {
+
 
         JsonArray inventory = new JsonArray();
         JsonArray enchants = new JsonArray();
@@ -42,11 +81,17 @@ public class PlayerHandler {
         for (var entry : player.getInventory().items) {
             JsonObject single_item_data = new JsonObject();
 
+            String nbt_data = entry.getTags().toString();
+
             single_item_data.addProperty("display_name", new ItemStack(entry.getItem()).getDisplayName().getString());
             single_item_data.addProperty("amount", entry.getCount());
+            single_item_data.addProperty("registry_name", entry.getItem().getDescriptionId().replace("block.", "").replace("item.", "").replace(".", "__"));
+
+            player.sendSystemMessage(Component.literal(nbt_data));
 
             if (entry.isDamageableItem()) {
                 single_item_data.addProperty("type", "damageable");
+
                 single_item_data.addProperty("max_durability", entry.getMaxDamage());
                 single_item_data.addProperty("durability_left", entry.getDamageValue() - entry.getDamageValue());
             } else {
@@ -66,6 +111,8 @@ public class PlayerHandler {
             single_item_data.add("enchants", enchants);
             inventory.add(single_item_data);
 
+
+
         }
 
         return inventory;
@@ -77,8 +124,6 @@ public class PlayerHandler {
 
         var curios_equipped = CuriosApi.getCuriosHelper().getEquippedCurios(player).cast();
         player.sendSystemMessage(Component.literal(curios_equipped.toString()));
-
-
 
         return curios;
     }

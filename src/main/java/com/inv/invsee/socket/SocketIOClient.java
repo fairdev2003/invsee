@@ -1,5 +1,8 @@
 package com.inv.invsee.socket;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.inv.invsee.inventories.mc.PlayerHandler;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -35,11 +38,31 @@ public class SocketIOClient {
                 player.sendSystemMessage(Component.literal(chat_message));
             });
             socket.on("get_server_info", args -> {
-                int server = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerCount();
-                System.out.println(server);
-                socket.emit("send_server_data", server);
+                JsonArray player_list = new JsonArray();
+                JsonObject server_info = new JsonObject();
+
+                int count = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayerCount();
+                int max_players = ServerLifecycleHooks.getCurrentServer().getMaxPlayers();
+                double ticks = ServerLifecycleHooks.getCurrentServer().getAverageTickTime();
+
+                server_info.addProperty("count", count);
+                server_info.addProperty("max_players", max_players);
+                server_info.addProperty("ticks", ticks);
+
+                for (var player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+                    player_list.add(PlayerHandler.getPlayerInfo(player));
+                }
+
+                server_info.add("players_online", player_list);
+
+                System.out.println(server_info);
+                socket.emit("send_server_data", server_info);
+                socket.off("get_server_info");
+                socket.off("send_server_data");
             });
-            socket.off("send_server_data");
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -23,14 +23,13 @@ import java.util.concurrent.CompletableFuture;
 public class BruhCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher){
         dispatcher.register(Commands.literal("inventory").then(Commands.literal("me").executes((command) -> {
-            PlayerHandler.getPlayerInfoCommand(command.getSource().getPlayer());
+            ItemStack item = command.getSource().getPlayer().getMainHandItem();
+
+            command.getSource().getPlayer().sendSystemMessage(Component.literal(item.serializeNBT().toString()));
             return 1;
         })));
 
     }
-
-
-
 
     private static int all(CommandContext<CommandSourceStack> command) throws IOException {
         if(command.getSource().getEntity() instanceof Player){
