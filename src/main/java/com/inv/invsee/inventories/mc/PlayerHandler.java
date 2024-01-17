@@ -39,15 +39,29 @@ public class PlayerHandler {
         var entry = player.getMainHandItem();
         JsonArray enchants = new JsonArray();
 
-        JsonObject single_item_data = new JsonObject();
+        var nbt_data = entry.getOrCreateTag().toString().
+                replace("id", "\"id\"").
+                replace("mana", "\"mana\"").
+                replace("Damage", "\"Damage\"").
+                replace("Enchantments", "\"Enchantments\"").
+                replace("lvl", "\"lvl\"").
+                replace("internalCurrentPower", "\"internalCurrentPower\"").
+                replace("internalMaxPower", "\"internalMaxPower\"").
+                replace("s", "").
+                replace("d", "").
+                replace("b", "").
+                replace("Count", "\"Count\"").
+                replace("inv", "\"inv\"").
+                replace("Slot", "\"Slot\"").
+                replace("oulinUUID", "\"oulinUUID\"");
 
-        String nbt_data = entry.getTags().toString();
+        String rarity = entry.getRarity().toString().toLowerCase();
 
-        item_data.addProperty("display_name", new ItemStack(entry.getItem()).getDisplayName().getString());
+        item_data.addProperty("display_name", entry.getHoverName().getString());
         item_data.addProperty("amount", entry.getCount());
+        item_data.addProperty("nbt_data", nbt_data);
+        item_data.addProperty("rarity", rarity);
         item_data.addProperty("registry_name", entry.getItem().getDescriptionId().replace("block.", "").replace("item.", "").replace(".", "__"));
-
-        player.sendSystemMessage(Component.literal(nbt_data));
 
         if (entry.isDamageableItem()) {
             item_data.addProperty("type", "damageable");
@@ -62,11 +76,13 @@ public class PlayerHandler {
             }
         }
 
-        if (entry.isEnchantable() && entry.isEnchanted()) {
+        if (entry.isEnchanted()) {
             for (var enchanted_entry : entry.getEnchantmentTags()) {
-                enchants.add(enchanted_entry.toString());
+                enchants.add(enchanted_entry.toString().replace("s}", "}").replace("id", "\"id\"").replace("lvl", "\"lvl\""));
             }
         }
+
+        item_data.add("enchants", enchants);
 
 
         return item_data;

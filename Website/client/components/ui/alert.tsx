@@ -12,7 +12,8 @@ const alertVariants = cva(
         left:
           "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
         joined: "border-[green] text-[green]",
-        message: "border-[white] text-[black] font-[700]"
+        message: "border-[white] text-[black] font-[700]",
+        shared_item: "border-blue-600 bg-blue-400 text-[black]"
       },
     },
     defaultVariants: {

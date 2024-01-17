@@ -3,6 +3,7 @@ package com.inv.invsee.socket;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.inv.invsee.inventories.mc.PlayerHandler;
+import com.inv.invsee.utils.HttpRequestMethods;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -19,6 +20,7 @@ public class SocketIOClient {
     private static Socket socket;
 
     public static void Connect(String serverUrl) {
+
         try {
             IO.Options options = new IO.Options();
             options.forceNew = true;

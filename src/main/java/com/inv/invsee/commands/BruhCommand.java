@@ -4,8 +4,10 @@ import com.google.common.base.Splitter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.inv.invsee.inventories.mc.PlayerHandler;
+import com.inv.invsee.socket.SocketIOClient;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+import io.socket.client.Socket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
@@ -28,6 +30,26 @@ public class BruhCommand {
             command.getSource().getPlayer().sendSystemMessage(Component.literal(item.serializeNBT().toString()));
             return 1;
         })));
+        dispatcher.register(Commands.literal("share").executes((command) -> {
+
+            Player player = command.getSource().getPlayer();
+
+            JsonObject item_data = PlayerHandler.getItemInMainHand(player);
+
+            Socket socket = SocketIOClient.Socket();
+
+            JsonObject data = new JsonObject();
+
+            data.add("item_data", item_data);
+            data.addProperty("uuid", player.getUUID().toString());
+            data.addProperty("type", "share_item");
+            data.addProperty("user_name", player.getDisplayName().getString());
+
+            socket.emit("send_inv", data);
+
+            return 1;
+        }));
+
 
     }
 
