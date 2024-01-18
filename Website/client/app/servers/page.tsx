@@ -118,7 +118,7 @@ function Chat() {
         return (<Alert variant="shared_item" className='flex gap-5 items-center max-w-[98%] relative z-0'>
             <div id='hover_trigger' className='cursor-pointer'>
                 <img  src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative'/>
-                    <div style={{borderColor: getRarityColor(object.item_data.rarity)}} className='w-[auto] h-[auto] bg-[#16181c] border-[5px] p-5 absolute z-2 left-[5rem] top-5 rounded-lg z-3' id='hover_content'>
+                    <div style={{borderColor: getRarityColor(object.item_data.rarity)}} className='w-[auto] h-[auto] bg-[#16181c] border-[5px] p-5 absolute z-2 left-[5rem] top-5 rounded-lg z-2' id='hover_content'>
                         <div className='flex gap-4 items-center mb-5'>
                             <img src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative'></img>
                             <div>
@@ -128,6 +128,9 @@ function Chat() {
                         </div>
 
                         <div>
+                            {object.item_data.nbt_data["MODIFIER"] === "ETERNAL" ? <p className='text-white'>Indestructible</p> : null}
+                            {object.item_data.nbt_data["MODIFIER"] === "FIERY" ? <p className='text-white'>Auto-smelt</p> : null}
+                            {object.item_data.nbt_data["MODIFIER"] === "TERRA" ? <p className='text-white'>3x3 Mode</p> : null}
                             {NbtContent(object.item_data.registry_name.split("__")[0], object.item_data, getRarityColor(object.item_data.rarity))}
                         </div>
                         

@@ -13,6 +13,8 @@ export const EnchantmentsDictonary : any = {
     "minecraft:knockback": "Knockback",
     "minecraft:smite": "Smite",
     "minecraft:bane_of_arthropods": "Bane of Arthropods",
+    "minecraft:protection": "Protection",
+    "minecraft:thorns": "Thorns",
 }
 
 export const NumberFormula: any = {
