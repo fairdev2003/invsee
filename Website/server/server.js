@@ -102,15 +102,11 @@ io.on('connection', (socket) => {
     //     channel.send(`======================\nAe2 System Storage of ${author}:\n\n${message}\n======================`);
     // })
     socket.on("send_inv", object => {
-        const data = JSON.stringify(object.replace("1b", "1"));
-        const parser = JSON.parse(data);
-        console.log(parser);
-
+        const parser = JSON.parse(object);
 
         const user_name = parser.user_name;
         const uuid = parser.uuid;
         const type = parser.type;
-        const nbt_data = JSON.parse(parser.item_data.nbt_data);
         var item_data = parser.item_data;
         
         const parsed_enchants = parser.item_data.enchants.map((item) => {
@@ -118,7 +114,6 @@ io.on('connection', (socket) => {
         });
 
         item_data.enchants = parsed_enchants;
-        item_data.nbt_data = nbt_data;
 
         const message_info = {
             user_name: user_name,
@@ -128,7 +123,7 @@ io.on('connection', (socket) => {
         };
 
 
-        console.log(message_info.item_data.enchants);
+        console.log(message_info.item_data);
 
         io.emit("receive_message", message_info);
     })

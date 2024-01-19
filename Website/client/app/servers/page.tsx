@@ -16,6 +16,7 @@ import '@/app/globals.css'
 import { EnchantmentsDictonary, NumberFormula } from '@/utils/enchants';
 import { NbtContent } from '@/utils/nbt_content';
 import { ModName } from '@/utils/mod_name';
+import Deafult from '../../public/deafult.png'
 
 
 
@@ -87,7 +88,9 @@ function Chat() {
     socket.emit("send", `<Web Message> ${message}`)
   }
   
-
+  const handleDeafultImage = (event: any) => {
+    event.target.src = 'deafult.png';
+  }
   
   
 
@@ -117,10 +120,10 @@ function Chat() {
     if (object.type === "share_item") {
         return (<Alert variant="shared_item" className='flex gap-5 items-center max-w-[98%] relative z-0'>
             <div id='hover_trigger' className='cursor-pointer'>
-                <img  src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative'/>
+                <img  src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}/>
                     <div style={{borderColor: getRarityColor(object.item_data.rarity)}} className='w-[auto] h-[auto] bg-[#16181c] border-[5px] p-5 absolute z-2 left-[5rem] top-5 rounded-lg z-2' id='hover_content'>
                         <div className='flex gap-4 items-center mb-5'>
-                            <img src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative'></img>
+                            <img src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}></img>
                             <div>
                                 <h1 style={{color: getRarityColor(object.item_data.rarity)}} className={`text-md font-[800]`}>{object.item_data.display_name}</h1>
                                 <p className='text-gray-200 text-sm font-[600]'>Tool</p>
@@ -128,9 +131,21 @@ function Chat() {
                         </div>
 
                         <div>
-                            {object.item_data.nbt_data["MODIFIER"] === "ETERNAL" ? <p className='text-white'>Indestructible</p> : null}
-                            {object.item_data.nbt_data["MODIFIER"] === "FIERY" ? <p className='text-white'>Auto-smelt</p> : null}
-                            {object.item_data.nbt_data["MODIFIER"] === "TERRA" ? <p className='text-white'>3x3 Mode</p> : null}
+                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:eternal" ? <div>
+                                <p className='text-white'>+ <span className='text-green-600'>Eternal Modifer</span></p>
+                                <p className='text-white'><i>Tool is indestructible!</i></p>
+                                
+                            </div> : null}
+                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:fiery" ? <div>
+                                <p className='text-white'>+ <span className='text-red-600'>Fiery Modifer</span></p>
+                                <p className='text-white'><i>Allows the tool to smelt the mined block</i></p>
+                                </div>
+                                 : null}
+                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:demolishing" ? <div>
+                                <p className='text-white'>+ <span className='text-[brown]'>Demolishing Modifer</span></p>
+                                <p className='text-white'><i>Tool can mine 3x3 area</i></p>
+                                </div>
+                                 : null}
                             {NbtContent(object.item_data.registry_name.split("__")[0], object.item_data, getRarityColor(object.item_data.rarity))}
                         </div>
                         

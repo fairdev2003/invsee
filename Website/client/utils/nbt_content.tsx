@@ -2,18 +2,18 @@
 
 export const NbtContent = ( mod: string, item_data: any, color: string ) => {
     
-    if (mod == "botania") {
+    if ("mana" in item_data.nbt_data) {
 
             return (
                 <div >
                     
                     <div className="">
-                        {"mana" in item_data.nbt_data && item_data.display_name === "Terra Shatterer" ? <div>
+                        {"mana" in item_data.nbt_data && item_data.display_name.includes("Terra Shatterer") ? <div>
                             <p style={{color: color}}>{Tier_Check(item_data).grade} Tier</p>
                         </div> : null}
                         
 
-                        {item_data.display_name === "Band of Mana" || item_data.display_name === "Greater Band of Mana" || item_data.display_name === "Mana Tablet" || item_data.display_name === "Terra Shatterer" ? <div className="mb-5">
+                        {item_data.display_name === "Band of Mana" || item_data.display_name === "Greater Band of Mana" || item_data.display_name === "Mana Tablet" || item_data.display_name.includes("Terra Shatterer") ? <div className="mb-5">
 
                             <p className="text-blue-500">Mana:</p>
                             
@@ -31,7 +31,7 @@ export const NbtContent = ( mod: string, item_data: any, color: string ) => {
 }
 
 const Tier_Check: any = ( item_data: any ) => {
-    if (item_data.display_name === "Terra Shatterer") {
+    if (item_data.display_name.includes("Terra Shatterer")) {
         if (item_data.nbt_data.mana <= 9999) {
             const object = {
                 grade: "D",
