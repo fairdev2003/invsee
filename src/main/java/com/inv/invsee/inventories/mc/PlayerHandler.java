@@ -141,34 +141,28 @@ public class PlayerHandler {
     public static String categoryHandler(ItemStack item) {
 
         String[] tool_criteria = {"pick", "pickaxe", "axe", "truncator", "paxel", "shatterer", "shovel", "hoe" , "hammer", "tool", "spyglass", "flint and steel", "compass" };
-        String[] weapons_criteria = { "bow", "crosbow", "sword", "blade" };
+        String[] weapons_criteria = { "bow", "crosbow", "sword", "blade", "dagger" };
         String[] armor_criteria = { "chestplate", "helmet", "leggings", "helmet" };
         String[] tech_mod_criteria = { "Applied Energistics 2" };
-        String[] magic_mod_criteria = { "Botania" };
 
 
-        for (String i : tool_criteria) {
-            if (item.getHoverName().toString().toLowerCase().contains(i.toLowerCase())) {
+        for (String tool : tool_criteria) {
+            if (item.getHoverName().toString().toLowerCase().contains(tool.toLowerCase())) {
                 return "Tool";
             }
         }
-        for (String i : armor_criteria) {
-            if (item.getHoverName().toString().toLowerCase().contains(i.toLowerCase())) {
+        for (String armor : armor_criteria) {
+            if (item.getHoverName().toString().toLowerCase().contains(armor.toLowerCase())) {
                 return "Armor";
             }
         }
-        for (String i : weapons_criteria) {
-            if (item.getHoverName().toString().toLowerCase().contains(i.toLowerCase())) {
+        for (String weapon : weapons_criteria) {
+            if (item.getHoverName().toString().toLowerCase().contains(weapon.toLowerCase())) {
                 return "Weapon";
             }
         }
-        for (String i : magic_mod_criteria) {
-            if (item.getItem().getItemCategory().getDisplayName().getString().toLowerCase().contains(i.toLowerCase())) {
-                return "Magic";
-            }
-        }
-        for (String i : tech_mod_criteria) {
-            if (item.getItem().getItemCategory().getDisplayName().getString().toLowerCase().contains(i.toLowerCase())) {
+        for (String tech_mod : tech_mod_criteria) {
+            if (item.getItem().getItemCategory().getDisplayName().getString().toLowerCase().contains(tech_mod.toLowerCase())) {
                 return "Tech";
             }
         }

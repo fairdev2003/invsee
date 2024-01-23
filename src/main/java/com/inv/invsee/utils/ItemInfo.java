@@ -9,6 +9,7 @@ public class ItemInfo {
     public static JsonObject NBTHandler(ItemStack item) {
 
         CompoundTag compound = item.getOrCreateTag();
+        System.out.println(compound);
 
         JsonObject object = new JsonObject();
 
@@ -19,6 +20,13 @@ public class ItemInfo {
             if (o.equals("mana")) {
                 object.addProperty("mana", compound.getInt("mana"));
             }
+            if (o.equals("internalCurrentPower")) {
+                object.addProperty("internalCurrentPower", compound.getDouble("internalCurrentPower"));
+            }
+            if (o.equals("Blood")) {
+                object.addProperty("Blood", compound.getInt("Blood"));
+            }
+
 
         }
 

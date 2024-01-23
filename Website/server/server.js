@@ -4,11 +4,13 @@ const nbt = require("nbt-js")
 
 const images = require('./icons')
 
+const mongoose = require('mongoose');
+const app = express();
+
 const { createServer } = require('node:http');
-const { join } = require('node:path');
+const cors = require("cors")
 const { Server } = require('socket.io')
 require('dotenv').config()
-const cors = require("cors")
 const { Client, IntentsBitField, EmbedBuilder } =  require("discord.js")
 const client = new Client({ 
     intents: [
@@ -19,14 +21,24 @@ const client = new Client({
     ]
   })
 
+app.use(express.json());
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
 // client.on('ready', () => {
 //     console.log(`Logged in as ${client.user.tag}!`);
 // });
 
-
+const ModRoute = require('./routes/ModRoutes')
+app.use('/api/mod', ModRoute)
   
 
-const app = express();
+
 
 app.use("/images", images)
 
@@ -212,7 +224,9 @@ app.get("send_message", (req, res) => {
 
 // client.login(process.env.DISCORD_TOKEN);
 
-server.listen(3005, () => {
-  console.log('server running at http://localhost:3005');
-});
 
+mongoose.connect(process.env.MONGO_URI).then(() => {
+    app.listen(3001, () => console.log('Example app listening on port 3001!'));
+}).catch(error => {
+    console.log(error)
+})

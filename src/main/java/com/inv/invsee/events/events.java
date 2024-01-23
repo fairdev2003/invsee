@@ -60,7 +60,6 @@ public class events implements EventListener {
 
     public static int number_of_items_in_inventory = 0;
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getSide().isServer()) {
             number_of_items_in_inventory = 0;
