@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 const ModSchema = new Schema({
     
     mod_owner: {
-        type: mongoose.Schema.ObjectId,
+        type: String,
         required: true
     },
     mod_authors : {
-        type: [mongoose.Schema.ObjectId],
+        type: [String],
         required: true
     },
     mod_loaders: {

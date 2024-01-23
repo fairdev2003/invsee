@@ -216,6 +216,7 @@ function Chat() {
                     
                     <Button size='lg' variant='admin' onClick={() => {
                         sendMessage({message: message, type: "web_chat"})
+                        // @ts-ignore
                         input_ref.current.value = '';
                         }}>Send Message</Button>
                 </div>

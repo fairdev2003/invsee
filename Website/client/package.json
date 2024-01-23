@@ -21,9 +21,11 @@
     "react-code-blocks": "^0.1.5",
     "react-dom": "^18",
     "react-icons": "^4.12.0",
+    "react-loaders": "^3.0.1",
     "socket.io-client": "^4.7.3",
     "tailwind-merge": "^2.2.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^20",

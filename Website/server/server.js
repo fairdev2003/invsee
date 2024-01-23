@@ -36,6 +36,10 @@ app.use(cors(corsOptions));
 
 const ModRoute = require('./routes/ModRoutes')
 app.use('/api/mod', ModRoute)
+const ItemRoute = require('./routes/ItemRoute')
+app.use('/api/item', ItemRoute)
+const AuthorRoute = require('./routes/AuthorRoute')
+app.use('/api/author', AuthorRoute)
   
 
 
@@ -226,7 +230,8 @@ app.get("send_message", (req, res) => {
 
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-    app.listen(3001, () => console.log('Example app listening on port 3001!'));
+    server.listen(3005, () => console.log('Example app listening on port 3005!'));
+
 }).catch(error => {
     console.log(error)
 })

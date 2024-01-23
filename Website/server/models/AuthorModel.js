@@ -7,7 +7,7 @@ const AuthorSchema = new Schema({
         type: String,
         required: true
     },
-    author_image: {
+    author_pfp: {
         type: String,
         required: false
     }

@@ -23,8 +23,8 @@ const ItemSchema = new Schema({
         type: Array,
         required: false
     },
-    mod_id: {
-        type: mongoose.Schema.ObjectId,
+    mod_tag: {
+        type: String,
         required: true
     }
     

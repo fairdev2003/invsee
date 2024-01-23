@@ -5,22 +5,7 @@ const router = express.Router()
 
 router.get("/", async (req, res) => {
 
-    const items = await ModModel.aggregate([
-        {
-            $lookup: {
-                from: "Author",
-                localField: "mod_author",
-                foreignField: "_id",
-                as: "mod_author"
-            },
-            $lookup: {
-                from: "Author",
-                localField: "mod_authors",
-                foreignField: "_id",
-                as: "mod_contributors"
-            }
-        },
-    ]);
+    const items = await ModModel.find({});
 
     try {
         
