@@ -1,8 +1,1 @@
-    /** @type {import('next').NextConfig} */
-const nextConfig = {
-    images: {
-        domains: ["https://mc-heads.net "]
-    }
-}
-
-module.exports = nextConfig
+module.exports = { images: { domains: ['localhost', "media.forgecdn.net"], formats: ['image/avif', 'image/webp'], }, }

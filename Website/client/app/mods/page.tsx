@@ -3,10 +3,20 @@
 import Navbar from "@/components/navbar";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
-import Loader from 'react-loaders'
 import "../../app/globals.css"
+import "./mods.css"
+import { BsSearch, BsThreeDots } from "react-icons/bs";
+import { TbSitemap } from "react-icons/tb";
+import { RiGuideFill } from "react-icons/ri";
+import { IoUnlinkOutline } from "react-icons/io5";
+
+
 
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Text } from "lucide-react";
 
 
 const Mods = () => {
@@ -17,21 +27,10 @@ const Mods = () => {
 
     
 
-    const [mods, setmods]: any = useState([])
-    const [moditems, setmoditems] = useState([])
-    const [modselected, setmodselected]: any = useState("")
-    const [loading, setloading] = useState(false)
-
-    const fetchitems = async () => {
-        try {
-            const response: any = await axios.get(`http://localhost:3005/api/item/${modselected}`,);
-            setmoditems(response.data);
-        } catch (error) {
-            console.error("Error fetching mods:", error);
-        } finally {
-            setloading(false);
-        }
-    };
+    const [mods, setmods] = useState<any>([])
+    const [modselected, setmodselected] = useState<any>("")
+    const [loading, setloading] = useState<any>(false)
+    const [section, setsection] = useState<any>("")
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
@@ -72,69 +71,127 @@ const Mods = () => {
     }, []);
 
     useEffect(() => {
+        if (searchParams.has("section")) {
+            setsection(searchParams.get("section"))
+        };
+
         if (searchParams.has('mod')) {
             setmodselected(searchParams.get('mod'));
-        }
-        fetchitems()
+        };
+        
     }, [searchParams]);
-
 
 
     const getMod = () => {
             const new_mod = mods.filter((item: any) => item.mod_tag === modselected);
-            console.log(new_mod);
+            console.log(new_mod)
             return new_mod;
     }
 
     return (
         <div className="">
-            <Navbar></Navbar>
             <div className="flex flex-grow-2 gap-10 mx-[50px]">
-                <div className="bg-[#26292f] border-[#464444] border-[2px] w-[800px] p-5 h-[850px] rounded-lg">
+                <div className="bg-[#26292f] border-[#464444] border-[2px] w-[800px] p-5 h-[950px] rounded-lg">
                     <h1 className="text-2xl font-[700] text-white m-5">Listed Mods:</h1>
                     {mods.length > 0 && mods ? mods.map((mod: any, number: number) => {
                         return (
-                            <div className={`flex gap-3 m-5 bg-[#32343a] hover:bg-[#26292e] rounded-lg p-4 cursor-pointer  border-${mod.mod_tag === modselected ? "white border-[2px]" : "[#464444] border-[2px]"}`} onClick={() => {
-                                router.push(pathname + "?" + createQueryString('mod', mod.mod_tag))
+                            <div key={mod} className={`flex gap-3 m-5 bg-[#32343a] hover:bg-[#353b44] rounded-lg p-4 cursor-pointer border-${mod.mod_tag === modselected ? "white border-[2px]" : "[#464444] border-[2px]"}`} onClick={() => {
+                                router.push(
+                                    `/mods?mod=${mod.mod_tag}&section=items`
+                                  );
                                 console.log(searchParams.get("mod"))
                                 console.log("modselected:")
                                 console.log(modselected)
                             }}>
-                                <img className="w-[50px] h-[50p]x rounded-lg" src={mod.mod_image}></img>
+                                <Image alt={`mod_image__${modselected}`} width={50} height={50} className='rounded-lg' src={mod.mod_image}></Image>
                                 <div className="flex flex-col">
-                                    <h1 className="font-[800] text-lg text-white">{number + 1}. {mod.mod_name}</h1>
+                                    <h1 className="font-[800] text-lg text-blue-500">{mod.mod_name}</h1>
                                     <p className="font-[400] text-sm text-white">by <a className="hover:underline cursor-pointer"></a>{mod.mod_owner}</p>
                                 </div>
                             </div>
                         )
                     }): <div className="flex justify-center items-center h-[600px]"><span className="loader"/></div>}
                 </div>
-                <div className="bg-[#26292f] border-[#464444] border-[2px] w-[1500px] h-[850px] rounded-lg">
+                <div className="bg-[#26292f] border-[#464444] border-[2px] w-[1500px] h-[950px] rounded-lg">
                     {mods && mods.length > 0 ? <div className="p-10">
-                        <div className="flex flex-col bg-[#32343a] border-[2px] border-[#464444] p-5 rounded-lg">
-                            <div className="flex gap-4 ">
-                                <img className="w-[100px] h-[100px]" src={getMod()[0].mod_image}></img>
+                        <div className="flex flex-col bg-[#32343a] border-[2px] border-[#464444] p-5 rounded-lg mb-6 h-[230px]">
+                            <div className="flex gap-4">
+                                <Image alt={`mod-${modselected}`} className="rounded-lg" src={getMod()[0].mod_image} loading="eager" quality={100} width={85} height={85}></Image>
                                 <div>
                                     <h1 className="text-white font-[700] text-lg">{getMod()[0].mod_name}</h1>
                                     <p className="text-[13px] text-white font-[500]">by {getMod()[0].mod_owner}</p>
                                     <p className="text-[13px] text-white font-[500]">Released: {getMod()[0].release_data}</p>
                                     <p className="text-[13px] text-white font-[500]">Supported modloaders: {getMod()[0].mod_loaders.toString()}</p>
                                 </div>
-                                
+                               
                             </div>
-                            <p className="text-white text-sm font-[500] mt-4">{getMod()[0].mod_description}</p>
+                            
+                            
                         </div>
-                        <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[570px] rounded-lg mt-2 flex flex-col p-6 gap-2">
-                            <h1 className="text-xl font-[700] text-white mb-2">Items</h1>
-                            <div id="items-box" className="flex flex-wrap flex-6 overflow-y-scroll gap-2 items-center">
-                                {getMod()[0].items.map((item: any) => {
-                                    return (<div className="bg-[#32343a] w-[220px] h-[220px] p-5 flex flex-col items-center rounded-lg">
-                                        <img className='w-[75px] h-[75px] items-center' src={item.item_image}/>
-                                        <h2 className="text-white items-center text-center mt-2">{item.item_name}</h2>
+                        <div className="h-[50px] flex gap-4">
+                            <Button style={{color: `${section === "items" ? "rgb(59 130 246 / 1" : "white"}`}} className={`flex gap-2 h-[40px] font-bold bg-[#32343a] hover:bg-[#353b44]`} onClick={() => {
+                                router.push(
+                                    `/mods?mod=${modselected}&section=items`
+                                  );
+                            }}><div className="text-[20px]"><TbSitemap/></div>Items</Button>
+                            <Button style={{color: `${section === "guides" ? "rgb(59 130 246 / 1" : "white"}`}} className={`flex gap-2 h-[40px] font-bold bg-[#32343a] hover:bg-[#353b44]`} onClick={() => {
+                                router.push(
+                                    `/mods?mod=${modselected}&section=guides`
+                                  );
+                            }}><div className="text-[20px]"><RiGuideFill/></div>Guides</Button>
+                            <Button style={{color: `${section === "links" ? "rgb(59 130 246 / 1" : "white"}`}} className={`flex gap-2 h-[40px] font-bold bg-[#32343a] hover:bg-[#353b44]`} onClick={() => {
+                                router.push(
+                                    `/mods?mod=${modselected}&section=links`
+                                  );
+                            }}><div className="text-[20px]"><IoUnlinkOutline/></div>Links</Button>
+                            <Button className={`h-[40px] font-bold bg-[#32343a] text-white hover:bg-[#353b44]`} onClick={() => {
+                                
+                            }}>+</Button>
+                        </div>
+                        
+                        {section === "items" ? <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[520px] rounded-lg mt-2 flex flex-col p-6 gap-2">
+                            
+                            <div className="flex gap-3 items-center mb-5 h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
+                                <BsSearch></BsSearch>
+                                <input className="bg-transparent outline-none"></input>
+                            </div>
+                            
+                            <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-4 items-center">
+                                {getMod()[0].items.map((item: any, number: number) => {
+                                    return (<div id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
+                                        <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={item.item_image}/>
+                                        <div id="settings" className="absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
+                                            <BsThreeDots/>
+                                        </div>
+                                        <div>
+                                            <h1 className="font-[700] text-white">{item.item_name}</h1>
+                                            <p className="text-gray-400">{item.tag_name.replace("__", ":")}</p>
+                                        </div>
                                     </div>)
                                 })}
                             </div>
-                        </div>
+                            
+                        </div> : null}
+
+                        {section === "guides" ? <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[520px] rounded-lg mt-2 flex flex-col p-6 gap-2">
+                            <div className="flex gap-3 items-center mb-5 h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
+                                <BsSearch></BsSearch>
+                                <input className="bg-transparent outline-none"></input>
+                            </div>
+                            <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-2 items-center justify-center h-[90%]">
+                                <p className="text-white font-[600]">Oops, Nothing found!</p>
+                            </div>
+                        </div> : null}
+
+                        {section === "links" ? <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[520px] rounded-lg mt-2 flex flex-col p-6 gap-2">
+                            <div className="flex gap-3 items-center mb-5 h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
+                                <BsSearch></BsSearch>
+                                <input className="bg-transparent outline-none"></input>
+                            </div>
+                            <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-2 items-center justify-center h-[90%]">
+                                <p className="text-white font-[600]">Oops, Nothing found!</p>
+                            </div>
+                        </div> : null}
                         
                     </div>: <div className="flex justify-center items-center h-[800px]"><span className="loader"/></div>}
                 </div>
