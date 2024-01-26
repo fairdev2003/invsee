@@ -65,6 +65,10 @@ const Mods = () => {
         };
     
         fetchmods();
+        if (searchParams.has('mod')) {
+            setmodselected(searchParams.get('mod'));
+        }
+
     }, []);
 
     useEffect(() => {
@@ -93,6 +97,8 @@ const Mods = () => {
                             <div className={`flex gap-3 m-5 bg-[#32343a] hover:bg-[#26292e] rounded-lg p-4 cursor-pointer  border-${mod.mod_tag === modselected ? "white border-[2px]" : "[#464444] border-[2px]"}`} onClick={() => {
                                 router.push(pathname + "?" + createQueryString('mod', mod.mod_tag))
                                 console.log(searchParams.get("mod"))
+                                console.log("modselected:")
+                                console.log(modselected)
                             }}>
                                 <img className="w-[50px] h-[50p]x rounded-lg" src={mod.mod_image}></img>
                                 <div className="flex flex-col">
@@ -103,7 +109,7 @@ const Mods = () => {
                         )
                     }): <div className="flex justify-center items-center h-[600px]"><span className="loader"/></div>}
                 </div>
-                <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[850px] rounded-lg">
+                <div className="bg-[#26292f] border-[#464444] border-[2px] w-[1500px] h-[850px] rounded-lg">
                     {mods && mods.length > 0 ? <div className="p-10">
                         <div className="flex flex-col bg-[#32343a] border-[2px] border-[#464444] p-5 rounded-lg">
                             <div className="flex gap-4 ">
@@ -118,13 +124,16 @@ const Mods = () => {
                             </div>
                             <p className="text-white text-sm font-[500] mt-4">{getMod()[0].mod_description}</p>
                         </div>
-                        <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[570px] rounded-lg mt-2 flex p-6">
-                            {moditems ? moditems.map((item: any) => {
-                                return (<div className="bg-[#32343a] w-[auto] h-[150px] p-5 flex flex-col items-center rounded-lg">
-                                    <img className='w-[75px] h-[75px] items-center' src={item.item_image}/>
-                                    <h2 className="text-white items-center">{item.item_name}</h2>
-                                </div>)
-                            }): <p className="text-white">Nothing found</p>}
+                        <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[570px] rounded-lg mt-2 flex flex-col p-6 gap-2">
+                            <h1 className="text-xl font-[700] text-white mb-2">Items</h1>
+                            <div id="items-box" className="flex flex-wrap flex-6 overflow-y-scroll gap-2 items-center">
+                                {getMod()[0].items.map((item: any) => {
+                                    return (<div className="bg-[#32343a] w-[220px] h-[220px] p-5 flex flex-col items-center rounded-lg">
+                                        <img className='w-[75px] h-[75px] items-center' src={item.item_image}/>
+                                        <h2 className="text-white items-center text-center mt-2">{item.item_name}</h2>
+                                    </div>)
+                                })}
+                            </div>
                         </div>
                         
                     </div>: <div className="flex justify-center items-center h-[800px]"><span className="loader"/></div>}

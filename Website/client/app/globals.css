@@ -47,6 +47,10 @@ body, html {
   width: 10px;
 }
 
+#items-box::-webkit-scrollbar {
+  width: 10px;
+}
+
 #hover_trigger:hover #hover_content {
   display: block;
 }
@@ -60,13 +64,26 @@ body, html {
   background: none;
 }
  
+#items-box::-webkit-scrollbar-track {
+  background: none;
+}
+
+
 /* Handle */
 #chat-box::-webkit-scrollbar-thumb {
   background: #888; 
 }
 
+#items-box::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
 /* Handle on hover */
 #chat-box::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+#items-box::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
 
