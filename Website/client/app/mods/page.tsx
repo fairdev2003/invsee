@@ -8,7 +8,10 @@ import "./mods.css"
 import { BsSearch, BsThreeDots } from "react-icons/bs";
 import { TbSitemap } from "react-icons/tb";
 import { RiGuideFill } from "react-icons/ri";
-import { IoUnlinkOutline } from "react-icons/io5";
+import { IoUnlinkOutline, IoHeartOutline } from "react-icons/io5";
+
+
+import { dbConnect } from "../../db/dbConnection";
 
 
 
@@ -17,6 +20,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Text } from "lucide-react";
+
+
 
 
 const Mods = () => {
@@ -31,6 +36,7 @@ const Mods = () => {
     const [modselected, setmodselected] = useState<any>("")
     const [loading, setloading] = useState<any>(false)
     const [section, setsection] = useState<any>("")
+    const [tempmod, settempmod] = useState<any>([])
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
@@ -55,6 +61,8 @@ const Mods = () => {
             try {
                 const response: any = await axios.get("http://localhost:3005/api/mod");
                 setmods(response.data);
+                settempmod(response.data)
+
             } catch (error) {
                 console.error("Error fetching mods:", error);
             } finally {
@@ -62,11 +70,13 @@ const Mods = () => {
                 setloading(false);
             }
         };
-    
-        fetchmods();
+
         if (searchParams.has('mod')) {
             setmodselected(searchParams.get('mod'));
-        }
+            
+        };
+    
+        fetchmods();
 
     }, []);
 
@@ -77,16 +87,26 @@ const Mods = () => {
 
         if (searchParams.has('mod')) {
             setmodselected(searchParams.get('mod'));
-        };
+            
+        }
+        
+
         
     }, [searchParams]);
+    
 
 
     const getMod = () => {
             const new_mod = mods.filter((item: any) => item.mod_tag === modselected);
-            console.log(new_mod)
-            return new_mod;
+
+            return new_mod[0];
     }
+ 
+    const filterSearch = (query: string, modselected: string) => {
+        
+    }
+
+    
 
     return (
         <div className="">
@@ -99,9 +119,6 @@ const Mods = () => {
                                 router.push(
                                     `/mods?mod=${mod.mod_tag}&section=items`
                                   );
-                                console.log(searchParams.get("mod"))
-                                console.log("modselected:")
-                                console.log(modselected)
                             }}>
                                 <Image alt={`mod_image__${modselected}`} width={50} height={50} className='rounded-lg' src={mod.mod_image}></Image>
                                 <div className="flex flex-col">
@@ -116,12 +133,12 @@ const Mods = () => {
                     {mods && mods.length > 0 ? <div className="p-10">
                         <div className="flex flex-col bg-[#32343a] border-[2px] border-[#464444] p-5 rounded-lg mb-6 h-[230px]">
                             <div className="flex gap-4">
-                                <Image alt={`mod-${modselected}`} className="rounded-lg" src={getMod()[0].mod_image} loading="eager" quality={100} width={85} height={85}></Image>
+                                <Image alt={`mod-${modselected}`} className="rounded-lg" src={getMod().mod_image} loading="eager" quality={100} width={85} height={85}></Image>
                                 <div>
-                                    <h1 className="text-white font-[700] text-lg">{getMod()[0].mod_name}</h1>
-                                    <p className="text-[13px] text-white font-[500]">by {getMod()[0].mod_owner}</p>
-                                    <p className="text-[13px] text-white font-[500]">Released: {getMod()[0].release_data}</p>
-                                    <p className="text-[13px] text-white font-[500]">Supported modloaders: {getMod()[0].mod_loaders.toString()}</p>
+                                    <h1 className="text-white font-[700] text-lg">{getMod().mod_name}</h1>
+                                    <p className="text-[13px] text-white font-[500]">by {getMod().mod_owner}</p>
+                                    <p className="text-[13px] text-white font-[500]">Released: {getMod().release_data}</p>
+                                    <p className="text-[13px] text-white font-[500]">Supported modloaders: {getMod().mod_loaders.toString()}</p>
                                 </div>
                                
                             </div>
@@ -153,15 +170,15 @@ const Mods = () => {
                             
                             <div className="flex gap-3 items-center mb-5 h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
                                 <BsSearch></BsSearch>
-                                <input className="bg-transparent outline-none"></input>
+                                <input className="bg-transparent outline-none" onChange={(input) => {}}></input>
                             </div>
                             
                             <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-4 items-center">
-                                {getMod()[0].items.map((item: any, number: number) => {
+                                {getMod().items.map((item: any, number: number) => {
                                     return (<div id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
                                         <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={item.item_image}/>
                                         <div id="settings" className="absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
-                                            <BsThreeDots/>
+                                            <IoHeartOutline />
                                         </div>
                                         <div>
                                             <h1 className="font-[700] text-white">{item.item_name}</h1>

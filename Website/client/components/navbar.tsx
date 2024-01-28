@@ -3,13 +3,8 @@
 import { Button } from "./ui/button"
 import React from "react"
 import './ui.css'
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 
 export default function Navbar() {
-
-    const login = useGoogleLogin({
-        onSuccess: tokenResponse => console.log(tokenResponse),
-      });
 
   return (
         <nav className="flex items-center justify-between px-5 py-5">
@@ -19,7 +14,7 @@ export default function Navbar() {
             <div className="flex gap-2">
                 
                 
-                <Button id="nav_button" onClick={() => {login()}} className="bg-gradient-to-r from-blue-500 to-purple-500 px-7 hover:from-purple-500 hover:to-blue-500">Login</Button>
+                <Button id="nav_button" className="bg-gradient-to-r from-blue-500 to-purple-500 px-7 hover:from-purple-500 hover:to-blue-500">Login</Button>
             </div>
         </nav>
   )
