@@ -4,251 +4,102 @@ import { CraftingBig } from '@/components/crafting_components/CraftingBig'
 import { CraftingSmall } from '@/components/crafting_components/CraftingSmall'
 import Navbar from '@/components/navbar'
 import { useEffect, useState } from 'react'
+import { dbConnect } from '@/db/dbConnection'
+import { Connect } from '@/mongo_actions/addSomething'
+
+const furnace: any = [
+    {
+        crafting_type: "minecraft_crafting",
+        crafting_grid: [
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__air", item_name: "Air", mod_tag: "minecraft", mod_name: "Air", type: "Item"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__cobblestone", item_name: "Cobblestone", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"}
+        ],
+        crafting_products: [
+            {item_tag: "minecraft__furnace", item_name: "Furnace", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block" , count: 1}
+        ] 
+    }
+]
+
+const pattern_provider: any = [
+    {
+        crafting_type: "minecraft_crafting",
+        crafting_grid: [
+            {item_tag: "minecraft__iron_ingot", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"},
+            {item_tag: "minecraft__crafting_table", item_name: "Crafting Table", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__iron_ingot", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"},
+            {item_tag: "ae2__annihilation_core", item_name: "Annihilation Core", mod_tag: "ae2", mod_name: "Applied Enegistics 2", type: "Item"},
+            {item_tag: "minecraft__air", item_name: "Air", mod_tag: "minecraft", mod_name: "Air", type: "item"},
+            {item_tag: "ae2__formation_core", item_name: "Formation Core", mod_tag: "ae2", mod_name: "Applied Enegistics 2", type: "Item"},
+            {item_tag: "minecraft__iron_ingot", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"},
+            {item_tag: "minecraft__crafting_table", item_name: "Crafting Table", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__iron_ingot", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"}
+        ],
+        crafting_products: [
+            {item_tag: "ae2__pattern_provider", item_name: "Pattern Provider", mod_tag: "ae2", mod_name: "Applied Enegistics 2", type: "Block", count: 1}
+        ] 
+    }
+]
+const terra_pick: any = [
+    {
+        crafting_type: "minecraft_crafting",
+        crafting_grid: [
+            {item_tag: "botania__terrasteel_ingot", item_name: "Terrasteel", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "botania__mana_tablet", item_name: "Mana Tablet", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "botania__terrasteel_ingot", item_name: "Terrasteel", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "botania__terrasteel_ingot", item_name: "Terrasteel", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "botania__livingwood_twig", item_name: "Livingwood Twig", mod_tag: "minecraft", mod_name: "Botania", type: "Item"},
+            {item_tag: "botania__terrasteel_ingot", item_name: "Terrasteel", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "minecraft__air", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"},
+            {item_tag: "botania__livingwood_twig", item_name: "Livingwood Twig", mod_tag: "botania", mod_name: "Botania", type: "Item"},
+            {item_tag: "minecraft__air", item_name: "Iron Ingot", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"}
+        ],
+        crafting_products: [
+            {item_tag: "botania__terra_pick", item_name: "Terra Shatterer", mod_tag: "botania", mod_name: "Botania", count: 1, type: "Tool"}
+        ] 
+    }
+]
+const crafting: any = [
+    {
+        crafting_type: "minecraft_crafting",
+        crafting_grid: [
+            {item_tag: "minecraft__oak_planks", item_name: "Oak Planks", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__oak_planks", item_name: "Oak Planks", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__oak_planks", item_name: "Oak Planks", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__oak_planks", item_name: "Oak Planks", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+        ],
+        crafting_products: [
+            {item_tag: "minecraft__crafting_table", item_name: "Crafting Table", mod_tag: "minecraft", mod_name: "Minecraft", count: 1, type: "Block"}
+        ] 
+    }
+]
 
 export default function Home() {
 
     const [loaded, setloaded] = useState(false)
-  
-    useEffect(() => {
-
-    })
 
   return (
-    <main className=''>
-      <div className='flex flex-wrap justify-center gap-10 m-10 border-[1px] border-[#464444] bg-transparent rounded-lg p-5'>
-        <CraftingBig crafting={[
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-            "minecraft__air",
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-            "minecraft__cobblestone",
-        ]} final_item='minecraft__furnace'/>
-        <CraftingBig crafting={[
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__air",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-        ]} final_item='minecraft__chest'/>
-        <CraftingBig crafting={[
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-            "minecraft__air",
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-            "minecraft__oak_log",
-        ]} final_item='minecraft__chest' count={4}/>
-        <CraftingBig crafting={[
-            "minecraft__air",
-            "minecraft__oak_log",
-            "minecraft__air",
-            "minecraft__oak_log",
-            "minecraft__furnace",
-            "minecraft__oak_log",
-            "minecraft__air",
-            "minecraft__oak_log",
-            "minecraft__air",
-        ]} final_item='minecraft__smoker'/>
-        <CraftingBig crafting={[
-            "minecraft__smooth_stone",
-            "minecraft__smooth_stone",
-            "minecraft__smooth_stone",
-            "minecraft__smooth_stone",
-            "minecraft__furnace",
-            "minecraft__smooth_stone",
-            "minecraft__iron_ingot",
-            "minecraft__iron_ingot",
-            "minecraft__iron_ingot",
-        ]} final_item='minecraft__blast_furnace'/>
-        <CraftingBig crafting={[
-            "minecraft__air",
-            "minecraft__book",
-            "minecraft__air",
-            "minecraft__diamond",
-            "minecraft__obsidian",
-            "minecraft__diamond",
-            "minecraft__obsidian",
-            "minecraft__obsidian",
-            "minecraft__obsidian",
-        ]} final_item='minecraft__enchanting_table'/>
-        <CraftingBig crafting={[
-            "minecraft__iron_ingot",
-            "minecraft__iron_ingot",
-            "minecraft__air",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__air",
-            "minecraft__oak_planks",
-            "minecraft__oak_planks",
-            "minecraft__air",
-        ]} final_item='minecraft__smithing_table'/>
-        <CraftingBig crafting={[
-            "minecraft__iron_ingot",
-            "minecraft__iron_ingot",
-            "minecraft__iron_ingot",
-            "minecraft__air",
-            "minecraft__iron_block",
-            "minecraft__air",
-            "minecraft__iron_block",
-            "minecraft__iron_block",
-            "minecraft__iron_block",
-        ]} final_item='minecraft__anvil'/>
-        <CraftingBig crafting={[
-            "minecraft__stick",
-            "minecraft__stone_slab",
-            "minecraft__stick",
-            "minecraft__oak_planks",
-            "minecraft__air",
-            "minecraft__oak_planks",
-            "minecraft__air",
-            "minecraft__air",
-            "minecraft__air",
-        ]} final_item='minecraft__grindstone'/>
+    <main className='m-10' id='main'>
+      <h1 className='text-3xl text-white font-[700] mb-5'>Crafting Test</h1>
+      <div className='flex flex-wrap justify-center gap-10 border-[1px] border-[#464444] bg-transparent rounded-lg p-5'>
+        <CraftingBig crafting={furnace} final_item='minecraft__furnace'/>
+        <CraftingBig crafting={pattern_provider} final_item='minecraft__furnace'/>
+        
+        
+        
         </div>
-        <div className='flex flex-wrap justify-center gap-10 m-10 border-[1px] border-[#464444] bg-transparent rounded-lg p-5'>
-            <CraftingSmall crafting={[
-                "minecraft__oak_planks",
-                "minecraft__oak_planks",
-                "minecraft__oak_planks",
-                "minecraft__oak_planks"
-            ]} final_item='minecraft__crafting_table'/>
-            <CraftingSmall crafting={[
-                "minecraft__oak_log",
-                "minecraft__air",
-                "minecraft__air",
-                "minecraft__air"
-            ]} final_item='minecraft__oak_planks' count={4}/>
-            <CraftingSmall crafting={[
-                "minecraft__poppy",
-                "minecraft__air",
-                "minecraft__air",
-                "minecraft__air"
-            ]} final_item='minecraft__red_dye'/>
-            <CraftingSmall crafting={[
-                "minecraft__rose_bush",
-                "minecraft__air",
-                "minecraft__air",
-                "minecraft__air"
-            ]} final_item='minecraft__red_dye' count={2}/>
-            <CraftingSmall crafting={[
-                "minecraft__red_tulip",
-                "minecraft__air",
-                "minecraft__air",
-                "minecraft__air"
-            ]} final_item='minecraft__red_dye'/>
-            <CraftingSmall crafting={[
-                "minecraft__oak_planks",
-                "minecraft__air",
-                "minecraft__oak_planks",
-                "minecraft__air"
-            ]} final_item='minecraft__stick' count={4}/>
-            <CraftingSmall crafting={[
-                "minecraft__oak_log",
-                "minecraft__air",
-                "minecraft__oak_log",
-                "minecraft__air"
-            ]} final_item='minecraft__stick' count={16}/>
-        </div>
-        <div className='flex flex-wrap justify-center gap-10 m-10 border-[1px] border-[#464444] bg-transparent rounded-lg p-5'>
-            <CraftingBig crafting={[
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__cell_component_1k",
-                "minecraft__redstone",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__item_storage_cell_1k'/>
-            <CraftingBig crafting={[
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__cell_component_4k",
-                "minecraft__redstone",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__item_storage_cell_4k'/>
-            <CraftingBig crafting={[
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__cell_component_16k",
-                "minecraft__redstone",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__item_storage_cell_16k'/>
-            <CraftingBig crafting={[
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__cell_component_64k",
-                "minecraft__redstone",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__item_storage_cell_64k'/>
-            <CraftingBig crafting={[
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__quartz_glass",
-                "minecraft__redstone",
-                "ae2__cell_component_256k",
-                "minecraft__redstone",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__item_storage_cell_256k'/>
-            <CraftingBig crafting={[
-                "ae2__smooth_sky_stone_block",
-                "ae2__fluix_crystal",
-                "ae2__smooth_sky_stone_block",
-                "ae2__fluix_crystal",
-                "ae2__engineering_processor",
-                "ae2__fluix_crystal",
-                "ae2__smooth_sky_stone_block",
-                "ae2__fluix_crystal",
-                "ae2__smooth_sky_stone_block",
-            ]} final_item='ae2__controller'/>
-            <CraftingBig crafting={[
-                "minecraft__iron_ingot",
-                "ae2__engineering_processor",
-                "minecraft__iron_ingot",
-                "ae2__fluix_glass_cable",
-                "minecraft__air",
-                "ae2__fluix_glass_cable",
-                "minecraft__iron_ingot",
-                "ae2__engineering_processor",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__drive'/>
-            <CraftingBig crafting={[
-                "minecraft__iron_ingot",
-                "minecraft__crafting_table",
-                "minecraft__iron_ingot",
-                "ae2__annihilation_core",
-                "minecraft__air",
-                "ae2__formation_core",
-                "minecraft__iron_ingot",
-                "minecraft__crafting_table",
-                "minecraft__iron_ingot",
-            ]} final_item='ae2__pattern_provider'/>
+        <div className='flex flex-wrap justify-center gap-10 border-[1px] border-[#464444] bg-transparent rounded-lg p-5 mt-5 mb-[200px]'>
+            <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
+            <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
+            <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
+            <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
+            <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
         </div>
       
     </main>

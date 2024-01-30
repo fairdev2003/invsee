@@ -5,18 +5,17 @@ import { cn } from "@/lib/utils";
 import './crafting.css'
 
 interface Props {
-    crafting: string[],
-    final_item: string,
+    crafting: any,
     count?: any
     className?: string
 }
 
-export const CraftingSmall = ({crafting, final_item, count, className} : Props) => {
+export const CraftingSmall = ({crafting, count, className} : Props) => {
 
 
 
     return (
-        <section className={`border-[1px] border-[#464444] bg-transparent rounded-lg mt-5`}>
+        <section className={`border-[3px] border-[#464444] bg-transparent rounded-lg mt-5`}>
             <div className="flex gap-3 items-center m-5 my-3">
                 <Image alt="crafting" src='http://localhost:3005/images/icon/minecraft__crafting_table/false' width={40} height={40}/>
                 <h1 className="text-white text-xl font-[600]">Crafting Recipe</h1>
@@ -28,17 +27,17 @@ export const CraftingSmall = ({crafting, final_item, count, className} : Props) 
                 <div className="flex flex-col gap-2">
                     
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack item_tag={crafting[0]}></ItemStack>
-                        <ItemStack item_tag={crafting[1]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[0]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[1]}></ItemStack>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack item_tag={crafting[2]}></ItemStack>
-                        <ItemStack item_tag={crafting[3]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[2]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[3]}></ItemStack>
                     </div>
                     
                 </div>
                 <span className="text-[40px] text-white"><FaArrowRightLong><FaArrowRightLong id="loader"></FaArrowRightLong></FaArrowRightLong></span>
-                <ItemStack item_tag={final_item} count={count}/>
+                <ItemStack itemstack={crafting[0].crafting_products[0]} count={crafting[0].crafting_products[0].count}/>
             </div>
             
         </section>
