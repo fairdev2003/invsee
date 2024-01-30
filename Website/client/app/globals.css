@@ -43,12 +43,9 @@ body, html {
   background-color: #16181c;
 }
 
-#chat-box::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 10px;
-}
-
-#items-box::-webkit-scrollbar {
-  width: 10px;
+  margin-right: 10px;
 }
 
 #hover_trigger:hover #hover_content {
@@ -60,30 +57,23 @@ body, html {
 }
 
 /* Track */
-#chat-box::-webkit-scrollbar-track {
-  background: none;
-}
- 
-#items-box::-webkit-scrollbar-track {
+
+*::-webkit-scrollbar-track {
   background: none;
 }
 
 
 /* Handle */
-#chat-box::-webkit-scrollbar-thumb {
-  background: #888; 
-}
 
-#items-box::-webkit-scrollbar-thumb {
+
+*::-webkit-scrollbar-thumb {
   background: #888; 
 }
 
 /* Handle on hover */
-#chat-box::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
 
-#items-box::-webkit-scrollbar-thumb:hover {
+
+*::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
 

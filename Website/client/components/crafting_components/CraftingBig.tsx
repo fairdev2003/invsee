@@ -1,19 +1,22 @@
 import { ItemStack } from "../ItemStack"
 import { FaArrowRightLong } from "react-icons/fa6";
 import Image from "next/image";
+import { useEffect } from "react";
 
 interface Props {
-    crafting: string[],
+    crafting: any,
     final_item: string
     count?: any
 }
 
 export const CraftingBig = ({crafting, final_item, count} : Props) => {
 
-
+    useEffect(() => {
+        console.log(crafting)
+    }, [])
 
     return (
-        <section className="border-[1px] border-[#464444] bg-transparent rounded-lg mt-5">
+        <section className="border-[3px] border-[#464444] bg-transparent rounded-lg mt-5">
             <div className="flex gap-3 items-center m-5 my-3">
                 <Image alt="crafting" src='http://localhost:3005/images/icon/minecraft__crafting_table/false' width={40} height={40}/>
                 <h1 className="text-white text-xl font-[600]">Crafting Recipe</h1>
@@ -25,24 +28,24 @@ export const CraftingBig = ({crafting, final_item, count} : Props) => {
                 <div className="flex flex-col gap-2">
                     
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack item_tag={crafting[0]}></ItemStack>
-                        <ItemStack item_tag={crafting[1]}></ItemStack>
-                        <ItemStack item_tag={crafting[2]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[0]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[1]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[2]}></ItemStack>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack item_tag={crafting[3]}></ItemStack>
-                        <ItemStack item_tag={crafting[4]}></ItemStack>
-                        <ItemStack item_tag={crafting[5]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[3]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[4]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[5]}></ItemStack>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack item_tag={crafting[6]}></ItemStack>
-                        <ItemStack item_tag={crafting[7]}></ItemStack>
-                        <ItemStack item_tag={crafting[8]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[6]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[7]}></ItemStack>
+                        <ItemStack itemstack={crafting[0].crafting_grid[8]}></ItemStack>
                     </div>
                     
                 </div>
                 <span className="text-[40px] text-white"><FaArrowRightLong/></span>
-                <ItemStack item_tag={final_item} count={count}/>
+                <ItemStack itemstack={crafting[0].crafting_products[0]} count={crafting[0].crafting_products[0].count}/>
             </div>
             
         </section>

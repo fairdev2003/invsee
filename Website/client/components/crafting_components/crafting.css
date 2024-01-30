@@ -17,6 +17,6 @@
     animation: 6s prog ease-in infinite;
   }
   @keyframes prog {
-    to  {   width: 100%;}
+    to  {   x: 100%;}
   }
   
