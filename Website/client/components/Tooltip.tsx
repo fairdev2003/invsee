@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import { useState, useRef } from "react";
 
 interface ItemProps {
     itemstack?: any
@@ -7,9 +8,23 @@ interface ItemProps {
 }
 
 export const Tooltip = ({itemstack, className}: ItemProps) => {
+
+    const [infoPosition, setInfoPosition] = useState({ top: 0, left: 0 });
+    const infoRef = useRef(null);
+
+    const handleMouseEnter = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const { clientX, clientY } = event;
+        setInfoPosition({ top: clientY, left: clientX });
+    };
+
+    const handleMouseLeave = () => {
+        
+        setInfoPosition({ top: 0, left: 0 });
+    };
+
     return (
         <div>
-            <div className={className + " w-[300px] h-[300px] scale-100 hidden group-hover:block absolute top-20 left-0 z-10 transition duration-400 group-hover:translate-y-5 animate-in"}>
+            <div ref={infoRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className={className + ` w-[300px] h-[300px] scale-100 hidden group-hover:block absolute -left-[100px] top-[70px] z-10 transition duration-400 group-hover:translate-y-5 animate-in`}>
             <div className='w-[auto] h-[auto] bg-[#16181c] border-white border-[3px] p-5 rounded-lg overflow-auto'>
                         <div className='flex gap-4 items-center mb-5'>
                             <Image width={30} height={30} src={`http://localhost:3005/images/icon/${itemstack.item_tag}/false`} alt='item-icon' className='image w-10 h-10 relative'></Image>

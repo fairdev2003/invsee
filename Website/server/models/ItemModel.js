@@ -11,6 +11,10 @@ const ItemSchema = new Schema({
         type: String,
         required: true
     },
+    item_short_description: {
+        type: String,
+        required: false
+    },
     item_image: {
         type: String,
         required: true
@@ -26,6 +30,10 @@ const ItemSchema = new Schema({
     mod_tag: {
         type: String,
         required: true
+    },
+    tags: {
+        type: Array,
+        requred: false
     }
     
 }, {timestamps: true});

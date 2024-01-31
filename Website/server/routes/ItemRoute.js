@@ -21,6 +21,22 @@ router.get("/:selected", async (req, res) => {
     }
 })
 
+router.get("/get_item/:id", async (req, res) => {
+
+    const { id } = req.params;
+
+    const items = await ItemModel.find(
+        {tag_name: id}
+    );
+
+    try {
+        
+        res.status(200).send(items)
+    }catch (error) {
+        res.status(400)
+    }
+})
+
 router.post("/", async (req, res) => {
     
     console.log(req)

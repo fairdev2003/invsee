@@ -2,10 +2,8 @@
 
 import { CraftingBig } from '@/components/crafting_components/CraftingBig'
 import { CraftingSmall } from '@/components/crafting_components/CraftingSmall'
-import Navbar from '@/components/navbar'
-import { useEffect, useState } from 'react'
-import { dbConnect } from '@/db/dbConnection'
-import { Connect } from '@/mongo_actions/addSomething'
+
+import { useState } from 'react'
 
 const furnace: any = [
     {
@@ -77,8 +75,21 @@ const crafting: any = [
         crafting_products: [
             {item_tag: "minecraft__crafting_table", item_name: "Crafting Table", mod_tag: "minecraft", mod_name: "Minecraft", count: 1, type: "Block"}
         ] 
-    }
-]
+    }]
+const stick: any = [
+    {
+        crafting_type: "minecraft_crafting",
+        crafting_grid: [
+            {item_tag: "minecraft__oak_planks", item_name: "Stick", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__air", item_name: "Air", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__oak_planks", item_name: "Stick", mod_tag: "minecraft", mod_name: "Minecraft", type: "Block"},
+            {item_tag: "minecraft__air", item_name: "Air", mod_tag: "minecraft", mod_name: "Minecraft", type: "Item"},
+        ],
+        crafting_products: [
+            {item_tag: "minecraft__stick", item_name: "Stick", mod_tag: "minecraft", mod_name: "Minecraft", count: 4, type: "Item"}
+        ] 
+    }]
+
 
 export default function Home() {
 
@@ -100,6 +111,8 @@ export default function Home() {
             <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
             <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
             <CraftingBig crafting={terra_pick} final_item='minecraft__furnace'/>
+            <CraftingSmall crafting={crafting}></CraftingSmall>
+            <CraftingSmall crafting={stick}></CraftingSmall>
         </div>
       
     </main>
