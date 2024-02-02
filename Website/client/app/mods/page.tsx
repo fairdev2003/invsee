@@ -8,7 +8,7 @@ import "./mods.css"
 import { BsSearch, BsThreeDots } from "react-icons/bs";
 import { TbSitemap } from "react-icons/tb";
 import { RiGuideFill } from "react-icons/ri";
-import { IoUnlinkOutline, IoHeartOutline } from "react-icons/io5";
+import { IoUnlinkOutline, IoHeartOutline, IoHeart } from "react-icons/io5";
 
 
 import { dbConnect } from "../../db/dbConnection";
@@ -19,7 +19,8 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Text } from "lucide-react";
+import { PlusCircle, Text } from "lucide-react";
+import Link from "next/link";
 
 
 
@@ -59,8 +60,9 @@ const Mods = () => {
     
         const fetchmods = async () => {
             try {
-                const response: any = await axios.get("http://localhost:3005/api/mod");
+                const response: any = await axios.get("/api/mods");
                 setmods(response.data);
+                console.log(response.data)
                 settempmod(response.data)
 
             } catch (error) {
@@ -115,7 +117,7 @@ const Mods = () => {
                     <h1 className="text-2xl font-[700] text-white m-5">Listed Mods:</h1>
                     {mods.length > 0 && mods ? mods.map((mod: any, number: number) => {
                         return (
-                            <div key={mod} className={`flex gap-3 m-5 bg-[#32343a] hover:bg-[#353b44] rounded-lg p-4 cursor-pointer border-${mod.mod_tag === modselected ? "white border-[2px]" : "[#464444] border-[2px]"}`} onClick={() => {
+                            <div key={mod} className={`flex gap-3 m-5 select-none bg-[#32343a] hover:bg-[#353b44] rounded-lg p-4 cursor-pointer border-${mod.mod_tag === modselected ? "white border-[3px]" : "[#464444] border-[2px]"}`} onClick={() => {
                                 router.push(
                                     `/mods?mod=${mod.mod_tag}&section=items`
                                   );
@@ -168,23 +170,29 @@ const Mods = () => {
                         
                         {section === "items" ? <div className="bg-[#26292f] border-[#464444] border-[2px] w-full h-[520px] rounded-lg mt-2 flex flex-col p-6 gap-2">
                             
-                            <div className="flex gap-3 items-center mb-5 h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
-                                <BsSearch></BsSearch>
-                                <input className="bg-transparent outline-none" onChange={(input) => {}}></input>
+                            <div className="flex justify-start gap-2 items-center mb-5">
+                                <div className="flex gap-3 items-center h-10 rounded-md bg-[#32343a] py-6 px-3 text-white font-[600] w-[300px]">
+                                    <BsSearch></BsSearch>
+                                    <input className="bg-transparent outline-none" onChange={(input) => {}}></input>
+                                </div>
+                                <Link className=" flex  items-center" href='/wiki/wiki_element_creation'><Button style={{color: "rgb(59 130 246 / 1"}} className={`flex gap-2 h-[50px] font-bold bg-[#32343a] hover:bg-[#353b44]`}><div className="text-[20px]"><PlusCircle/></div>Add Item</Button></Link>
                             </div>
                             
                             <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-4 items-center">
                                 {getMod().items.map((item: any, number: number) => {
-                                    return (<div id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
+                                    return (<Link href={`/wiki/item/${item.tag_name}?section=overview`} id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
                                         <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={item.item_image}/>
-                                        <div id="settings" className="absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
-                                            <IoHeartOutline />
+                                        <div id="settings" className="group absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
+                                            <div>
+                                                <IoHeartOutline className='flex group-hover:hidden'/>
+                                                <IoHeart className='hidden group-hover:flex text-red-500'/>
+                                            </div>
                                         </div>
                                         <div>
                                             <h1 className="font-[700] text-white">{item.item_name}</h1>
                                             <p className="text-gray-400">{item.tag_name.replace("__", ":")}</p>
                                         </div>
-                                    </div>)
+                                    </Link>)
                                 })}
                             </div>
                             

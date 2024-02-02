@@ -1,0 +1,1 @@
+type ENV_STRING = any;

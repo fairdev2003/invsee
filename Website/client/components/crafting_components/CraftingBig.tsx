@@ -5,11 +5,9 @@ import { useEffect } from "react";
 
 interface Props {
     crafting: any,
-    final_item: string
-    count?: any
 }
 
-export const CraftingBig = ({crafting, final_item, count} : Props) => {
+export const CraftingBig = ({crafting} : Props) => {
 
     useEffect(() => {
         console.log(crafting)
@@ -49,5 +47,7 @@ export const CraftingBig = ({crafting, final_item, count} : Props) => {
             </div>
             
         </section>
+
+        
     )
 }
