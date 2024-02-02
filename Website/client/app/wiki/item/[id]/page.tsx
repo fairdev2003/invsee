@@ -15,10 +15,12 @@ const Page = ({ params }: { params: { id: string } }) => {
     
     const fetch_item = async (id: string) => {
         try {
-            const response: any = await axios.get(`http://localhost:3005/api/item/get_item/${id}`);
+            const response: any = await axios.post(`/api/items/single`, {tag_name: id});
             
-            setitem_data(response.data);
-            console.log(response.data)
+            setTimeout(() => {
+                setitem_data(response.data);
+            }, 1000)
+            
         } catch (error) {
             console.error("Error fetching item:", error);
         }
@@ -32,7 +34,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     }, [params.id]); 
 
     return (
-        <section className="flex justify-center m-10">
+        <section className="flex justify-center mb-10">
             
             {item_data && item_data.length > 0 ? <div>
                 
@@ -50,7 +52,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </div>
                 </div>
                 
-                <div className="h-[1000px] w-auto bg-[#26292f] mt-5 p-10">
+                <div className="h-[1000px] w-auto bg-[#26292f] mt-5 p-10 rounded-lg">
                      <SliderMenu item_tag={item_data[0].tag_name}></SliderMenu>
                      <Content></Content>
                 </div>
