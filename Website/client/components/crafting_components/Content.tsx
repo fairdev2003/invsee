@@ -1,15 +1,21 @@
 import React from "react";
+import { CraftingBig } from "./CraftingBig";
+import { CraftingSmall } from "./CraftingSmall";
+import CraftingSelect from "../CraftingSelect";
 
-function Content() {
+interface Props {
+  section: string,
+  data: any
+}
+
+function Content({section, data}: Props) {
   return (
-    <section className="mt-7 flex flex-col justify-start gap-5">
-      <h1 className="text-3xl text-white font-[600]">Quick Overview</h1>
-      <div className="w-full h-[2px] bg-gray-500"></div>
-      <p className="text-lg text-white font-[400] max-w-[1000px]">
-        Terra Shatterer is the pickaxe which alows user to mine a lot of space
-        with one durability. Pickaxe has tier which tells how many blocks you
-        can mine at the same time. Max tier is SS
-      </p>
+    <section>
+      {section === "crafting" && data.length > 0 ? <div>
+        {data.map((item: any) => {
+          return <CraftingSelect crafting_type={item.crafting_type} crafting={item}></CraftingSelect>
+        })}
+      </div> : null}
     </section>
   );
 }

@@ -10,9 +10,9 @@ export async function connectMongo() {
         client = new MongoClient(MONGO_URI);
         await client.connect();
         console.log("Connected to MongoDB");
-        return client;
+        return client
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
-        return null;
+        throw error;
     }
 }
