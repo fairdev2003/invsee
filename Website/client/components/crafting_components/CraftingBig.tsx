@@ -26,24 +26,24 @@ export const CraftingBig = ({crafting} : Props) => {
                 <div className="flex flex-col gap-2">
                     
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack itemstack={crafting[0].crafting_grid[0]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[1]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[2]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[0]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[1]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[2]}></ItemStack>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack itemstack={crafting[0].crafting_grid[3]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[4]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[5]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[3]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[4]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[5]}></ItemStack>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <ItemStack itemstack={crafting[0].crafting_grid[6]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[7]}></ItemStack>
-                        <ItemStack itemstack={crafting[0].crafting_grid[8]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[6]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[7]}></ItemStack>
+                        <ItemStack itemstack={crafting.crafting_grid[8]}></ItemStack>
                     </div>
                     
                 </div>
                 <span className="text-[40px] text-white"><FaArrowRightLong/></span>
-                <ItemStack itemstack={crafting[0].crafting_products[0]} count={crafting[0].crafting_products[0].count}/>
+                <ItemStack itemstack={crafting.crafting_products[0]} count={crafting.crafting_products[0].count}/>
             </div>
             
         </section>
