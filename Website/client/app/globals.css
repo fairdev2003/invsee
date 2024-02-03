@@ -52,17 +52,36 @@ body, html {
   display: none;
 }
 
-/* Track */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #32343a inset;
+  -webkit-text-fill-color: white;
+  caret-color: white;
+  /* Replace #your-color with the desired background color *
+  /* Adjust the transition duration as needed */
+}
 
+/* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
+/* HTML: <div class="loader"></div> */
+#loader_sign {
+  width: 25px;
+  height: 25px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
 
-
-/* Handle */
-
-
-
-/* Handle on hover */
-
-
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
 
 
 @layer base {

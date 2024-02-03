@@ -1,7 +1,7 @@
 {
-  "browser":{
+  "browser": {
     "child_process": false
-  },  
+  },
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -25,6 +25,7 @@
     "lucide-react": "^0.307.0",
     "mongoose": "^8.1.1",
     "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "react": "^18",
     "react-code-blocks": "^0.1.5",
     "react-dom": "^18",

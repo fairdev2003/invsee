@@ -12,6 +12,7 @@ import { IoUnlinkOutline, IoHeartOutline, IoHeart } from "react-icons/io5";
 
 
 import { dbConnect } from "../../db/dbConnection";
+import FindAllMods from "../api/mongo/FindAllMods";
 
 
 
@@ -59,6 +60,7 @@ const Mods = () => {
         
     
         const fetchmods = async () => {
+            
             try {
                 const response: any = await axios.get("/api/mods");
                 setmods(response.data);
@@ -179,7 +181,7 @@ const Mods = () => {
                             </div>
                             
                             <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-4 items-center">
-                                {getMod().items.map((item: any, number: number) => {
+                                {getMod().items.length > 0 ? getMod().items.map((item: any, number: number) => {
                                     return (<Link href={`/wiki/item/${item.tag_name}?section=overview`} id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
                                         <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={item.item_image}/>
                                         <div id="settings" className="group absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
@@ -193,7 +195,9 @@ const Mods = () => {
                                             <p className="text-gray-400">{item.tag_name.replace("__", ":")}</p>
                                         </div>
                                     </Link>)
-                                })}
+                                }) : <div id="items-box" className="flex flex-wrap gap-2 items-center justify-center h-[90%]">
+                                <p className="text-white font-[600]">Oops, Nothing found!</p>
+                                    </div>}
                             </div>
                             
                         </div> : null}

@@ -55,7 +55,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 alt="item_image"
                 width={150}
                 height={150}
-                src={`http://localhost:3005/images/icon/${item_data[0].tag_name}/false`}
+                src={item_data[0].item_image}
               ></Image>
             </div>
             <div className="w-[1000px] rounded-lg p-10 bg-[#26292f]">
@@ -77,7 +77,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       ) : (
         <div className="flex flex-col justify-center items-center gap-3">
           <span className="loader"></span>
-          <p className="text-white font-[600]">Loading Items</p>
+          <p className="text-white font-[600]">Loading Item</p>
         </div>
       )}
     </section>
