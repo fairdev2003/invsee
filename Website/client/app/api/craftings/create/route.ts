@@ -5,55 +5,90 @@ export async function POST(req: Request, res: Response) {
   const client = await connectMongo();
   const db = client.db("test");
 
-  const terra_pick: any = [
+  const furnace: any = [
     {
-      crafting_item:"botania__livingwood_twig",
-      crafting_type: "minecraft_crafting_2",
+      crafting_item: "minecraft__furnace",
+      crafting_type: "minecraft_crafting_4",
       crafting_grid: [
         {
-          item_tag: "botania__livingwood",
-          item_name: "Terrasteel",
-          mod_tag: "botania",
-          mod_name: "Botania",
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
           type: "Block",
         },
         {
           item_tag: "minecraft__air",
           item_name: "Air",
           mod_tag: "minecraft",
-          mod_name: "Minecraft",
+          mod_name: "Air",
           type: "Item",
         },
         {
-          item_tag: "botania__livingwood",
-          item_name: "Terrasteel",
-          mod_tag: "botania",
-          mod_name: "Botania",
-          type: "Item",
-        },
-        {
-          item_tag: "minecraft__air",
-          item_name: "Air",
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
           mod_tag: "minecraft",
           mod_name: "Minecraft",
-          type: "Item",
-        }
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
+        {
+          item_tag: "minecraft__cobblestone",
+          item_name: "Cobblestone",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
+        },
       ],
       crafting_products: [
         {
-          item_tag: "botania__livingwood_twig",
-          item_name: "Livingwood Twig",
-          mod_tag: "botania",
-          mod_name: "Botania",
+          item_tag: "minecraft__furnace",
+          item_name: "Furnace",
+          mod_tag: "minecraft",
+          mod_name: "Minecraft",
+          type: "Block",
           count: 1,
-          type: "Item",
         },
       ],
     },
   ];
 
   try {
-    const items = await db.collection("crafting").insertMany(terra_pick);
+    const items = await db.collection("crafting").insertMany(furnace);
 
     return new NextResponse("Success", { status: 200 });
   } catch (error) {

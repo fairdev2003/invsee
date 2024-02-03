@@ -7,9 +7,12 @@ export async function POST(req: Request, res: Response){
   const db = client.db("test");
 
   const selected = await req.json()
-  console.log(selected)
+  console.log(selected.password, selected.email)
 
-const item = await db.collection("mods").aggregate({mod_tag: selected.mod_tag}).toArray()
+  const item = await db.collection("users").findOne({$and: [
+    { password: selected.password },
+    { email: selected.email }
+  ]}, {projection: {password: 0, email: 0}})
   console.log(item)
   
   return NextResponse.json(item);

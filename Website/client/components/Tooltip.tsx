@@ -46,7 +46,7 @@ export const Tooltip = ({ itemstack, className }: ItemProps) => {
                 {itemstack.item_name}
               </h1>
               <p className="text-gray-200 text-sm font-[600]">
-                {itemstack.type}
+                {itemstack ? itemstack.type : "No type provided"}
               </p>
             </div>
           </div>

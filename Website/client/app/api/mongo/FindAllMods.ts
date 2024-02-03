@@ -1,3 +1,5 @@
+'use server'
+
 import { connectMongo } from "./mongo";
 
 export default async function FindAllMods() {
