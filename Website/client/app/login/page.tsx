@@ -10,42 +10,42 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-export default function Page() {
+export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, setserror] = useState("");
   const [loading, setloading] = useState(false);
-  const [showpass, setshowpass] = useState<boolean>(false)
+  const [showpass, setshowpass] = useState<boolean>(false);
 
-  const passRef = useRef<any>(null)
-  const emailRef = useRef<any>(null)
+  const passRef = useRef<any>(null);
+  const emailRef = useRef<any>(null);
 
   async function Login() {
     setloading(true);
 
-    try {
-
+    setTimeout(async () => {
+      try {
         const response = await axios.post("/api/login", {
           email: email.trim(),
           password: password.trim(),
         });
 
         if (response.data != null) {
-          setloading(false)
-          window.location.href = '/dashboard'
+          localStorage.setItem("user_id", response.data._id);
+          window.location.href = "/dashboard";
         } else {
-          setserror("Incorrect password or email")
+          setloading(false)
+          setserror("Incorrect password or email");
         }
-    } catch (error) {
-      console.error("Error during login:", error);
-    } finally {
-      setloading(false);
-    }
+      } catch (error) {
+        console.error("Error during login:", error);
+      } finally {
+      }
+    }, 3000);
   }
 
   useEffect(() => {
     setserror("");
-    
   }, [password, email]);
 
   return (
@@ -90,14 +90,28 @@ export default function Page() {
               placeholder="Enter your password"
               type={showpass ? "text" : "password"}
             ></input>
-            {showpass ? <Eye className="cursor-pointer" onClick={() => {setshowpass(!showpass)}}></Eye> : <EyeOff className="cursor-pointer" onClick={() => {setshowpass(!showpass)}}></EyeOff>}
+            {showpass ? (
+              <Eye
+                className="cursor-pointer"
+                onClick={() => {
+                  setshowpass(!showpass);
+                }}
+              ></Eye>
+            ) : (
+              <EyeOff
+                className="cursor-pointer"
+                onClick={() => {
+                  setshowpass(!showpass);
+                }}
+              ></EyeOff>
+            )}
           </div>
-          <button
-            onClick={Login}
-            className="bg-[#32343a] select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
-          >
-            {!loading ? <p>Sign in</p> : <div id='loader_sign'></div>}
-          </button>
+        <button
+          onClick={Login}
+          className="bg-[#32343a] select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
+        >
+          {!loading ? <p>Sign in</p> : <div id="loader_sign"></div>}
+        </button>
           <div className="text-red-500 flex items-center justify-center mb-3">
             {error.length > 0 ? error : null}
           </div>
@@ -108,12 +122,23 @@ export default function Page() {
           </div>
           <div className="flex flex-col gap-3 justify-center items-center mt-5">
             <button className="bg-[#32343a] hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
-            <div className="flex select-none gap-4 justify-center items-center"><Image alt="google" width={35} height={35} src={Discord}/><p>Login with Discord</p></div>
+              <div className="flex select-none gap-4 justify-center items-center">
+                <Image alt="google" width={35} height={35} src={Discord} />
+                <p>Login with Discord</p>
+              </div>
             </button>
             <button className="bg-[#32343a] select-none hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
-            <div className="flex gap-4 justify-center items-center"><Image alt="google" width={35} height={35} src={Google}/><p>Login with Google</p></div>
+              <div className="flex gap-4 justify-center items-center">
+                <Image alt="google" width={35} height={35} src={Google} />
+                <p>Login with Google</p>
+              </div>
             </button>
-            <p className="text-white flex gap-1 mt-3">You dont have an account yet?<Link href='/register' className="underline text-blue-500">Sign up</Link></p>
+            <p className="text-white flex gap-1 mt-3">
+              You dont have an account yet?
+              <Link href="/register" className="underline text-blue-500">
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
       </div>
