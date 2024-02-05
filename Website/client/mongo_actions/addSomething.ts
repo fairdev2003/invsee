@@ -1,13 +1,15 @@
-import { dbConnect } from "@/db/dbConnection"
-import Item from "@/db/models/ItemModel"
-import { model } from "mongoose"
+'use server'
 
-export const  Connect = async () => {
+import { connectMongo } from "@/app/api/mongo/mongo";
+import { ObjectId } from "mongodb";
 
-    dbConnect()
+
+export const getUserData = async (id: string) => {
     
-    const response = await Item.find()
 
-    console.log(response)
-    
-}
+    const client = await connectMongo();
+    const db = client.db("test");
+
+    const item = await db.collection("users").find({_id: new ObjectId(id)}, {projection: {password: 0, email: 0}}).toArray()
+
+  }

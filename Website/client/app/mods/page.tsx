@@ -10,8 +10,6 @@ import { TbSitemap } from "react-icons/tb";
 import { RiGuideFill } from "react-icons/ri";
 import { IoUnlinkOutline, IoHeartOutline, IoHeart } from "react-icons/io5";
 
-
-import { dbConnect } from "../../db/dbConnection";
 import FindAllMods from "../api/mongo/FindAllMods";
 
 
@@ -122,7 +120,7 @@ const Mods = () => {
                             <div key={mod} className={`flex gap-3 m-5 select-none bg-[#32343a] hover:bg-[#353b44] rounded-lg p-4 cursor-pointer border-${mod.mod_tag === modselected ? "white border-[3px]" : "[#464444] border-[2px]"}`} onClick={() => {
                                 router.push(
                                     `/mods?mod=${mod.mod_tag}&section=items`
-                                  );
+                                );
                             }}>
                                 <Image alt={`mod_image__${modselected}`} width={50} height={50} className='rounded-lg' src={mod.mod_image}></Image>
                                 <div className="flex flex-col">

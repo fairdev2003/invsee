@@ -1,11 +1,40 @@
 "use client";
 
 import { Button } from "./ui/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ui.css";
 import { Key } from "lucide-react";
+import { connectMongo } from "@/app/api/mongo/mongo";
+import { ObjectId } from "mongodb";
+import { getUserData } from "@/mongo_actions/addSomething";
+import axios from "axios";
+
+
 
 export default function Navbar() {
+
+
+  const [isLogged, setisLogged] = useState<boolean | any>()
+  const [data, setdata] = useState<any>([])
+
+  const getUser = async (id: string) => {
+    const response = await axios.post('http://localhost:3000/api/login/check_admin', {id: id});
+
+    setdata(response.data)
+    console.log(response.data)
+  }
+  
+
+  useEffect(() => {
+
+    setisLogged(true)
+    const id: any = localStorage.getItem('id');
+    getUser(id);
+
+    
+
+  }, [])
+
   return (
     <nav className="flex items-center justify-between px-5 py-5">
       <div className="flex items-center">
@@ -13,7 +42,7 @@ export default function Navbar() {
       </div>
       
       <div className="flex gap-2">
-        <Button
+        {isLogged != true ? <Button
           id="nav_button"
           className="bg-gradient-to-r from-blue-500 to-purple-500 px-7 hover:from-purple-500 hover:to-blue-500"
           onClick={() => {
@@ -22,7 +51,7 @@ export default function Navbar() {
           
         >
           Login
-        </Button>
+        </Button>: <p>{data.nick}</p>}
       </div>
     </nav>
   );
