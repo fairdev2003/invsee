@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,10 +13,17 @@ import DashboardSectionButton from "@/components/dashboard/DashboardSectionButto
 import { Crown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import GetSection from "@/components/dashboard/getSection";
+import { getServerSession } from "next-auth";
+import { options } from "../api/auth/[...nextauth]/options";
+import { getSession, useSession } from "next-auth/react";
+
 
 function Page() {
+  const session = useSession()
+  console.log(session)
+
   const [admin, setAdmin] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>(false);
   const [section, setsection] = useState<any>('');
 
@@ -24,7 +31,6 @@ function Page() {
   const router = useRouter()
 
   async function checkRole(id: string) {
-    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -43,7 +49,9 @@ function Page() {
       const response = await axios.post(
         "http://localhost:3000/api/login/get_user",
         { id: id }
+        
       );
+      
       setData(response.data[0]);
       console.log(response.data);
     } catch (error) {
@@ -54,7 +62,7 @@ function Page() {
 
   useEffect(() => {
     const id: any = localStorage.getItem("user_id");
-
+    
     checkRole(id);
 
     getUser(id);
@@ -69,6 +77,7 @@ function Page() {
     return data ? (
       <div className="flex flex-col gap-5 items-center justify-center">
         <h1 className="text-3xl text-white">Hello {data.nick} 👋</h1>
+        <p>{session.data?.user?.email}</p>
         <div className="flex flex-wrap gap-5 m-5">
           <div className="flex flex-col gap-4 w-[400px] h-[100vh] bg-[#26292f] rounded-xl p-5">
             <DashboardSectionButton to="account-settings" className="flex justify-start h-[100px] rounded-xl items-center">

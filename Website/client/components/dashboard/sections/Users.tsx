@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import PFP from '@/assets/Avatar.png'
 import Image from "next/image";
 
-export default function Allies() {
+export default function Users() {
   const [users, setUsers] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [groups, setgroups] = useState<any>(["Firstname", "Lastname", "Nick"]);
@@ -30,25 +30,27 @@ export default function Allies() {
 
   return (
     <div>
-      <h1 className="text-2xl text-white font-[600]">Allies</h1>
+      <h1 className="text-2xl text-white font-[600]">Users</h1>
       <div className="flex flex-col gap-3">
         {loading === false ? (
           <Table className="mt-5">
             <TableHeader className="bg-[#32343a]">
-                <TableHead className="font-[600] text-white">ID</TableHead>
-                <TableHead className="font-[600] text-white">Firstname</TableHead>
-                <TableHead className="font-[600] text-white">Lastname</TableHead>
-                <TableHead className="font-[600] text-white">Nickname</TableHead>
-                <TableHead className="font-[600] text-white">Role</TableHead>
+                <TableHead className="font-[600] text-blue-500">ID</TableHead>
+                <TableHead className="font-[600] text-blue-500">Firstname</TableHead>
+                <TableHead className="font-[600] text-blue-500">Lastname</TableHead>
+                <TableHead className="font-[600] text-blue-500">Nickname</TableHead>
+                <TableHead className="font-[600] text-blue-500">Email</TableHead>
+                <TableHead className="font-[600] text-blue-500">Role</TableHead>
             </TableHeader>
             <TableBody className="">
                 {users.map((item: any, number: number) => {
                     return (
-                        <TableRow className="text-white hover:bg-none  border-none bg-[#32343a] hover:bg-[#222327] cursor-pointer transition-none">
+                        <TableRow className="text-white hover:bg-none  border-none bg-[#32343a] hover:bg-[#222327] transition-none">
                             <TableCell>{number + 1}</TableCell>
                             <TableCell >{item.first_name}</TableCell>
                             <TableCell>{item.last_name}</TableCell>
                             <TableCell>{item.nick}</TableCell>
+                            <TableCell>{item.email}</TableCell>
                             <TableCell>{item.role}</TableCell>
                         </TableRow>
                     )
