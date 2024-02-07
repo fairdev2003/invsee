@@ -8,6 +8,7 @@ import { connectMongo } from "@/app/api/mongo/mongo";
 import { ObjectId } from "mongodb";
 import { getUserData } from "@/mongo_actions/addSomething";
 import axios from "axios";
+import { SessionProvider, signOut, useSession } from "next-auth/react";
 
 
 
@@ -51,7 +52,21 @@ export default function Navbar() {
           
         >
           Login
-        </Button>: <p>{data.nick}</p>}
+        </Button>: <Button
+          id="nav_button"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 px-7 hover:from-purple-500 hover:to-blue-500"
+          onClick={() => {
+            const res = signOut()
+            console.log(res)
+            setTimeout(() => {
+              window.location.href = '/login'
+            }, 1000)
+            
+          }}
+          
+        >
+          Logout
+        </Button>}
       </div>
     </nav>
   );
