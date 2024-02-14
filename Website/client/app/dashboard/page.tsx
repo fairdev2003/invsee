@@ -87,7 +87,6 @@ function Page() {
       console.log("Email: ", session?.data?.user?.email)
       return data ? (
         <div className="flex flex-col gap-5 items-center justify-center">
-          <h1 className="text-3xl text-white">Hello {data.nick} 👋</h1>
           <div className="flex flex-wrap gap-5 m-5">
             <div className="flex flex-col gap-4 w-[400px] h-[100vh] bg-[#26292f] rounded-xl p-5">
               <DashboardSectionButton
@@ -130,7 +129,7 @@ function Page() {
                 <p>Add Allies</p>
               </DashboardSectionButton>
             </div>
-            <div className="w-[1600px] h-[100vh] bg-[#26292f] rounded-xl p-10">
+            <div className="w-[1200px] h-[100vh] bg-[#26292f] rounded-xl p-10">
               <GetSection section={section}></GetSection>
             </div>
           </div>

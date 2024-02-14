@@ -26,5 +26,5 @@ export async function POST(req: Request, res: Response){
   ]).toArray();
   console.log(item)
   
-  return NextResponse.json(item);
+  return NextResponse.json(item[0]);
 }

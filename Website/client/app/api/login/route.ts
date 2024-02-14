@@ -13,7 +13,7 @@ export async function POST(req: Request, res: Response){
     { password: selected.password },
     { email: selected.email }
   ]}, {projection: {password: 0, email: 0}})
-  console.log(item)
+  console.log("item: ", item)
   
   return NextResponse.json(item);
 }

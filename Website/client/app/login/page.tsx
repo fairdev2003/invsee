@@ -7,12 +7,9 @@ import Google from "@/assets/google.svg";
 import Discord from "@/assets/discord.svg";
 import { Eye, EyeOff, Key } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProviders";
-import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 export default function Login() {
   const [email, setemail] = useState("");
@@ -137,6 +134,7 @@ export default function Login() {
             <div className="flex flex-col gap-3 justify-center items-center mt-5">
               <button className="bg-[#32343a] hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
                 <div className="flex select-none gap-4 justify-center items-center">
+                <Image alt="google" width={35} height={35} src={Discord} />
                   <p>Login with Discord</p>
                 </div>
               </button>

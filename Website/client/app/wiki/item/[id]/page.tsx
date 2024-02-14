@@ -35,8 +35,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     console.log(item_data);
   }, [params.id]);
 
-  
-
   useEffect(() => {
     if (searchParams.has("section")) {
       setsection(searchParams.get("section"));
@@ -47,7 +45,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="flex justify-center mb-10">
-      {item_data && item_data.length > 0 ? (
+      {item_data ? (
         <div>
           <div className="flex gap-3">
             <div className="w-1/3 bg-[#26292f] rounded-lg flex justify-center items-center p-10">
@@ -55,14 +53,16 @@ const Page = ({ params }: { params: { id: string } }) => {
                 alt="item_image"
                 width={150}
                 height={150}
-                src={item_data[0].item_image}
+                src={`/mc_assets/${item_data.tag_name.split("__")[0]}/${
+                  item_data.tag_name
+                }.png`}
               ></Image>
             </div>
             <div className="w-[1000px] rounded-lg p-10 bg-[#26292f]">
               <header className="mb-10">
                 <h1 className="text-blue-500 font-[600] text-3xl">
                   Botania <span className="text-white">|</span>{" "}
-                  {item_data[0].item_name}
+                  {item_data.item_name}
                 </h1>
               </header>
               <div className="flex gap-3"></div>
@@ -70,8 +70,11 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
 
           <div className="h-[1000px] w-auto bg-[#26292f] mt-5 p-10 rounded-lg">
-            <SliderMenu item_tag={item_data[0].tag_name}></SliderMenu>
-            <Content section={section} data={item_data[0].crafting_recipes}></Content>
+            <SliderMenu item_tag={item_data.tag_name}></SliderMenu>
+            <Content
+              section={section}
+              data={item_data.crafting_recipes}
+            ></Content>
           </div>
         </div>
       ) : (

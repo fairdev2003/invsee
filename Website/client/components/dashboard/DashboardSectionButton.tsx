@@ -26,7 +26,7 @@ export default function DashboardSectionButton({
         router.push(`/dashboard?section=${to ? to : "overview"}`);
       }}
       className={cn(
-        `bg-[#32343a] select-none w-full h-[50px] rounded-xl border-[3px] ${selected === to ? "border-blue-500 text-blue-500" : "border-none text-white"} flex items-center px-3 gap-3 hover:bg-[#222327] transition-colors`,
+        `bg-[#32343a] select-none w-full h-[50px] rounded-xl border-[3px] ${selected === to ? "border-blue-500 text-blue-500 bg-blue-500/30 hover:bg-blue-500/10 font-[600]" : "border-none text-white hover:bg-[#222327]"} flex items-center px-3 gap-3  transition-colors`,
         className
       )}
     >
