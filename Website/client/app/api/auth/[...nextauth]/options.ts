@@ -17,28 +17,18 @@ export const options: NextAuthOptions = {
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
             async authorize(credentials, req) {
-                try {
                     const password = credentials?.password;
                     const email = credentials?.email;
-                    console.log(`'${email}'`)
-                    console.log(`'${password}'`)
+                    console.log("Credentials from authorize: ", credentials);
                     // const response: any = await axios.post(`http://localhost:3000/api/login`, {password: password, email: email});
-                    const response: any = await axios.post(`http://localhost:3000/api/login`, {password: "kubaloneqxd123plfairshooter123", email: "kubaklimkiewicz1@gmail.com"});
                     
-                    console.log("response: ", response.data);
+                    const response: any = await axios.post(`http://localhost:3000/api/login`, {password: password, email: email});
 
-                    if (response.data) {
+                    if (response?.data) {
                         return response.data
                     } else {
                         return null
                     }
-                    
-                } catch (error) {
-                    console.log("Error: ", error);
-                    return null;
-                }
-                
-                
                 
             },
             

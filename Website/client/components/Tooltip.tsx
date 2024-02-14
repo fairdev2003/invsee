@@ -37,7 +37,7 @@ export const Tooltip = ({ itemstack, className }: ItemProps) => {
             <Image
               width={30}
               height={30}
-              src={`http://localhost:3005/images/icon/${itemstack.item_tag}/false`}
+              src={`/mc_assets/${itemstack.item_tag.split("__")[0]}/${itemstack.item_tag}.png`}
               alt="item-icon"
               className="image w-10 h-10 relative"
             ></Image>

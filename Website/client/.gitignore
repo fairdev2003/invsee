@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/public/mc_assets
 /.pnp
 .pnp.js
 .yarn/install-state.gz

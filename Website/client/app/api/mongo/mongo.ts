@@ -1,24 +1,17 @@
 'use server'
 
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
 const MONGO_URI: ENV_STRING = process.env.MONGO_URI;
-let client: MongoClient | null = null;
+let cachedClient: any = null;
 
 export async function connectMongo() {
-    try {
-        if (client === null) {
-            client = new MongoClient(MONGO_URI);
-            await client.connect();
-            console.log("Connected to MongoDB");
-            return client
-        } else {
-            console.log("Connected again");
-            return client
-        }
-        
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        throw error;
-    }
+  if (cachedClient) {
+    return cachedClient;
+  }
+
+  const client = await MongoClient.connect(MONGO_URI);
+
+  cachedClient = client;
+  return client;
 }

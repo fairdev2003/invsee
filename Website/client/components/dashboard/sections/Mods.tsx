@@ -1,81 +1,116 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { redirect } from "next/dist/server/api-utils";
+import Link from "next/link";
+
+const pagination_items = 5;
 
 export default function Mods() {
   const [mods, setMods] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [groups, setgroups] = useState<any>(["Firstname", "Lastname", "Nick"]);
+  const [page, setPage] = useState(1);
 
-  async function getAllMods() {
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const getallmods = async () => {
     try {
-      setLoading(true);
-
       const response = await axios.get("/api/mods");
-
       setMods(response.data);
+      console.log(response.data);
     } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching items:", error);
     }
-  }
+  };
+
+  const Paginate = (
+    items: any,
+    page: number = 1,
+    per_page: number = pagination_items
+  ) => {
+    const offset = (page - 1) * per_page;
+    const paginatedItems = mods.slice(offset).slice(0, per_page);
+    return paginatedItems;
+  };
+
+  const getPageCount = (mods: any, per_page: number = pagination_items) => {
+    return Math.ceil(mods.length / per_page);
+  };
 
   useEffect(() => {
-    getAllMods()
-  }, [])
+    getallmods();
+  }, []);
 
   return (
     <div>
       <h1 className="text-2xl text-white font-[600]">Mods</h1>
-      <div>
-        {loading === false ? (
-          <Table className="mt-5">
-            <TableHeader className="bg-[#32343a]">
-              <TableHead className="font-[600] text-blue-500">
-                ID
-              </TableHead>
-              <TableHead className="font-[600] text-blue-500">
-                Mod Owner
-              </TableHead>
-              <TableHead className="font-[600] text-blue-500">
-                Mod name
-              </TableHead>
-              <TableHead className="font-[600] text-blue-500">
-                Mod Tag
-              </TableHead>
-              <TableHead className="font-[600] text-blue-500">
-                Items
-              </TableHead>
-              
-            </TableHeader>
-            <TableBody className="">
-              {mods.map((mod: any, number: number) => {
-                return (
-                  <TableRow className="text-white hover:bg-none  border-none bg-[#32343a] hover:bg-[#222327] transition-none">
-                    <TableCell>{mod._id}</TableCell>
-                    <TableCell>{mod.mod_owner}</TableCell>
-                    <TableCell>{mod.mod_name}</TableCell>
-                    <TableCell>{mod.mod_tag}</TableCell>
-                    <TableCell>{mod.items.length}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+      <div ref={divRef} className="flex flex-col gap-5 mt-5">
+        {mods && mods.length ? (
+          Paginate(mods, page).map((item: any) => {
+            return (
+              <div className="flex gap-5 justify-between items-center bg-slate-500/20 rounded-md p-5">
+                <div className="flex gap-5 items-center">
+                  <Image
+                    src={item.mod_image}
+                    alt="mod_image"
+                    width={50}
+                    height={50}
+                    className="rounded-md">
+                    </Image>
+                  <div>
+                    <h1 className="text-white font-medium">{item.mod_name}</h1>
+                    <p className="text-gray-400">{item.mod_owner}</p>
+                  </div>
+                </div>
+                <div className="flex gap-x-2">
+                  <button className="bg-green-500 text-white rounded-md px-4 py-2 font-[600]">
+                    Edit
+                  </button>
+                  <button className="bg-blue-500 text-white rounded-md px-4 py-2 font-[600]" onClick={() => {
+                    window.location.href = `/wiki/item/botania__terra_pick?&section=crafting`;
+                  }}>
+                    View
+                  </button>
+                </div>
+              </div>
+            );
+          })
         ) : (
           <div className="flex flex-col gap-4 justify-center items-center mt-10">
             <span className="loader"></span>
             <p className="text-white">Loading Mods...</p>
           </div>
         )}
+        <Pagination>
+          <PaginationContent>
+            {Array.from({ length: getPageCount(mods) }).map((_, index) => {
+              return (
+                <PaginationItem
+                  key={index}
+                  className="cursor-pointer "
+                >
+                  <PaginationLink onClick={() => {
+                    setPage(index + 1)
+                    window.scrollTo({ 
+                        top: 0,
+                        behavior: 'smooth' 
+                      });
+                }} isActive={index === page - 1}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              );
+            })}
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

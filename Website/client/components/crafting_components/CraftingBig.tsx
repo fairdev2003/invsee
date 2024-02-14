@@ -16,7 +16,7 @@ export const CraftingBig = ({crafting} : Props) => {
     return (
         <section className="border-[3px] border-[#464444] bg-transparent rounded-lg mt-5">
             <div className="flex gap-3 items-center m-5 my-3">
-                <Image alt="crafting" src='http://localhost:3005/images/icon/minecraft__crafting_table/false' width={40} height={40}/>
+                <Image alt="crafting" src={`/mc_assets/minecraft/minecraft__crafting_table.png`} width={40} height={40}/>
                 <h1 className="text-white text-xl font-[600]">Crafting Recipe</h1>
                     
             </div>

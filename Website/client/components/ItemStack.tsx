@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Tooltip } from "./Tooltip";
 import Link from "next/link";
+import Controller from "@/public/mc_assets/ae2/ae2__controller.png"
 
 interface ItemProps {
   itemstack?: any;
@@ -37,7 +38,7 @@ export const ItemStack = ({
             width={50}
             height={50}
             alt="item_stack"
-            src={`http://localhost:3005/images/icon/${itemstack.item_tag}/false`}
+            src={`/mc_assets/${itemstack.item_tag.split("__")[0]}/${itemstack.item_tag}.png`}
             className=""
             onError={(event) => {
               handleDeafultImage(event);
