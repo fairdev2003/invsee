@@ -61,7 +61,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className="w-[1000px] rounded-lg p-10 bg-[#26292f]">
               <header className="mb-10">
                 <h1 className="text-blue-500 font-[600] text-3xl">
-                  Botania <span className="text-white">|</span>{" "}
+                  <span>{item_data.mod[0].mod_name}</span> <span className="text-white">|</span>{" "}
                   {item_data.item_name}
                 </h1>
               </header>

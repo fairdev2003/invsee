@@ -14,6 +14,7 @@ export async function POST(req: Request, res: Response){
     { email: selected.email }
   ]}, {projection: {password: 0, email: 0}})
   console.log("item: ", item)
+
   
   return NextResponse.json(item);
 }

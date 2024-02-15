@@ -8,8 +8,20 @@ export async function GET(req: Request, res: Response){
   const client = await connectMongo();
   const db = client.db("test");
 
-  const item = await db.collection("items").find({}).toArray();
+  const item = await db.collection("items").aggregate([
+
+    {
+      $lookup: {
+        from: "mods",
+        localField: "mod_tag",
+        foreignField: "mod_tag",
+        as: "mod",
+      }
+    }
+  
+  ]).toArray();
   console.log(item)
   
+
   return NextResponse.json(item);
 }
