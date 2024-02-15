@@ -21,6 +21,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import GetSection from "@/components/dashboard/getSection";
 import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
+import { MdOutlineGridOn } from "react-icons/md";
 
 function Page() {
   const session = useSession();
@@ -29,10 +30,12 @@ function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<any>(false);
   const [section, setsection] = useState<any>("");
+  const [error, setError] = useState<string>("");
 
   const searchParams = useSearchParams();
 
   async function checkRole(id: string) {
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/login/check_admin",
@@ -86,9 +89,9 @@ function Page() {
     else {
       console.log("Email: ", session?.data?.user?.email)
       return data ? (
-        <div className="flex flex-col gap-5 items-center justify-center">
+        <div className="flex flex-col gap-5 items-center max-h-full m-10 justify-center">
           <div className="flex flex-wrap gap-5 m-5">
-            <div className="flex flex-col gap-4 w-[400px] h-[100vh] bg-[#26292f] rounded-xl p-5">
+            <div className="flex flex-col gap-4 w-[400px] h-[750px] bg-[#26292f] rounded-xl p-5">
               <DashboardSectionButton
                 to="account-settings"
                 className="flex justify-start h-[100px] rounded-xl items-center"
@@ -128,8 +131,12 @@ function Page() {
                 <FiSmile clasName="text-white" size={25}></FiSmile>
                 <p>Add Allies</p>
               </DashboardSectionButton>
+              <DashboardSectionButton to="crafting">
+                <MdOutlineGridOn clasName="text-white" size={25}></MdOutlineGridOn>
+                <p>Crafting Recipes</p>
+              </DashboardSectionButton>
             </div>
-            <div className="w-[1200px] h-[100vh] bg-[#26292f] rounded-xl p-10">
+            <div className="w-[1200px] h-[750px] bg-[#26292f] overflow-y-scroll rounded-xl p-10">
               <GetSection section={section}></GetSection>
             </div>
           </div>

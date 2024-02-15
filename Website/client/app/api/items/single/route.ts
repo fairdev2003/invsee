@@ -23,8 +23,16 @@ export async function POST(req: Request, res: Response){
         as: "crafting_recipes",
       },
     },
+    {
+      $lookup: {
+        from: "mods",
+        localField: "mod_tag",
+        foreignField: "mod_tag",
+        as: "mod",
+      }
+    }
   ]).toArray();
   console.log(item)
-  
+
   return NextResponse.json(item[0]);
 }
