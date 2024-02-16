@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function CraftingSection() {
 
     const [craftings, setCraftings] = useState<any>([]);
+    
 
     const getallCraftings = async () => {
         try {
@@ -20,6 +21,8 @@ export default function CraftingSection() {
     useEffect(() => {
         getallCraftings();
     
+        
+
     }, []);
 
     return (
