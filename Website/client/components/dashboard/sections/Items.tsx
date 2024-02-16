@@ -2,30 +2,18 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { motion } from "framer-motion";
-import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { RiZzzFill } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getUserData } from "@/mongo_actions/addSomething";
+import PaginationComponent from "@/components/PaginationComponent";
+import { Textarea } from "@/components/ui/textarea";
 
 const pagination_items = 5;
 
@@ -36,10 +24,10 @@ export default function Items() {
   const [loading, setLoading] = useState<boolean>(true);
   const [isopen, setIsopen] = useState<boolean>(false);
 
-  
-
-
   const searchParams = useSearchParams() as any;
+
+  const [nameRef, mod_tagRef, descriptionRef] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLTextAreaElement>(null) ];
+
 
   const [key, setKey] = useState(0);
 
@@ -118,14 +106,13 @@ export default function Items() {
                       <h1 className="text-white font-medium">
                         {item.item_name}
                       </h1>
-                      <p className="text-gray-400">
+                      <p className="text-blue-500 text-sm ">
                         {item.mod[0] ? item.mod[0].mod_name : "Minecraft"}
                       </p>
                     </div>
                   </div>
                   <div className="flex gap-x-2">
                     <Dialog
-                      
                       onOpenChange={() => {
                         console.log("Dialog opened " + item.tag_name);
                       }}
@@ -173,44 +160,72 @@ export default function Items() {
                             crafting
                           </Link>
                         </DialogDescription>
+
                         <div className="flex gap-x-4 items-center justify-center">
                           <p className="text-white font-medium flex justify-center w-[100px]">
                             Item Name
                           </p>
                           <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px]">
                             <input
+                              ref={nameRef}
                               className="bg-transparent outline-none w-full"
                               type="text"
                               placeholder={item.item_name}
                             ></input>
                           </div>
                         </div>
+
                         <div className="flex gap-x-4 items-center justify-center">
                           <p className="text-white font-medium flex justify-center w-[100px]">
                             Mod Tag
                           </p>
                           <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px]">
                             <input
+                              ref={mod_tagRef}
                               className="bg-transparent outline-none w-full"
                               type="text"
                               placeholder={item.mod_tag}
                             ></input>
                           </div>
                         </div>
+
+                        <DialogDescription></DialogDescription>
+
                         <div className="flex gap-x-4 items-center justify-center">
                           <p className="text-white font-medium flex justify-center w-[100px]">
                             Description
                           </p>
-                          <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px]">
-                            <input
-                              className="bg-transparent outline-none w-full"
-                              type="text"
-                              placeholder="Description"
-                            ></input>
+                          <div className="flex gap-3 items-center rounded-md bg-[#32343a] text-white font-[500] w-[300px] h-auto">
+                            <textarea ref={descriptionRef} className="bg-transparent w-full h-full outline-none mx-3 my-6 max-h-[300px] min-h-[50px]" placeholder="Description..."/>
                           </div>
                         </div>
-                        <DialogClose >
-                          <Button variant="secondary">Submit</Button>
+
+                        <DialogDescription className="text-gray-400">Provide some short desription to this item. More words can be added in <Link
+                            href="https://www.google.pl"
+                            className="text-blue-500 underline"
+                          >
+                            Wiki Section
+                          </Link>. For more info please visit this site <Link
+                            href="https://www.google.pl"
+                            className="text-blue-500 underline"
+                          >
+                            Tutorial Page
+                          </Link></DialogDescription>
+                        <DialogClose>
+                          <Button variant="secondary" onClick={
+                            async () => {
+                              await axios.post("/api/items/update/1", {
+                                tag_name: item.tag_name,
+                                update_data: {
+                                  item_name: nameRef.current?.value,
+                                  mod_tag: mod_tagRef.current?.value,
+                                  description: descriptionRef.current?.value,
+                                }
+                              });
+                              getallmods();
+                            }
+                          
+                          }>Submit</Button>
                         </DialogClose>
                       </DialogContent>
                     </Dialog>
@@ -235,76 +250,11 @@ export default function Items() {
             </div>
           )}
         </div>
-        <Pagination>
-          <PaginationContent className="flex gap-4 mt-10">
-            <Button
-              onClick={() => {
-                if (page === 1) {
-                  setPage(getPageCount(items));
-                  setKey(getPageCount(items));
-                  router.push(
-                    window.location.href.split("?")[0] +
-                      `?section=${section}` +
-                      `&page=${getPageCount(items)} `
-                  );
-                } else {
-                  setPage(page - 1);
-                  setKey(page - 1);
-                  router.push(
-                    window.location.href.split("?")[0] +
-                      `?section=${section}` +
-                      `&page=${page - 1} `
-                  );
-                }
-              }}
-              variant="none"
-              disabled={page === 1}
-            >
-              {"<"}
-            </Button>
-            {Array.from({ length: getPageCount(items) }).map((_, index) => {
-              return (
-                <PaginationItem key={index} className="cursor-pointer ">
-                  <PaginationLink
-                    onClick={() => {
-                      setPage(index + 1);
-                      setKey(index + 1);
-                      router.push(
-                        window.location.href.split("?")[0] +
-                          `?section=${section}` +
-                          `&page=${index + 1} `
-                      );
-                    }}
-                    isActive={index === page - 1}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            <Button
-              variant="none"
-              disabled={page === getPageCount(items)}
-              onClick={() => {
-                setPage(page + 1);
-                if (page === getPageCount(items)) {
-                  setPage(1);
-                  setKey(1);
-                } else {
-                  setPage(page + 1);
-                  setKey(page + 1);
-                }
-                router.push(
-                  window.location.href.split("?")[0] +
-                    `?section=${section}` +
-                    `&page=${page + 1} `
-                );
-              }}
-            >
-              {">"}
-            </Button>
-          </PaginationContent>
-        </Pagination>
+        <PaginationComponent
+          items={items}
+          number_of_items={getPageCount(items)}
+          getPageCount={getPageCount}
+        />
       </div>
     </div>
   );
