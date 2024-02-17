@@ -42,70 +42,30 @@ export default function PaginationComponent({
 
 
   return (
-        <Pagination className={cn(className)}>
-          <PaginationContent className="flex gap-4 mt-10">
-            <Button
-              onClick={() => {
-                if (page === 1) {
-                  setPage(getPageCount(items));
-                  router.push(
-                    window.location.href.split("?")[0] +
-                      `?section=${section}` +
-                      `&page=${getPageCount(items)} `
-                  );
-                } else {
-                  setPage(page - 1);
-                  router.push(
-                    window.location.href.split("?")[0] +
-                      `?section=${section}` +
-                      `&page=${page - 1} `
-                  );
-                }
-              }}
-              variant="none"
-              disabled={page === 1}
-            >
-              {"<"}
-            </Button>
-            {Array.from({ length: number_of_items as number }).map((_, index) => {
-              return (
-                <PaginationItem key={index} className="cursor-pointer ">
-                  <PaginationLink
-                    onClick={() => {
-                      setPage(index + 1);
-                      router.push(
-                        window.location.href.split("?")[0] +
-                          `?section=${section}` +
-                          `&page=${index + 1} `
-                      );
-                    }}
-                    isActive={index === page - 1}
-                  >
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            <Button
-              variant="none"
-              disabled={page === getPageCount(items)}
-              onClick={() => {
-                setPage(page + 1);
-                if (page === getPageCount(items)) {
-                  setPage(1);
-                } else {
-                  setPage(page + 1);
-                }
-                router.push(
-                  window.location.href.split("?")[0] +
-                    `?section=${section}` +
-                    `&page=${page + 1} `
-                );
-              }}
-            >
-              {">"}
-            </Button>
-          </PaginationContent>
-        </Pagination>
+        <div>
+            <Pagination className={cn(className)}>
+                <PaginationContent>
+                    {Array.from(Array(getPageCount(items)).keys()).map((item, index) => {
+                        return (
+                            <PaginationItem key={index} className='cursor-pointer'>
+                                <PaginationLink
+                                    onClick={() => {
+                                        router.push(
+                                            `?section=${section}&page=${index + 1}`
+                                        );
+                                    }}
+                                    className={cn(
+                                        "w-8 h-8 flex justify-center items-center rounded-md",
+                                        page === index + 1 ? "bg-[#3c3c3c] text-white" : "bg-[#2d2d2d] text-white"
+                                    )}
+                                >
+                                    {index + 1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        );
+                    })}
+                </PaginationContent>
+            </Pagination>
+        </div>
   )
 }

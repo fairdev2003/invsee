@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PaginationComponent from "@/components/PaginationComponent";
 import { Textarea } from "@/components/ui/textarea";
+import { get } from "http";
+import { Input } from "@/components/ui/input";
 
 const pagination_items = 5;
 
@@ -26,8 +28,12 @@ export default function Items() {
 
   const searchParams = useSearchParams() as any;
 
-  const [nameRef, mod_tagRef, descriptionRef] = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLTextAreaElement>(null) ];
-
+  const [nameRef, mod_tagRef, descriptionRef, searchRef] = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLTextAreaElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
 
   const [key, setKey] = useState(0);
 
@@ -35,7 +41,7 @@ export default function Items() {
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const getallmods = async () => {
+  const getallItems = async () => {
     try {
       const response = await axios.get("/api/items");
       setItems(response.data);
@@ -44,6 +50,16 @@ export default function Items() {
       console.error("Error fetching items:", error);
     }
   };
+
+  const Search = async (query: any) => {
+    try {
+      const response = await axios.post(`/api/items/search`, {item_name: query});
+      setItems(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  }
 
   const Paginate = (
     items: any,
@@ -65,7 +81,7 @@ export default function Items() {
   };
 
   useEffect(() => {
-    getallmods();
+    getallItems();
   }, []);
 
   useEffect(() => {
@@ -77,15 +93,40 @@ export default function Items() {
     }
   }, [searchParams]);
 
-  const toofarmessages = [
-    "Too far!",
-    "You've gone too far!",
-    "There are no more items to show!",
-  ];
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [page]);
 
-  return (
+  return ( 
     <div className="flex flex-col">
       <h1 className="text-2xl text-white font-[600]">Items</h1>
+      <div className="flezx gap-x-4 items-center mt-5">
+        <p className="text-white font-medium flex w-[100px]">
+          Search Items
+        </p>
+        <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px] mt-2">
+          <input
+            ref={searchRef}
+            className="bg-transparent outline-none w-full"
+            type="text"
+            placeholder='Search...'
+            onChange={(input) => {
+              if (input.currentTarget.value === "") {
+                getallItems();
+              } else {
+                Search(input.currentTarget.value);
+                setPage(1);
+                router.push(
+                  `${window.location.pathname}?page=1&section=items`
+                )
+              }
+            
+            }}
+          ></input>
+        </div>
+      </div>
       <div ref={divRef}>
         <div className="flex flex-col gap-5 h-[550px] mt-5">
           {items && items.length ? (
@@ -103,10 +144,10 @@ export default function Items() {
                       height={50}
                     ></Image>
                     <div>
-                      <h1 className="text-white font-medium">
+                      <h1 className="text-white font-medium hover:underline cursor-pointer">
                         {item.item_name}
                       </h1>
-                      <p className="text-blue-500 text-sm ">
+                      <p className="text-blue-500 text-sm hover:underline cursor-pointer">
                         {item.mod[0] ? item.mod[0].mod_name : "Minecraft"}
                       </p>
                     </div>
@@ -196,36 +237,59 @@ export default function Items() {
                             Description
                           </p>
                           <div className="flex gap-3 items-center rounded-md bg-[#32343a] text-white font-[500] w-[300px] h-auto">
-                            <textarea ref={descriptionRef} className="bg-transparent w-full h-full outline-none mx-3 my-6 max-h-[300px] min-h-[50px]" placeholder="Description..."/>
+                            <textarea
+                              ref={descriptionRef}
+                              className="bg-transparent w-full h-full outline-none mx-3 my-6 max-h-[300px] min-h-[50px]"
+                              placeholder="Description..."
+                            />
                           </div>
                         </div>
 
-                        <DialogDescription className="text-gray-400">Provide some short desription to this item. More words can be added in <Link
+                        <DialogDescription className="text-gray-400">
+                          Provide some short desription to this item. More words
+                          can be added in{" "}
+                          <Link
                             href="https://www.google.pl"
                             className="text-blue-500 underline"
                           >
                             Wiki Section
-                          </Link>. For more info please visit this site <Link
+                          </Link>
+                          . For more info please visit this site{" "}
+                          <Link
                             href="https://www.google.pl"
                             className="text-blue-500 underline"
                           >
                             Tutorial Page
-                          </Link></DialogDescription>
+                          </Link>
+                        </DialogDescription>
                         <DialogClose>
-                          <Button variant="secondary" onClick={
-                            async () => {
-                              await axios.post("/api/items/update/1", {
+                          <Button
+                            variant="secondary"
+                            onClick={async () => {
+                              const data_to_update: any = {
                                 tag_name: item.tag_name,
                                 update_data: {
                                   item_name: nameRef.current?.value,
                                   mod_tag: mod_tagRef.current?.value,
-                                  description: descriptionRef.current?.value,
-                                }
-                              });
-                              getallmods();
-                            }
-                          
-                          }>Submit</Button>
+                                  short_description:
+                                    descriptionRef.current?.value,
+                                },
+                              };
+
+                              await axios.post(
+                                `/api/items/update/${item.tag_name}`,
+                                data_to_update
+                              );
+                              setItems([]);
+                              if (searchRef.current?.value) {
+                                Search(searchRef.current?.value);
+                              } else {
+                                getallItems();
+                              }
+                            }}
+                          >
+                            Submit
+                          </Button>
                         </DialogClose>
                       </DialogContent>
                     </Dialog>
