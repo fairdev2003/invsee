@@ -39,6 +39,31 @@
   80% { transform:  scale(1.2)}
 }
 
+/* Define a class for the container that will have the custom scrollbar */
+#scroll_area {
+  overflow-y: scroll; /* Enable vertical scrolling */
+  
+}
+
+/* Style the scrollbar track (background) */
+#scroll_area::-webkit-scrollbar {
+  width: 10px;
+  background-color: none; /* Light gray */
+  
+}
+
+/* Style the scrollbar handle (thumb) */
+#scroll_area::-webkit-scrollbar-thumb {
+  background-color: rgb(59 130 246); /* Dark gray */
+  border-radius: 20px;
+}
+
+/* Style the scrollbar handle (thumb) when it's hovered */
+#scroll_area::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(59 130 246 / 0.5); /* Medium gray */
+  margin-right: 10px;
+}
+
 body, html {
   background-color: #16181c;
   margin: 0;

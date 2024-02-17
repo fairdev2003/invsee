@@ -20,7 +20,7 @@ export default function GetSection({
   section
 }: SectionProps) {
   return (
-    <section >
+    <section>
       {section === "overview" ? <Overview/> : null}
       {section === "mods" ? <Mods/> : null}
       {section === "items" ? <Items/> : null}

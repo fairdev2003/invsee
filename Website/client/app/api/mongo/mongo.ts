@@ -1,17 +1,20 @@
-'use server'
-
-import { MongoClient, Db } from "mongodb";
-
-const MONGO_URI: ENV_STRING = process.env.MONGO_URI;
+const MongoClient = require('mongodb').MongoClient;
 let cachedClient: any = null;
 
-export async function connectMongo() {
+export const connectMongo = async () => {
   if (cachedClient) {
-    return cachedClient;
+    console.log('👌 Using existing connection');
+    return Promise.resolve(cachedClient);
   }
 
-  const client = await MongoClient.connect(MONGO_URI);
-
-  cachedClient = client;
-  return client;
-}
+  return MongoClient.connect(process.env.MONGO_URI)
+    .then((client: any) => {
+      console.log('🔥 New DB Connection');
+      cachedClient = client;
+      return client;
+    })
+    .catch((error: string) => {
+      console.log('Mongo connect Error');
+      console.log(error);
+    });
+};
