@@ -19,9 +19,7 @@ export async function GET(req: Request, res: Response){
       }
     }
   
-  ]).toArray();
-
-  
+  ]).sort({item_name: 1}).toArray();
 
   return NextResponse.json(item);
 }

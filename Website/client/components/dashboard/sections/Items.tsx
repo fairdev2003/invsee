@@ -16,15 +16,22 @@ import PaginationComponent from "@/components/PaginationComponent";
 import { Textarea } from "@/components/ui/textarea";
 import { get } from "http";
 import { Input } from "@/components/ui/input";
+import { set } from "mongoose";
 
-const pagination_items = 5;
+import { useResize } from "@/lib/hooks/useResize";
+import { Plus } from "lucide-react";
+import { Popover } from "@/components/ui/popover";
+import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 
 export default function Items() {
   const [items, setItems] = useState<any>([]);
   const [page, setPage] = useState(1);
   const [section, setSection] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [isopen, setIsopen] = useState<boolean>(false);
+
+  const pagination_items = 5;
+
+  const size = useResize();
 
   const searchParams = useSearchParams() as any;
 
@@ -42,10 +49,13 @@ export default function Items() {
   const divRef = useRef<HTMLDivElement>(null);
 
   const getallItems = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.get("/api/items");
       setItems(response.data);
       console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching items:", error);
     }
@@ -53,13 +63,15 @@ export default function Items() {
 
   const Search = async (query: any) => {
     try {
-      const response = await axios.post(`/api/items/search`, {item_name: query});
+      const response = await axios.post(`/api/items/search`, {
+        item_name: query,
+      });
       setItems(response.data);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching items:", error);
     }
-  }
+  };
 
   const Paginate = (
     items: any,
@@ -76,7 +88,6 @@ export default function Items() {
   };
 
   const handleDeafultImage = (e: any) => {
-    e.target.onerror = null;
     e.target.src = "deafult.png";
   };
 
@@ -99,37 +110,43 @@ export default function Items() {
     }
   }, [page]);
 
-  return ( 
+  return (
     <div className="flex flex-col">
-      <h1 className="text-2xl text-white font-[600]">Items</h1>
+      <div className="flex gap-5 items-center">
+        <h1 className="text-2xl text-white font-[600]">Items</h1>
+        <button
+          className="bg-green-500 text-white rounded-md px-4 py-2 font-[600] flex gap-x-1"
+          onClick={() => {
+            window.location.href = "/wiki/item/new";
+          }}
+        >
+          <Plus/> Add New Item
+        </button>
+      </div>
+
       <div className="flezx gap-x-4 items-center mt-5">
-        <p className="text-white font-medium flex w-[100px]">
-          Search Items
-        </p>
+        <p className="text-white font-medium flex w-[100px]">Search Items</p>
         <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px] mt-2">
           <input
             ref={searchRef}
             className="bg-transparent outline-none w-full"
             type="text"
-            placeholder='Search...'
+            placeholder="Search..."
             onChange={(input) => {
               if (input.currentTarget.value === "") {
                 getallItems();
               } else {
                 Search(input.currentTarget.value);
                 setPage(1);
-                router.push(
-                  `${window.location.pathname}?page=1&section=items`
-                )
+                router.push(`${window.location.pathname}?page=1&section=items`);
               }
-            
             }}
           ></input>
         </div>
       </div>
       <div ref={divRef}>
         <div className="flex flex-col gap-5 h-[550px] mt-5">
-          {items && items.length ? (
+          {loading === false ? (
             Paginate(items, page).map((item: any, number: number) => {
               return (
                 <div className="flex gap-5 justify-between items-center bg-slate-500/20 rounded-md p-5">
@@ -142,6 +159,9 @@ export default function Items() {
                       className="w-10 h-10"
                       width={50}
                       height={50}
+                      onError={(event) => {
+                        handleDeafultImage(event);
+                      }}
                     ></Image>
                     <div>
                       <h1 className="text-white font-medium hover:underline cursor-pointer">
@@ -169,9 +189,13 @@ export default function Items() {
                             width={40}
                             height={40}
                             alt={item.tag_name}
-                            src={`/mc_assets/${item.tag_name.split("__")[0]}/${
-                              item.tag_name
-                            }.png`}
+                            src={
+                              item.tag_name != "minecraft__air"
+                                ? `/mc_assets/${item.tag_name.split("__")[0]}/${
+                                    item.tag_name
+                                  }.png`
+                                : "deafult.png"
+                            }
                             onError={(event) => {
                               handleDeafultImage(event);
                             }}
@@ -220,13 +244,32 @@ export default function Items() {
                           <p className="text-white font-medium flex justify-center w-[100px]">
                             Mod Tag
                           </p>
-                          <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px]">
-                            <input
-                              ref={mod_tagRef}
-                              className="bg-transparent outline-none w-full"
-                              type="text"
-                              placeholder={item.mod_tag}
-                            ></input>
+                          <div className="flex gap-3 items-center h-7 rounded-md bg-none py-6 px-3 text-white font-[500] w-[300px]">
+                            <Popover>
+                              
+                              <PopoverTrigger asChild>
+                                <Button variant="secondary">Choose Mod</Button>
+                              </PopoverTrigger>
+
+                              <PopoverContent sideOffset={5} alignOffset={5}>
+                                <div className="flex flex-col gap-3 p-3 bg-[#1c1d20] rounded-md">
+                                  <p className="text-white font-medium">
+                                    Mod Tag
+                                  </p>
+                                  <input
+                                    ref={mod_tagRef}
+                                    className="bg-transparent outline-none w-full"
+                                    type="text"
+                                    placeholder={item.mod_tag}
+                                  ></input>
+                                  <div className="flex flex-col gap-1 overflow-y-scroll h-[90px] w-[500px]">
+                                    {[{ mod_tag: "minecraft" },{ mod_tag: "ae2" },{ mod_tag: "botania" },{ mod_tag: "allthemodium" }].map((mod) => {
+                                      return <p>{mod.mod_tag}</p>
+                                    })}
+                                  </div>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
                           </div>
                         </div>
 
@@ -293,6 +336,7 @@ export default function Items() {
                         </DialogClose>
                       </DialogContent>
                     </Dialog>
+
                     <button
                       className="bg-blue-500 text-white rounded-md px-4 py-2 font-[600]"
                       onClick={() => {
@@ -307,10 +351,16 @@ export default function Items() {
             })
           ) : (
             <div>
-              <div className="flex flex-col gap-4 justify-center items-center mt-10">
-                <span className="loader"></span>
-                <p className="text-white">Loading Items...</p>
-              </div>
+              {items.length ? (
+                <div className="flex flex-col gap-4 justify-center items-center mt-10">
+                  <span className="loader"></span>
+                  <p className="text-white">Loading Items...</p>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-white text-3xl">No items found</p>
+                </div>
+              )}
             </div>
           )}
         </div>
