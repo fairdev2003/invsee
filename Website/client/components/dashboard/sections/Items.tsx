@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PaginationComponent from "@/components/PaginationComponent";
 import { useResize } from "@/lib/hooks/useResize";
-import { Plus } from "lucide-react";
+import { Plus, ZoomIn, ZoomOut } from "lucide-react";
 import { Popover } from "@/components/ui/popover";
 import { PopoverClose, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { AddItemModal } from "../Modal";
@@ -60,9 +60,7 @@ export default function Items() {
 
   const Search = async (query: any) => {
     try {
-      const response = await axios.post(`/api/items/search`, {
-        item_name: query,
-      });
+      const response = await axios.get(`/api/items/search?query=${query}`);
       setItems(response.data);
       console.log(response.data);
     } catch (error) {
@@ -120,9 +118,10 @@ export default function Items() {
         </AddItemModal>
       </div>
 
-      <div className="flezx gap-x-4 items-center mt-5">
-        <p className="text-white font-medium flex w-[100px]">Search Items</p>
-        <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-[300px] mt-2">
+      <div className="flex gap-x-4 items-center mt-5">
+        
+        <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-auto mt-2">
+          <ZoomOut size={35}/>
           <input
             ref={searchRef}
             className="bg-transparent outline-none w-full"
