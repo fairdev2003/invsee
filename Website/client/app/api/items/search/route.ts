@@ -1,44 +1,27 @@
-import { NextResponse } from "next/server";
-import { connectMongo } from '@/app/api/mongo/mongo';
+'use server'
 
-export async function POST(req: Request, res: Response){
+import { NextRequest, NextResponse } from "next/server";
+import { connectMongo } from '@/app/api/mongo/mongo';
+import { NextApiRequest, NextApiResponse } from "next";
+import { searchItems } from "@/actions/itemActions";
+
+export async function GET(request: NextRequest, response: NextApiResponse){
 
   const client = await connectMongo();
   const db = client.db("test");
 
-  const selected = await req.json()
-  console.log(selected)
-
-
-
-  const item = await db.collection("items").aggregate([
-    {
-      $match: {
-      $or: [
-        {item_name: {$regex: selected.item_name, $options: 'i'}},
-        {tag_name: {$regex: selected.item_name.replace(":", "__"), $options: 'i'}},
-        {mod_tag: {$regex: selected.item_name, $options: 'i'}},
-      ]
-        
-      },
-    },
-    {
-      $lookup: {
-        from: "crafting",
-        localField: "tag_name",
-        foreignField: "crafting_item",
-        as: "crafting_recipes",
-      },
-    },
-    {
-      $lookup: {
-        from: "mods",
-        localField: "mod_tag",
-        foreignField: "mod_tag",
-        as: "mod",
-      }
+  const query = request.nextUrl.searchParams.get("query") as string;
+  const limit = parseInt(request.nextUrl.searchParams.get("limit") as string);
+  try {
+    if (limit) {
+      const data = await searchItems(query, limit);
+      return NextResponse.json(data)
+    } else {
+      const data = await searchItems(query);
+      return NextResponse.json(data)
     }
-  ]).sort({item_name: 1}).toArray();
-
-  return NextResponse.json(item);
+  } catch (error) {
+    console.error("Something went wrong", error);
+    return response.status(500).json({message: "Something went wrong"});
+  }
 }

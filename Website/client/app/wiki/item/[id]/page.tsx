@@ -6,41 +6,21 @@ import { Content } from "next/font/google";
 import { AddItemModal } from "@/components/dashboard/Modal";
 import WikiContent from "@/components/wiki/WikiContent";
 import { Suspense } from "react";
+import { getAllItems, getItemById, searchItems } from "@/actions/itemActions";
+import { useSearchParams } from "next/navigation";
 
-
-const getItem = async (id: string) => {
-
-
-  const client = await connectMongo();
-  const db = await client.db("test");
-
-
-  const item = await db.collection("items").aggregate([
-    {
-      $match: {
-        tag_name: id
-      }
-    },
-    {
-      $lookup: {
-        from: "mods",
-        localField: "mod_tag",
-        foreignField: "mod_tag",
-        as: "mod",
-      }
-    }
+  const Page = async ({
+    params,
+    searchParams,
+  }: {
+    params: { id: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+  } ) => {
   
-  ]).toArray();
-
-  console.log(item[0])
-
-  return item[0];
-}
-
-const  Page = async ({ params }: { params: { id: string } }) => {
-  
-  const Item: any  = await getItem(params.id);
+  const Item: any  = await getItemById(params.id);
   Item._id = Item._id.toString();
+
+  console.log(searchParams)
 
   return (
     <section className="flex justify-center mb-10">
@@ -71,9 +51,11 @@ const  Page = async ({ params }: { params: { id: string } }) => {
           </div>
 
           <div className="h-[1000px] w-auto bg-[#26292f] mt-5 p-10 rounded-lg">
+
             <Suspense fallback={<div>Loading...</div>}>
-              <WikiContent data={Item} className="bg-blue-500"></WikiContent>
+              <WikiContent data={Item} section={searchParams?.section} className="bg-blue-500"></WikiContent>
             </Suspense>
+
           </div>
         </div>
       ) : (
