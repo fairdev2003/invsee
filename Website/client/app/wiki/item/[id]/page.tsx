@@ -1,51 +1,50 @@
-"use client";
+"use server";
 
-import { FetchSingleItem } from "@/lib/SingleItemFetch";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import SliderMenu from "@/components/SliderMenu";
-import Content from "@/components/crafting_components/Content";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { connectMongo } from "@/app/api/mongo/mongo";
+import { Content } from "next/font/google";
+import { AddItemModal } from "@/components/dashboard/Modal";
+import WikiContent from "@/components/wiki/WikiContent";
+import { Suspense } from "react";
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const searchParams: any = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [item_data, setitem_data]: any = useState(null);
-  const [section, setsection] = useState("");
 
-  const fetch_item = async (id: string) => {
-    try {
-      const response: any = await axios.post(`/api/items/single`, {
-        tag_name: id,
-      });
+const getItem = async (id: string) => {
 
-      setTimeout(() => {
-        setitem_data(response.data);
-        console.log(response.data);
-      }, 1000);
-    } catch (error) {
-      console.error("Error fetching item:", error);
+
+  const client = await connectMongo();
+  const db = await client.db("test");
+
+
+  const item = await db.collection("items").aggregate([
+    {
+      $match: {
+        tag_name: id
+      }
+    },
+    {
+      $lookup: {
+        from: "mods",
+        localField: "mod_tag",
+        foreignField: "mod_tag",
+        as: "mod",
+      }
     }
-  };
+  
+  ]).toArray();
 
-  useEffect(() => {
-    fetch_item(params.id);
-    console.log(item_data);
-  }, [params.id]);
+  console.log(item[0])
 
-  useEffect(() => {
-    if (searchParams.has("section")) {
-      setsection(searchParams.get("section"));
-    } else {
-      setsection("overview");
-    }
-  }, [searchParams]);
+  return item[0];
+}
+
+const  Page = async ({ params }: { params: { id: string } }) => {
+  
+  const Item: any  = await getItem(params.id);
+  Item._id = Item._id.toString();
 
   return (
     <section className="flex justify-center mb-10">
-      {item_data ? (
+      {Item ? (
         <div>
           <div className="flex gap-3">
             <div className="w-1/3 bg-[#26292f] rounded-lg flex justify-center items-center p-10">
@@ -53,28 +52,28 @@ const Page = ({ params }: { params: { id: string } }) => {
                 alt="item_image"
                 width={150}
                 height={150}
-                src={`/mc_assets/${item_data.tag_name.split("__")[0]}/${
-                  item_data.tag_name
+                src={`/mc_assets/${Item.tag_name.split("__")[0]}/${
+                  Item.tag_name
                 }.png`}
               ></Image>
             </div>
             <div className="w-[1000px] rounded-lg p-10 bg-[#26292f]">
               <header className="mb-10">
                 <h1 className="text-blue-500 font-[600] text-3xl">
-                  <span>{item_data.mod[0] ? item_data.mod[0].mod_name : "Minecraft" }</span> <span className="text-white">|</span>{" "}
-                  {item_data.item_name}
+                  <span>{Item.mod.length > 0 ? Item.mod[0].mod_name : "Minecraft"}</span> <span className="text-white">|</span>{" "}
+                  {Item.item_name}
                 </h1>
               </header>
-              <div className="flex gap-3"></div>
+              <div className="flex gap-3">
+                <p className="text-white mt-5">{Item.short_description}</p>
+              </div>
             </div>
           </div>
 
           <div className="h-[1000px] w-auto bg-[#26292f] mt-5 p-10 rounded-lg">
-            <SliderMenu item_tag={item_data.tag_name}></SliderMenu>
-            <Content
-              section={section}
-              data={item_data.crafting_recipes}
-            ></Content>
+            <Suspense fallback={<div>Loading...</div>}>
+              <WikiContent data={Item} className="bg-blue-500"></WikiContent>
+            </Suspense>
           </div>
         </div>
       ) : (

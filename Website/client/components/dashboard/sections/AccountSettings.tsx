@@ -1,47 +1,36 @@
+'use server'
 
 import Image from 'next/image';
 import PFP from '@/assets/Avatar.png';
+import { connect } from 'http2';
+import { connectMongo } from '@/app/api/mongo/mongo';
 
-import { MdChangeCircle } from "react-icons/md";
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { set } from 'mongoose';
 
-export default function AccountSettings() {
+const getAccountInfo = async () => {
+    const client = await connectMongo();
+    const db = await client.db("test");
 
-    const [account, setAccount] = useState<any>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const account_info = await db.collection("users").findOne({email: ""});
+    return account_info;
+}
 
-    const getAccountInfo = async () => {
 
-        setLoading(true);
+export default async function AccountSettings() {
 
-        try {
-            const response = await axios.post("/api/login/get_user", { id: localStorage.getItem("user_id")});
-            setAccount(response.data[0]);
-            console.log(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching items:", error);
-        }
-    }
-
-    useEffect(() => {
-        getAccountInfo();
-    }, [])
+    const acc = await getAccountInfo();
 
     return (
         <section>
-            {loading === false ? <div>
+            {acc ? <div>
                 <h1 className="text-2xl text-white font-[600]">Account Seetings</h1>
                 <div className="bg-[#32343a] w-full h-[150px] mt-5 rounded-lg flex gap-x-5 items-center p-5 px-7">
                     <div className='relative'>
                         <Image alt='profile image' src={PFP} height={100} width={100} className='rounded-lg'></Image>
                     </div>
                     <div>
-                        <p className="text-white font-[600] text-lg">{account.nick}</p>
+                        <p className="text-white font-[600] text-lg">{acc.nick}</p>
                         <div className="flex gap-1">
-                            <p className="text-white font-[400] text-sm">{account.role}</p>
+                            <p className="text-white font-[400] text-sm">{acc.role}</p>
                         </div>
                     </div>
                 </div>

@@ -7,10 +7,19 @@ export async function POST(req: Request, res: Response){
   const db = client.db("test");
 
   const selected = await req.json()
-  console.log(selected)
+  console.log(selected.query)
 
-  const item = await db.collection("mods").aggregate({mod_tag: selected.mod_tag}).toArray()
+  const item = await db.collection("mods").find({
+
+    $or: [
+      {mod_name: {$regex: selected.query, $options: 'i'}},
+      {mod_tag: {$regex: selected.query, $options: 'i'}},
+      {level_of_complexity: {$regex: selected.query, $options: 'i'}},
+    ]
+
+  }).toArray()
+
   console.log(item)
-  
+
   return NextResponse.json(item);
 }

@@ -3,6 +3,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { redirect } from "next/navigation";
+import { connectMongo } from "../../mongo/mongo";
 
 export const options: NextAuthOptions = {
     providers: [
@@ -16,16 +17,20 @@ export const options: NextAuthOptions = {
                 email: {label: "Email:", type: "email", placeholder:"Enter your email"},
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
+            // @ts-ignore
             async authorize(credentials, req) {
                     const password = credentials?.password;
                     const email = credentials?.email;
                     console.log("Credentials from authorize: ", credentials);
-                    // const response: any = await axios.post(`http://localhost:3000/api/login`, {password: password, email: email});
                     
-                    const response: any = await axios.post(`http://localhost:3000/api/login`, {password: password, email: email});
+                    const client = await connectMongo();
+                    const db = client.db("test");
 
-                    if (response?.data) {
-                        return response.data
+                    console.log(password, email)
+                    const chuj = true
+
+                    if (chuj) {
+                        return true
                     } else {
                         return null
                     }

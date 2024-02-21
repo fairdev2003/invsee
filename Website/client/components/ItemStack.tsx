@@ -1,24 +1,19 @@
-"use client";
+
 
 import Image from "next/image";
 import { Tooltip } from "./Tooltip";
 import Link from "next/link";
-import Controller from "@/public/mc_assets/ae2/ae2__controller.png"
 
 interface ItemProps {
   itemstack?: any;
   count?: number;
   blocked?: boolean;
-  width?: number;
-  height?: number;
 }
 
 export const ItemStack = ({
   itemstack,
   count,
   blocked,
-  width,
-  height,
 }: ItemProps) => {
   const handleDeafultImage = (event: any) => {
     event.target.src = "deafult.png";
