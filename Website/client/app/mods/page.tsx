@@ -181,7 +181,8 @@ const Mods = () => {
                             <div id="items-box" className="flex flex-wrap overflow-y-scroll gap-4 items-center">
                                 {getMod().items.length > 0 ? getMod().items.map((item: any, number: number) => {
                                     return (<Link href={`/wiki/item/${item.tag_name}?section=overview`} id="item-div" className="bg-[#32343a] w-[48%] h-[120px] p-10 flex rounded-lg gap-8 items-center relative cursor-pointer hover:bg-[#353b44]">
-                                        <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={item.item_image}/>
+                                        <Image alt={item.tag_name + number} width={55} height={55} className='items-center' src={`/mc_assets/${item.tag_name.split("__")[0]}/${item.tag_name}.png`}/>
+                                        
                                         <div id="settings" className="group absolute hidden z-3 right-7 rounded-full bg-[#26292f] cursor-pointer text-white text-[25px] p-3">
                                             <div>
                                                 <IoHeartOutline className='flex group-hover:hidden'/>

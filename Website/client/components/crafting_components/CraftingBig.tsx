@@ -22,7 +22,7 @@ export const CraftingBig = ({crafting} : Props) => {
             </div>
             <div className="w-full h-[1px] bg-[#464444] my-2"></div>
             
-            <div className="flex items-center gap-5 m-5">
+            <div className="flex items-center justify-center gap-5 m-5">
                 <div className="flex flex-col gap-2">
                     
                     <div className="flex flex-wrap gap-2">

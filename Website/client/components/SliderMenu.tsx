@@ -5,6 +5,18 @@ interface SliderProps {
   item_tag: string;
 }
 
+const Sections = [
+  "Overview",
+  "Crafting",
+  "Smelting",
+  "Usage",
+  "History",
+  "Gallery",
+  "Trivia",
+  "References",
+  "External Links",
+];
+
 const SliderMenu = ({ item_tag }: SliderProps) => {
   const searchParams: any = useSearchParams();
   const router = useRouter();
@@ -17,90 +29,32 @@ const SliderMenu = ({ item_tag }: SliderProps) => {
       setsection(searchParams.get("section"));
     } else {
       setsection("overview");
+      router.push(`${pathname}?section=overview`);
     }
   }, [searchParams]);
 
   return (
-    <menu className="flex gap-5 bg-[#2e3238] p-5 px-10 rounded-lg">
-      <p
-        className=" text-white flex flex-col justify-center gap-[0.5px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=overview`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Overview</p>
-        {section === "overview" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-      <p
-        className=" text-white flex flex-col justify-center gap-[0.5px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=crafting`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Crafting</p>
-        {section === "crafting" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-      <p
-        className=" text-white flex flex-col justify-center gap-[1px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=guides`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Guides</p>
-        {section === "guides" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-      <p
-        className=" text-white flex flex-col justify-center gap-[0.5px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=links`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Links</p>
-        {section === "links" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-      <p
-        className=" text-white flex flex-col justify-center gap-[0.5px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=upgrades`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Upgrades</p>
-        {section === "upgrades" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-      <p
-        className=" text-white flex flex-col justify-center gap-[0.5px] font-[500] select-none"
-        onClick={() => {
-          router.push(`/wiki/item/${item_tag}/?&section=mana_mechanic`);
-        }}
-      >
-        <p className="active:scale-90 cursor-pointer">Mana Mechanic</p>
-        {section === "mana_mechanic" ? (
-          <div className="w-full h-[5px] rounded-full bg-blue-500"></div>
-        ) : (
-          <div className="w-full h-[5px]"></div>
-        )}
-      </p>
-    </menu>
+    <div>
+      <p className="text-white select-none">{item_tag}</p>
+      <div className="flex gap-5">
+        {Sections.map((s, index) => {
+          return (
+            <div
+              key={index}
+              className={`text-white cursor-pointer active:scale-90 select-none ${
+                section === searchParams.get('section') ? "text-blue-500" : "text-white"
+              }`}
+              onClick={() => {
+                router.push(`${pathname}?section=${section}`);
+              }}
+            >
+              {s}
+            </div>
+          );
+        })}
+        
+      </div>
+    </div>
   );
 };
 

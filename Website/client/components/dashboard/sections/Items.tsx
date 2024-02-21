@@ -13,25 +13,22 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PaginationComponent from "@/components/PaginationComponent";
-import { Textarea } from "@/components/ui/textarea";
-import { get } from "http";
-import { Input } from "@/components/ui/input";
-import { set } from "mongoose";
-
 import { useResize } from "@/lib/hooks/useResize";
 import { Plus } from "lucide-react";
 import { Popover } from "@/components/ui/popover";
-import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverClose, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { AddItemModal } from "../Modal";
 
 export default function Items() {
   const [items, setItems] = useState<any>([]);
   const [page, setPage] = useState(1);
   const [section, setSection] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [mods, setMods] = useState<any>([]);
+
+  const [querymod, setQuerymod] = useState<any>([]);
 
   const pagination_items = 5;
-
-  const size = useResize();
 
   const searchParams = useSearchParams() as any;
 
@@ -114,14 +111,13 @@ export default function Items() {
     <div className="flex flex-col">
       <div className="flex gap-5 items-center">
         <h1 className="text-2xl text-white font-[600]">Items</h1>
-        <button
-          className="bg-green-500 text-white rounded-md px-4 py-2 font-[600] flex gap-x-1"
-          onClick={() => {
-            window.location.href = "/wiki/item/new";
-          }}
-        >
-          <Plus/> Add New Item
-        </button>
+        <AddItemModal color='' className="bg-[#26292f]">
+          <div className="flex gap-x-4 items-center">
+            
+            
+          </div>
+          
+        </AddItemModal>
       </div>
 
       <div className="flezx gap-x-4 items-center mt-5">
@@ -162,6 +158,7 @@ export default function Items() {
                       onError={(event) => {
                         handleDeafultImage(event);
                       }}
+                      
                     ></Image>
                     <div>
                       <h1 className="text-white font-medium hover:underline cursor-pointer">
@@ -174,8 +171,11 @@ export default function Items() {
                   </div>
                   <div className="flex gap-x-2">
                     <Dialog
-                      onOpenChange={() => {
-                        console.log("Dialog opened " + item.tag_name);
+                      onOpenChange={async () => {
+                        const response = await axios.get(`/api/mods`);
+
+                        setMods(response.data);
+
                       }}
                     >
                       <DialogTrigger>
@@ -248,8 +248,10 @@ export default function Items() {
                             <Popover>
                               
                               <PopoverTrigger asChild>
-                                <Button variant="secondary">Choose Mod</Button>
+                                <Button variant="secondary">{item.mod[0] ? item.mod[0].mod_name : "Minecraft"}</Button>
                               </PopoverTrigger>
+
+                              
 
                               <PopoverContent sideOffset={5} alignOffset={5}>
                                 <div className="flex flex-col gap-3 p-3 bg-[#1c1d20] rounded-md">
@@ -257,15 +259,26 @@ export default function Items() {
                                     Mod Tag
                                   </p>
                                   <input
-                                    ref={mod_tagRef}
                                     className="bg-transparent outline-none w-full"
                                     type="text"
                                     placeholder={item.mod_tag}
+                                    onChange={async (e) => {
+                                      if (e.currentTarget.value === "") {
+                                        const response: any = await axios.get(`/api/mods`);
+
+                                        setMods(response.data);
+                                      } else {
+                                        const response: any = await axios.post(`/api/mods/search`, {query: e.currentTarget.value});
+                                      
+                                        setMods(response.data);
+                                      }
+
+                                    }}
                                   ></input>
                                   <div className="flex flex-col gap-1 overflow-y-scroll h-[90px] w-[500px]">
-                                    {[{ mod_tag: "minecraft" },{ mod_tag: "ae2" },{ mod_tag: "botania" },{ mod_tag: "allthemodium" }].map((mod) => {
-                                      return <p>{mod.mod_tag}</p>
-                                    })}
+                                    {mods ? mods.map((mod: any) => {
+                                      return <PopoverClose onClick={() => {setQuerymod(mod)}}>{mod.mod_name}</PopoverClose>
+                                    }) : "No mods found"}
                                   </div>
                                 </div>
                               </PopoverContent>
@@ -312,10 +325,10 @@ export default function Items() {
                               const data_to_update: any = {
                                 tag_name: item.tag_name,
                                 update_data: {
-                                  item_name: nameRef.current?.value,
-                                  mod_tag: mod_tagRef.current?.value,
+                                  item_name: nameRef.current?.value != '' ? nameRef.current?.value : item.item_name,
+                                  mod_tag: querymod ? querymod.mod_tag : item.mod_tag,
                                   short_description:
-                                    descriptionRef.current?.value,
+                                    descriptionRef.current?.value != '' ? descriptionRef.current?.value : item.short_description,
                                 },
                               };
 
