@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import SliderMenu from "../SliderMenu";
-import { getAllItems, searchItems } from "@/actions/itemActions";
+import { getAllItems, searchItems } from "@/actions/itemHelpers";
 
 interface WikiContentProps {
   data: any,

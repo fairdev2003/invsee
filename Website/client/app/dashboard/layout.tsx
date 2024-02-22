@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-          <Navbar/>
           <AuthProvider>
+            <Navbar/>
             {children}
           </AuthProvider>
       </body>

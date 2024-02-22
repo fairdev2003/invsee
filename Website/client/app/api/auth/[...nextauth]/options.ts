@@ -18,21 +18,22 @@ export const options: NextAuthOptions = {
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
             // @ts-ignore
-            async authorize(credentials, req) {
-                    const password = credentials?.password;
-                    const email = credentials?.email;
+            async authorize(credentials: any, req) {
+                    const password = credentials.password as string;
+                    const email = credentials.email as string;
                     console.log("Credentials from authorize: ", credentials);
                     
                     const client = await connectMongo();
                     const db = client.db("test");
 
-                    console.log(password, email)
-                    const chuj = true
+                    const user = await db.collection("users").find({password: password, email: email}).toArray();
+                    console.log("User from authorize: ", user);
 
-                    if (chuj) {
-                        return true
+
+                    if (user.length > 0) {
+                        return user
                     } else {
-                        return null
+                        return false
                     }
                 
             },
@@ -60,6 +61,9 @@ export const options: NextAuthOptions = {
         },
         async jwt({ token, user, account, profile, isNewUser }) {
             return token
+        },
+        async session({ session, user, token }) {
+            return session
         },
         
     }

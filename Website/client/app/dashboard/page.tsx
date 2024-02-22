@@ -16,8 +16,9 @@ import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
 import { MdOutlineGridOn } from "react-icons/md";
 
-function Page() {
-  const session = useSession();
+function Dashboard() {
+
+  const { data: token, status } = useSession()
 
   const [admin, setAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,63 +27,81 @@ function Page() {
 
   const searchParams = useSearchParams();
 
-  async function checkRole(id: string) {
+  async function checkRole(id: any) {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/login/check_admin",
-        { id: id }
+      const query = `http://localhost:3000/api/user?search_by=email&name=${id}`
+
+      const response = await axios.get(
+        query,
       );
-      setAdmin(response.data.isAdmin);
+      setAdmin(response.data[0].role === "Admin" || response.data[0].role === "Mod");
     } catch (error) {
       console.error("Error checking role:", error);
     } finally {
       setLoading(false);
     }
   }
-  const getUser = async (id: string) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/login/get_user",
-        { id: id }
-      );
+  const getUser = async (id: any) => {
+    
+    setTimeout(async () => {
+      if (id === undefined) {
+        return;
+      } else {
+        const query = `http://localhost:3000/api/user?search_by=email&name=${id}`
+        console.log(query)
+  
+        try {
+          const response = await axios.get(
+            query,
+          );
+    
+          setData(response.data[0]);
+          console.log("Response", response.data);
+        } catch (error) {
+          console.error("Error checking role:", error);
+        } finally {
+        }
+      }
+    }, 2000)
 
-      setData(response.data[0]);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error checking role:", error);
-    } finally {
-    }
+    
+    
   };
 
   useEffect(() => {
     const id: any = localStorage.getItem("user_id");
 
-    checkRole(id);
+    checkRole(token?.user?.email);
 
-    getUser(id);
-  }, []);
+    console.log("Token", token?.user?.email)
+
+    getUser(token?.user?.email);
+  }, [token?.user?.email]);
   useEffect(() => {
     if (searchParams.has("section")) {
       setsection(searchParams.get("section"));
     }
   }, [searchParams]);
 
+  
   const RenderAdminPage = () => {
-    if (session.status !== "authenticated") {
+    
+
+    if (status !== "authenticated") {
       return (
-        <div>
+        <div className="flex justify-center items-center">
           <AuthError
             explaination="Please login to access this site"
             reason="You are not authenticated!"
           ></AuthError>
         </div>
       );
-    } else {
-      console.log("Email: ", session?.data?.user?.email);
+    } else {  
       return data ? (
+          
           <div className="">
             <div className="flex flex-wrap gap-5 justify-center">
-              <div className="flex flex-col w-[25%] gap-4 h-[90vh] bg-[#26292f] rounded-xl p-5">
+              <div className="flex flex-col w-[18%] gap-4 h-[86vh] bg-[#26292f] rounded-xl p-5">
                 <DashboardSectionButton
                   to="account-settings"
                   className="flex justify-start h-[100px] rounded-xl items-center"
@@ -132,7 +151,7 @@ function Page() {
                   <p>Crafting Recipes</p>
                 </DashboardSectionButton>
               </div>
-              <div className="w-[70%] h-[90vh] bg-[#26292f] rounded-xl p-10 overflow-y-scroll" id="scroll_area">
+              <div className="w-[78%] h-[86vh] bg-[#26292f] rounded-xl p-10 overflow-y-scroll" id="scroll_area">
                 {/* Box */}
                 <GetSection section={section}></GetSection>
               </div>
@@ -144,12 +163,12 @@ function Page() {
 
   return (
     <div>
-      {loading === false && session ? (
-        <div>
+      {loading === false && status ? (
+        <div className="">
           {admin === true ? (
             RenderAdminPage()
           ) : (
-            <div>
+            <div className="flex justify-center items-center">
               <AuthError
                 explaination="Please login to proper account to access this page!"
                 reason="You are not an admin!"
@@ -167,4 +186,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Dashboard;

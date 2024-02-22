@@ -61,7 +61,6 @@ export default function PaginationComponent({
             {"<"}
           </button>
           {Array.from(Array(getPageCount(items)).keys())
-            .slice(0, 3)
             .map((item, index) => {
               return (
                 <button
@@ -79,25 +78,15 @@ export default function PaginationComponent({
                 </button>
               );
             })}
+        
           <PaginationItem className="cursor-pointer">
             <PaginationLink
               onClick={() => {
-                router.push(`?section=${section}&page=4`);
-              }}
-              className={cn(
-                "w-8 h-8 flex justify-center items-center rounded-md",
-                page === getPageCount(items)
-                  ? "bg-[#3c3c3c] text-white"
-                  : "bg-[#2d2d2d] text-white"
-              )}
-            >
-              {page >= 4 ? "..." : getPageCount(items)}
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem className="cursor-pointer">
-            <PaginationLink
-              onClick={() => {
-                router.push(`?section=${section}&page=${page + 1}`);
+                if (page < getPageCount(items)) {
+                  router.push(`?section=${section}&page=${page + 1}`);
+                } else {
+                  router.push(`?section=${section}&page=${page}`);
+                }
               }}
               className={cn(
                 "w-8 h-8 flex justify-center items-center rounded-md",

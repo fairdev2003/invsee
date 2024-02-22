@@ -6,7 +6,7 @@ import { Content } from "next/font/google";
 import { AddItemModal } from "@/components/dashboard/Modal";
 import WikiContent from "@/components/wiki/WikiContent";
 import { Suspense } from "react";
-import { getAllItems, getItemById, searchItems } from "@/actions/itemActions";
+import { getAllItems, getItemById, searchItems } from "@/actions/itemHelpers";
 import { useSearchParams } from "next/navigation";
 
   const Page = async ({
