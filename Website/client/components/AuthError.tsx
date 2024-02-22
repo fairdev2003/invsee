@@ -5,6 +5,7 @@ import React from "react";
 interface AuthErrorProps {
   reason?: string;
   explaination?: string;
+  className?: string;
 }
 
 function AuthError({ 
@@ -12,7 +13,7 @@ function AuthError({
     explaination = "NO_EXPLAINATION" 
 }: AuthErrorProps) {
   return (
-    <div className="flex flex-col justify-center items-center bg-red-500/20 p-10 w-auto h-auto rounded-lg gap-2">
+    <div className="flex flex-col justify-center items-center  bg-red-500/20 p-10 h-auto rounded-lg gap-2">
       <X className="text-red-500" size={150}></X>
       <h2 className="text-red-500 text-2xl font-[600]">ACCESS DENIED</h2>
       <p className="text-white font-[400]">{reason}</p>

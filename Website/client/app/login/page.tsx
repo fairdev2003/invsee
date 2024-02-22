@@ -25,8 +25,27 @@ export default function Login() {
     setloading(true);
     setserror("");
 
+    if (email.length === 0 || password.length === 0) {
+      setloading(false)
+      setserror("All fields are required")
+      return;
+    }
+
+    if (email.includes("@") === false) {
+      setloading(false)
+      setserror("Invalid email")
+      return;
+    }
+
+    if (password.length < 8) {
+      setloading(false)
+      setserror("Password should be at least 8 characters long")
+      return;
+    }
+
     setTimeout(async () => {
       try {
+
         setemail(email.trim())
         setpassword(password.trim())
         const res = await signIn("credentials", {
@@ -36,7 +55,10 @@ export default function Login() {
         });
         if (res?.ok) {
           setloading(false)
-          window.location.href = '/dashboard'
+          window.location.href = '/dashboard?section=overview'
+        } else {
+          setloading(false)
+          setserror("Invalid email or password")
         }
         
       } catch (error) {
@@ -123,9 +145,9 @@ export default function Login() {
                 <p>Sign in</p>
               </button>
             )}
-            <div className="text-red-500 flex items-center justify-center mb-3">
-              {error.length > 0 ? error : null}
-            </div>
+            {error.length > 0 ? <div className="text-red-500 p-4 font-medium rounded-md bg-red-500/40 border-[1px] h-[50px] border-red-500 flex items-center justify-center mb-3">
+              {error}
+            </div> : null}
             <div className="flex gap-2 justify-center items-center">
               <div className="bg-[#41454d] h-[2px] w-full"></div>
               <p className="text-white">OR</p>

@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongo } from '@/app/api/mongo/mongo';
 import { NextApiRequest, NextApiResponse } from "next";
-import { searchItems } from "@/actions/itemActions";
+import { searchItems } from "@/actions/itemHelpers";
 
 export async function GET(request: NextRequest, response: NextApiResponse){
 

@@ -6,18 +6,26 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
+  DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+import { getToken } from "next-auth/jwt"
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PaginationComponent from "@/components/PaginationComponent";
 import { useResize } from "@/lib/hooks/useResize";
-import { Plus, ZoomIn, ZoomOut } from "lucide-react";
+import { Edit, Plus, Trash, ZoomIn, ZoomOut } from "lucide-react";
 import { Popover } from "@/components/ui/popover";
-import { PopoverClose, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import {
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "@radix-ui/react-popover";
 import { AddItemModal } from "../Modal";
+import { getAllItems } from "@/actions/itemHelpers";
 
 export default function Items() {
   const [items, setItems] = useState<any>([]);
@@ -30,6 +38,8 @@ export default function Items() {
 
   const pagination_items = 5;
 
+  
+
   const searchParams = useSearchParams() as any;
 
   const [nameRef, mod_tagRef, descriptionRef, searchRef] = [
@@ -38,6 +48,14 @@ export default function Items() {
     useRef<HTMLTextAreaElement>(null),
     useRef<HTMLInputElement>(null),
   ];
+
+  const handleDeleteItem = async (item_tag: string) => {
+    const response = await axios.delete(`/api/items?item_tag=${item_tag}`)
+
+    console.log("Successfully deleted" + response)
+
+    getAllItems()
+  }
 
   const [key, setKey] = useState(0);
 
@@ -107,21 +125,10 @@ export default function Items() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex gap-5 items-center">
-        <h1 className="text-2xl text-white font-[600]">Items</h1>
-        <AddItemModal color='' className="bg-[#26292f]">
-          <div className="flex gap-x-4 items-center">
-            
-            
-          </div>
-          
-        </AddItemModal>
-      </div>
-
-      <div className="flex gap-x-4 items-center mt-5">
-        
-        <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-auto mt-2">
-          <ZoomOut size={35}/>
+      <div className="flex gap-2 items-center">
+        <AddItemModal className="bg-[#32343a]">s</AddItemModal>
+        <div className="flex gap-3 items-center h-7 rounded-md bg-[#32343a] py-6 px-3 text-white font-[500] w-auto">
+          <ZoomOut size={35} />
           <input
             ref={searchRef}
             className="bg-transparent outline-none w-full"
@@ -139,8 +146,10 @@ export default function Items() {
           ></input>
         </div>
       </div>
+
+      <div className="flex gap-x-4 items-center mt-5"></div>
       <div ref={divRef}>
-        <div className="flex flex-col gap-5 h-[550px] mt-5">
+        <div className="flex flex-col gap-5 h-auto mt-5">
           {loading === false ? (
             Paginate(items, page).map((item: any, number: number) => {
               return (
@@ -157,10 +166,14 @@ export default function Items() {
                       onError={(event) => {
                         handleDeafultImage(event);
                       }}
-                      
                     ></Image>
                     <div>
-                      <h1 className="text-white font-medium hover:underline cursor-pointer">
+                      <h1
+                        className="text-white font-medium hover:underline cursor-pointer"
+                        onClick={() => {
+                          window.location.href = `/wiki/item/${item.tag_name}?&section=crafting`;
+                        }}
+                      >
                         {item.item_name}
                       </h1>
                       <p className="text-blue-500 text-sm hover:underline cursor-pointer">
@@ -174,12 +187,11 @@ export default function Items() {
                         const response = await axios.get(`/api/mods`);
 
                         setMods(response.data);
-
                       }}
                     >
                       <DialogTrigger>
-                        <button className="bg-green-500 text-white rounded-md px-4 py-2 font-[600]">
-                          Edit
+                        <button className="bg-green-500 text-white rounded-md p-2 font-[600]">
+                          <Edit />
                         </button>
                       </DialogTrigger>
                       <DialogContent className="bg-[#26292f] p-7">
@@ -245,12 +257,13 @@ export default function Items() {
                           </p>
                           <div className="flex gap-3 items-center h-7 rounded-md bg-none py-6 px-3 text-white font-[500] w-[300px]">
                             <Popover>
-                              
                               <PopoverTrigger asChild>
-                                <Button variant="secondary">{item.mod[0] ? item.mod[0].mod_name : "Minecraft"}</Button>
+                                <Button variant="secondary">
+                                  {item.mod[0]
+                                    ? item.mod[0].mod_name
+                                    : "Minecraft"}
+                                </Button>
                               </PopoverTrigger>
-
-                              
 
                               <PopoverContent sideOffset={5} alignOffset={5}>
                                 <div className="flex flex-col gap-3 p-3 bg-[#1c1d20] rounded-md">
@@ -263,21 +276,35 @@ export default function Items() {
                                     placeholder={item.mod_tag}
                                     onChange={async (e) => {
                                       if (e.currentTarget.value === "") {
-                                        const response: any = await axios.get(`/api/mods`);
+                                        const response: any = await axios.get(
+                                          `/api/mods`
+                                        );
 
                                         setMods(response.data);
                                       } else {
-                                        const response: any = await axios.post(`/api/mods/search`, {query: e.currentTarget.value});
-                                      
+                                        const response: any = await axios.post(
+                                          `/api/mods/search`,
+                                          { query: e.currentTarget.value }
+                                        );
+
                                         setMods(response.data);
                                       }
-
                                     }}
                                   ></input>
                                   <div className="flex flex-col gap-1 overflow-y-scroll h-[90px] w-[500px]">
-                                    {mods ? mods.map((mod: any) => {
-                                      return <PopoverClose onClick={() => {setQuerymod(mod)}}>{mod.mod_name}</PopoverClose>
-                                    }) : "No mods found"}
+                                    {mods
+                                      ? mods.map((mod: any) => {
+                                          return (
+                                            <PopoverClose
+                                              onClick={() => {
+                                                setQuerymod(mod);
+                                              }}
+                                            >
+                                              {mod.mod_name}
+                                            </PopoverClose>
+                                          );
+                                        })
+                                      : "No mods found"}
                                   </div>
                                 </div>
                               </PopoverContent>
@@ -324,10 +351,17 @@ export default function Items() {
                               const data_to_update: any = {
                                 tag_name: item.tag_name,
                                 update_data: {
-                                  item_name: nameRef.current?.value != '' ? nameRef.current?.value : item.item_name,
-                                  mod_tag: querymod ? querymod.mod_tag : item.mod_tag,
+                                  item_name:
+                                    nameRef.current?.value != ""
+                                      ? nameRef.current?.value
+                                      : item.item_name,
+                                  mod_tag: querymod
+                                    ? querymod.mod_tag
+                                    : item.mod_tag,
                                   short_description:
-                                    descriptionRef.current?.value != '' ? descriptionRef.current?.value : item.short_description,
+                                    descriptionRef.current?.value != ""
+                                      ? descriptionRef.current?.value
+                                      : item.short_description,
                                 },
                               };
 
@@ -349,14 +383,21 @@ export default function Items() {
                       </DialogContent>
                     </Dialog>
 
-                    <button
-                      className="bg-blue-500 text-white rounded-md px-4 py-2 font-[600]"
-                      onClick={() => {
-                        window.location.href = `/wiki/item/${item.tag_name}?&section=crafting`;
-                      }}
-                    >
-                      View
-                    </button>
+                    <Dialog>
+                      <DialogTrigger>
+                        <button className="bg-red-500 rounded-lg p-2 flex gap-1 font-[500] text-white outline-red-500">
+                          <Trash />
+                        </button>
+                      </DialogTrigger>
+
+                      <DialogContent className=''>
+                        <DialogHeader>Are u sure?</DialogHeader>
+
+                        <DialogClose onClick={() => {handleDeleteItem(item.tag_name)}}>
+                          Delete
+                        </DialogClose>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
               );
@@ -375,12 +416,12 @@ export default function Items() {
               )}
             </div>
           )}
+          <PaginationComponent
+            items={items}
+            number_of_items={getPageCount(items)}
+            getPageCount={getPageCount}
+          />
         </div>
-        <PaginationComponent
-          items={items}
-          number_of_items={getPageCount(items)}
-          getPageCount={getPageCount}
-        />
       </div>
     </div>
   );
