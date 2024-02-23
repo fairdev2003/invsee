@@ -12,13 +12,13 @@ export async function GET(req: NextRequest, res: Response){
     const db = client.db("test");
 
     if (!search_by || !param) {
-        const users = await db.collection("users").find({}).toArray();
+        const users = await db.collection("users").find({}, { projection: { password: 0 } }).toArray();
         console.log("User from GET: ", users);
         return NextResponse.json(users);
         
     } else {
         const query = {[search_by]: param}
-        const user = await db.collection("users").find(query).toArray();
+        const user = await db.collection("users").find(query, { projection: { password: 0 } }).toArray();
         console.log("User from GET: ", user);
         return NextResponse.json(user);
     }
