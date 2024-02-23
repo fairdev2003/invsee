@@ -8,9 +8,11 @@ import { GrOverview } from "react-icons/gr";
 import PFP from "@/assets/Avatar.png";
 import Image from "next/image";
 
+import { useUserStore } from "@/stores/user_store";
+
 import DashboardSectionButton from "@/components/dashboard/DashboardSectionButton";
 import { Crown } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import GetSection from "@/components/dashboard/getSection";
 import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
@@ -19,6 +21,8 @@ import { MdOutlineGridOn } from "react-icons/md";
 function Dashboard() {
 
   const { data: token, status } = useSession()
+
+  const { account_data, setAccountData }: any = useUserStore()
 
   const [admin, setAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +38,7 @@ function Dashboard() {
       const response = await axios.get(
         query,
       );
-      setAdmin(response.data[0].role === "Admin" || response.data[0].role === "Mod");
+      setAdmin(response.data[0].role === "Admin" || response.data[0].role === "Mod" || response.data[0].role === "Editor");
     } catch (error) {
       console.error("Error checking role:", error);
     } finally {
@@ -43,7 +47,6 @@ function Dashboard() {
   }
   const getUser = async (id: any) => {
     
-    setTimeout(async () => {
       if (id === undefined) {
         return;
       } else {
@@ -56,26 +59,29 @@ function Dashboard() {
           );
     
           setData(response.data[0]);
-          console.log("Response", response.data);
+
+          setAccountData(response.data);
+
+          console.log("Zustand store: ", account_data);
         } catch (error) {
           console.error("Error checking role:", error);
         } finally {
         }
       }
-    }, 2000)
 
     
     
   };
 
   useEffect(() => {
-    const id: any = localStorage.getItem("user_id");
 
     checkRole(token?.user?.email);
 
     console.log("Token", token?.user?.email)
 
     getUser(token?.user?.email);
+
+
   }, [token?.user?.email]);
   useEffect(() => {
     if (searchParams.has("section")) {
@@ -83,25 +89,28 @@ function Dashboard() {
     }
   }, [searchParams]);
 
+  const redirectUser = async () => {
+
+    setTimeout(() => {
+      redirect("/login")
+      
+    }, 1000)
+
+  }
+
   
   const RenderAdminPage = () => {
     
 
     if (status !== "authenticated") {
-      return (
-        <div className="flex justify-center items-center">
-          <AuthError
-            explaination="Please login to access this site"
-            reason="You are not authenticated!"
-          ></AuthError>
-        </div>
-      );
+      redirect("/login")
+      return;
     } else {  
       return data ? (
           
           <div className="">
             <div className="flex flex-wrap gap-5 justify-center">
-              <div className="flex flex-col w-[18%] gap-4 h-[86vh] bg-[#26292f] rounded-xl p-5">
+              <div className="flex flex-col w-[18%] gap-4 h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-5">
                 <DashboardSectionButton
                   to="account-settings"
                   className="flex justify-start h-[100px] rounded-xl items-center"
@@ -111,7 +120,10 @@ function Dashboard() {
                     height={60}
                     className="rounded-full"
                     alt="profile-pick"
-                    src={PFP}
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
+                    onClick={() => {
+                      console.log(account_data)
+                    }}
                   ></Image>
                   <div>
                     <p className="text-white font-[600] text-lg">{data.nick}</p>
@@ -151,7 +163,7 @@ function Dashboard() {
                   <p>Crafting Recipes</p>
                 </DashboardSectionButton>
               </div>
-              <div className="w-[78%] h-[86vh] bg-[#26292f] rounded-xl p-10 overflow-y-scroll" id="scroll_area">
+              <div className="w-[78%] h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-10 overflow-y-scroll" id="scroll_area">
                 {/* Box */}
                 <GetSection section={section}></GetSection>
               </div>
@@ -169,11 +181,9 @@ function Dashboard() {
             RenderAdminPage()
           ) : (
             <div className="flex justify-center items-center">
-              <AuthError
-                explaination="Please login to proper account to access this page!"
-                reason="You are not an admin!"
-              ></AuthError>
+              <AuthError reason="Auth Error" explaination="To access this page you need to login in"></AuthError>
             </div>
+            
           )}
         </div>
       ) : (

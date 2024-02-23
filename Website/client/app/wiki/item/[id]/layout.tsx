@@ -1,3 +1,4 @@
+import { AuthProvider } from '@/components/AuthProviders'
 import Navbar from '@/components/navbar'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
@@ -18,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+        <AuthProvider>
           <Navbar/>
-          {children}
+          { children }
+        </AuthProvider>
+          
       </body>
     </html>
   )

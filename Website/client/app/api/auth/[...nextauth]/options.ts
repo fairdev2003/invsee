@@ -4,12 +4,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { connectMongo } from "../../mongo/mongo";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const options: NextAuthOptions = {
     providers: [
         DiscordProvider({
             clientId: process.env.DISCORD_CLIENT_ID as string,
-            clientSecret: process.env.DISCORD_CLIENT_SECRET as string
+            clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
         }),
         CredentialsProvider({
             name: "Credentials",
@@ -19,23 +20,22 @@ export const options: NextAuthOptions = {
             },
             // @ts-ignore
             async authorize(credentials: any, req) {
-                    const password = credentials.password as string;
-                    const email = credentials.email as string;
-                    console.log("Credentials from authorize: ", credentials);
+                const password = credentials.password as string;
+                const email = credentials.email as string;
+                console.log("Credentials from authorize: ", credentials);
                     
-                    const client = await connectMongo();
-                    const db = client.db("test");
+                const client = await connectMongo();
+                const db = client.db("test");
 
-                    const user = await db.collection("users").find({password: password, email: email}).toArray();
-                    console.log("User from authorize: ", user);
+                const user = await db.collection("users").find({password: password, email: email}).toArray();
+                console.log("User from authorize: ", user);
 
 
-                    if (user.length > 0) {
-                        return user
-                    } else {
-                        return false
-                    }
-                
+                if (user.length > 0) {
+                    return user
+                } else {
+                    return false
+                }
             },
             
         })
@@ -46,6 +46,7 @@ export const options: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login"
+
     },
     
     callbacks: {
@@ -65,6 +66,9 @@ export const options: NextAuthOptions = {
         async session({ session, user, token }) {
             return session
         },
+        async redirect({url , baseUrl}) {
+            return url
+        }
         
     }
     

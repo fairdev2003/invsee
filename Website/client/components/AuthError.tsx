@@ -12,6 +12,7 @@ function AuthError({
     reason = "NO_REASON",
     explaination = "NO_EXPLAINATION" 
 }: AuthErrorProps) {
+
   return (
     <div className="flex flex-col justify-center items-center  bg-red-500/20 p-10 h-auto rounded-lg gap-2">
       <X className="text-red-500" size={150}></X>

@@ -65,7 +65,7 @@
 }
 
 body, html {
-  background-color: #16181c;
+  background-color: black;
   margin: 0;
   padding: 0;
   background-image: url('/client/assets/wave-background.svg') no-repeat center center fixed;
@@ -82,7 +82,7 @@ body, html {
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px #32343a inset;
+  -webkit-box-shadow: 0 0 0px 1000px rgb(17 24 39) inset;
   -webkit-text-fill-color: white;
   caret-color: white;
 }
