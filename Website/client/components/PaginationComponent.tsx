@@ -64,6 +64,7 @@ export default function PaginationComponent({
             .map((item, index) => {
               return (
                 <button
+                  key={index}
                   onClick={() => {
                     router.push(`?section=${section}&page=${index + 1}`);
                   }}
@@ -79,7 +80,7 @@ export default function PaginationComponent({
               );
             })}
         
-          <PaginationItem className="cursor-pointer">
+          <PaginationItem className="cursor-pointer" >
             <PaginationLink
               onClick={() => {
                 if (page < getPageCount(items)) {

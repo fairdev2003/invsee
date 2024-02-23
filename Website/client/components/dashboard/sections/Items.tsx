@@ -153,7 +153,7 @@ export default function Items() {
           {loading === false ? (
             Paginate(items, page).map((item: any, number: number) => {
               return (
-                <div className="flex gap-5 justify-between items-center bg-slate-500/20 rounded-md p-5">
+                <div className="flex gap-5 justify-between items-center bg-gray-900/80 rounded-md p-5" key={item.tag_name}>
                   <div className="flex gap-5 items-center">
                     <Image
                       src={`/mc_assets/${item.tag_name.split("__")[0]}/${

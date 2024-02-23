@@ -19,6 +19,7 @@ export const checkAdmin = async (email: string) => {
     return user.role === "Admin";
 }
 
+
 export const registerUser = async (data: string) => {
     return "Check admin"
 }

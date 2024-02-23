@@ -1,70 +1,87 @@
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import PFP from '@/assets/Avatar.png'
-import Image from "next/image";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
-export default function Users() {
-  const [users, setUsers] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [groups, setgroups] = useState<any>(["Firstname", "Lastname", "Nick"]);
+const invoices = [
+  {
+    invoice: "INV001",
+    paymentStatus: "Paid",
+    totalAmount: "$250.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV002",
+    paymentStatus: "Pending",
+    totalAmount: "$150.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV003",
+    paymentStatus: "Unpaid",
+    totalAmount: "$350.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV004",
+    paymentStatus: "Paid",
+    totalAmount: "$450.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV005",
+    paymentStatus: "Paid",
+    totalAmount: "$550.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV006",
+    paymentStatus: "Pending",
+    totalAmount: "$200.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV007",
+    paymentStatus: "Unpaid",
+    totalAmount: "$300.00",
+    paymentMethod: "Credit Card",
+  },
+]
 
-  async function getAllUsers() {
-    try {
-      setLoading(true);
-
-      const response = await axios.get("/api/users/get_all_users");
-
-      setUsers(response.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
-
+export default function TableDemo() {
   return (
-    <div>
-      <h1 className="text-2xl text-white font-[600]">Users</h1>
-      <div className="flex flex-col gap-3">
-        {loading === false ? (
-          <Table className="mt-5">
-            <TableHeader className="bg-[#32343a]">
-                <TableHead className="font-[600] text-blue-500">ID</TableHead>
-                <TableHead className="font-[600] text-blue-500">Firstname</TableHead>
-                <TableHead className="font-[600] text-blue-500">Lastname</TableHead>
-                <TableHead className="font-[600] text-blue-500">Nickname</TableHead>
-                <TableHead className="font-[600] text-blue-500">Email</TableHead>
-                <TableHead className="font-[600] text-blue-500">Role</TableHead>
-            </TableHeader>
-            <TableBody className="">
-                {users.map((item: any, number: number) => {
-                    return (
-                        <TableRow className="text-white hover:bg-none  border-none bg-[#32343a] hover:bg-[#222327] transition-none">
-                            <TableCell>{number + 1}</TableCell>
-                            <TableCell >{item.first_name}</TableCell>
-                            <TableCell>{item.last_name}</TableCell>
-                            <TableCell>{item.nick}</TableCell>
-                            <TableCell>{item.email}</TableCell>
-                            <TableCell>{item.role}</TableCell>
-                        </TableRow>
-                    )
-                })}
-                
-            </TableBody>
-          </Table>
-        ) : (
-            <div className="flex flex-col gap-4 justify-center items-center mt-10">
-                <span className="loader"></span>
-                <p className="text-white">Loading Users...</p>
-            </div>
-        )}
-      </div>
-    </div>
-  );
+    <Table>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody className="text-white">
+        {invoices.map((invoice) => (
+          <TableRow key={invoice.invoice}>
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  )
 }

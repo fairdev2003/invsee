@@ -74,7 +74,7 @@ export default function Login() {
   return (
     <AuthProvider>
       <section className="flex items-center justify-center">
-        <div className="w-[500px] h-[auto] bg-[#26292f] rounded-xl p-10">
+        <div className="w-[500px] h-[auto] bg-gray-900/60 rounded-xl p-10">
           <div className="flex flex-col justify-center gap-4 items-center">
             <Image
               className=" select-none"
@@ -88,7 +88,7 @@ export default function Login() {
           </div>
           <div className="flex flex-col justify-start mt-[30px] px-10">
             <p className="text-white mb-2">Email:</p>
-            <div className="flex gap-3 items-center mb-5 h-10 rounded-xl bg-[#32343a] py-6 px-3 text-white font-[400] w-full">
+            <div className="flex gap-3 items-center mb-5 h-10 rounded-xl bg-gray-900/90 py-6 px-3 text-white font-[400] w-full">
               <input
                 ref={emailRef}
                 id="input"
@@ -102,7 +102,7 @@ export default function Login() {
               ></input>
             </div>
             <p className="text-white mb-2">Password:</p>
-            <div className="flex gap-3 items-center mb-5 h-10 rounded-xl bg-[#32343a] py-6 px-3 text-white font-[400] w-full">
+            <div className="flex gap-3 items-center mb-5 h-10 rounded-xl bg-gray-900/90 py-6 px-3 text-white font-[400] w-full">
               <input
                 ref={passRef}
                 id="input"
@@ -133,14 +133,14 @@ export default function Login() {
             {!loading ? (
               <button
                 onClick={Login}
-                className="bg-[#32343a] select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
+                className="bg-gray-900/90 select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
               >
                 <p>Sign in</p>
               </button>
             ) : (
               <button
                 onClick={Login}
-                className="bg-[#32343a] w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 opacity-30 cursor-default"
+                className="bg-gray-900/90 w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 opacity-30 cursor-default"
               >
                 <p>Sign in</p>
               </button>
@@ -154,13 +154,15 @@ export default function Login() {
               <div className="bg-[#41454d] h-[2px] w-full"></div>
             </div>
             <div className="flex flex-col gap-3 justify-center items-center mt-5">
-              <button className="bg-[#32343a] hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
+              <button className="bg-gray-900/90 hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3" onClick={
+                () => signIn("discord")
+              }>
                 <div className="flex select-none gap-4 justify-center items-center">
                 <Image alt="google" width={35} height={35} src={Discord} />
                   <p>Login with Discord</p>
                 </div>
               </button>
-              <button className="bg-[#32343a] select-none hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
+              <button className="bg-gray-900/90 select-none hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3">
                 <div className="flex gap-4 justify-center items-center">
                   <Image alt="google" width={35} height={35} src={Google} />
                   <p>Login with Google</p>

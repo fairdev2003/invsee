@@ -9,6 +9,7 @@ import Items from "./sections/Items";
 import Mods from "./sections/Mods";
 import Overview from "./sections/Overview";
 import CraftingSection from "./sections/CraftingSection";
+import Workspace from "./sections/Workspace";
 
 interface SectionProps {
   className?: string 
@@ -28,6 +29,7 @@ export default function GetSection({
       {section === "allies" ? <Users/> : null}
       {section === "account-settings" ? <AccountSettings/> : null}
       {section === "crafting" ? <CraftingSection/> : null}
+      {section === "workspace" ? <Workspace/> : null}
     </section>
   );
 }
