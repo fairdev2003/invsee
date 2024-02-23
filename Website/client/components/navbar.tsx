@@ -98,7 +98,7 @@ export default function Navbar() {
             <AvatarFallback className="bg-gray-800 text-white">{account_data.length > 0 ? account_data[0].first_name.slice(0,1) : null}{account_data.length > 0 ? account_data[0].last_name.slice(0,1) : null}</AvatarFallback>
           </Avatar>
         </PopoverTrigger>
-        <PopoverContent className="bg-black text-white w-[180px] border-[1px] border-gray-800 p-1">
+        <PopoverContent className="bg-black text-white w-auto border-[1px] border-gray-800 p-1">
           <p className="mx-2 my-1 text-[15px] flex gap-x-2 items-center font-medium">
             {account_data.length > 0 && account_data[0].role === "Editor" ? <Hammer size={15} className='text-orange-400'/> : null}
             {account_data.length > 0 && account_data[0].role === "Mod" ?<Star size={15} className='text-orange-400'/> : null}
@@ -108,6 +108,7 @@ export default function Navbar() {
           <p className="mx-2 my-1 text-[12px] truncate text-gray-500">{account_data.length > 0 ? account_data[0].email : "loading..."}</p>
           <Separator orientation="horizontal" className="w-full h-[1px] bg-gray-800"></Separator>
           <Button onClick={() => {redirect('/dashboard?section=account-settings')}} variant='outline' className="w-full bg-none h-[35px] mt-1 flex justify-start">Settings</Button>
+          <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] flex justify-start">Change MC Account</Button>
           <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] flex justify-start">Billing</Button>
           <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] hover:bg-red-500 flex justify-start">Logout</Button>
         </PopoverContent>
