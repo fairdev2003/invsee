@@ -1,14 +1,26 @@
 import { useWorkspaceStore } from "@/stores/workspace_store";
 import WorkspaceTabs from "../cards/WorkspaceTabs";
 import { Separator } from "@/components/ui/separator";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Workspace() {
 
     const { workspace, workspaces, setWorkspaces, setWorkspace }: any = useWorkspaceStore()
 
+    const [saveIndicator, setSaveIndicator] = useState<string>("Saved")
+
+
 
     const handleWorkspaceChange = async (value: string, name: string) => {
+
+        setSaveIndicator('Not saved yet...')
+
+
+        setTimeout(async () => {
+            setSaveIndicator('Saved')
+            
+        }, 2000)
 
         const workspace_copy = {...workspace}
 
@@ -33,7 +45,7 @@ export default function Workspace() {
                         <div className="flex items-center justify-between m-5">
                             <div className="flex gap-4 items-center">
                                 <h1 className="">{workspaces.length !== 0 ? `${workspace.name ? workspace.name: "No workspace selected"}` : "No Workspace Selected"}</h1>
-                                <p className="text-emerald-600 text-sm">{workspace.name ? "Saved" : null}</p>
+                                <p className={`${saveIndicator !== "Not saved yet..." ? "text-emerald-600" : "text-red-500"} text-sm flex gap-x-1 items-center`}>{saveIndicator !== "Not saved yet..." ? <Check className="text-emerald-600"/> : <X className="text-red-500"/>} {workspace.name ? saveIndicator : null}</p>
                             </div>
                             <div>
                                 {workspace.name ? <X className="cursor-pointer" onClick={async () => {
@@ -46,9 +58,9 @@ export default function Workspace() {
                         </div>
                         <Separator orientation="horizontal" className="bg-gray-800"/>
                         <h1 className="text-white text-[20px] m-5">{workspace.description}</h1>
-                        <div className="flex flex-col">
-                            <input placeholder="name" className="text-black w-[300px]" onChange={(s) => {handleWorkspaceChange(s?.currentTarget?.value, "name")}}></input>
-                            <input placeholder="description" className="text-black w-[300px]" onChange={(s) => {handleWorkspaceChange(s?.currentTarget?.value, "description")}}></input>
+                        <div className="flex flex-col ml-5 gap-4 text-sm">
+                            <input maxLength={30} value={workspace.name} placeholder="name" className="text-black w-[300px]" onChange={(s) => {handleWorkspaceChange(s?.currentTarget?.value, "name")}}></input>
+                            <input maxLength={60} value={workspace.description} placeholder="description" className="text-black w-[300px]" onChange={(s) => {handleWorkspaceChange(s?.currentTarget?.value, "description")}}></input>
                         </div>
                     </h1>
                 </div>
