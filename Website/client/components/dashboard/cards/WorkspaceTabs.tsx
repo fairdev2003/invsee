@@ -17,31 +17,30 @@ const WorkspaceTabs = () => {
     ]
 
     return (
+    <>
+    <input placeholder="name" className="text-black" ref={nameRef}></input>
+    <input placeholder="description" className="text-black" ref={descriptionRef}></input>
     <ScrollArea type="hover" className="text-white flex gap-x-2  mt-4 overflow-hidden bg-none border-gray-800 border-[1px] rounded-lg p-4">
         <div className="flex gap-x-4 px-2">
-            {/* <input placeholder="name" className="text-black" ref={nameRef}></input>
-            <input placeholder="description" className="text-black" ref={descriptionRef}></input> */}
+            
             {workspaces && workspaces.length > 0 ? workspaces.map((work: any, index: number) => {
                 return ( 
-                    <Button draggable variant='secondary' className={`p-1 px-2 flex gap-4 ${workspace === work ? "bg-blue-500 text-white" : "bg-white"}`} onClick={() => {
-                        setWorkspace(work)
+                    <Button draggable variant='secondary' className={`p-1 px-2 flex gap-4 ${workspace === work ? "bg-blue-500 text-white" : "bg-white"}`} onClick={async () => {
+                        await setWorkspace(work)
                     }}>
                         {work.name}
                         <Separator color="black" className='h-4' orientation="vertical"/>
-                        <X size={15} onClick={() => {
+                        <X size={15} onClick={async () => {
                             const new_workspaces = workspaces.filter((w: any) => w !== work)
-                            setWorkspaces(new_workspaces)
-                            setWorkspace(1)
+                            await setWorkspaces(new_workspaces)
+                            await setWorkspace(1)
                         }}/>
                     </Button>
                 )
             }) : null}
-            <Button variant='secondary' className="p-1 px-2 flex gap-4" onClick={() => {
-                const work = workspaces ? [...workspaces, {name: nameRef?.current?.value || `Tab ${workspaces.length + 1}` , description: descriptionRef?.current?.value || `Description ${workspaces.length + 1}`}] : [{name: `Workspace 1`, description: "Twoj tete 2"}];
-
-                addWorkspace(work);
-
-                
+            <Button variant='secondary' className="p-1 px-2 flex gap-4" onClick={async () => {
+                const work = workspaces ? [...workspaces, {name: nameRef?.current?.value || `Tab ${workspaces.length + 1}` , description: descriptionRef?.current?.value || `Description ${workspaces.length + 1}`, index: workspaces.length + 1}] : [{name: `Workspace 1`, description: "Twoj tete 2"}];
+                await addWorkspace(work);
                 
             }}>
                 Add Workspace
@@ -52,7 +51,8 @@ const WorkspaceTabs = () => {
         
         
         
-    </ScrollArea>)
+    </ScrollArea>
+    </>)
 };
 
 export default WorkspaceTabs;
