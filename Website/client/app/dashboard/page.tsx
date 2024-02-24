@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 
 import { FiDatabase, FiTool, FiTag, FiSmile } from "react-icons/fi";
@@ -19,10 +19,9 @@ import AuthError from "@/components/AuthError";
 import { MdOutlineGridOn } from "react-icons/md";
 
 function Dashboard() {
+  const { data: token, status } = useSession();
 
-  const { data: token, status } = useSession()
-
-  const { account_data, setAccountData }: any = useUserStore()
+  const { account_data, setAccountData }: any = useUserStore();
 
   const [admin, setAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -33,12 +32,14 @@ function Dashboard() {
 
   async function checkRole(id: any) {
     try {
-      const query = `http://localhost:3000/api/user?search_by=email&name=${id}`
+      const query = `http://localhost:3000/api/user?search_by=email&name=${id}`;
 
-      const response = await axios.get(
-        query,
+      const response = await axios.get(query);
+      setAdmin(
+        response.data[0].role === "Admin" ||
+          response.data[0].role === "Mod" ||
+          response.data[0].role === "Editor"
       );
-      setAdmin(response.data[0].role === "Admin" || response.data[0].role === "Mod" || response.data[0].role === "Editor");
     } catch (error) {
       console.error("Error checking role:", error);
     } finally {
@@ -46,46 +47,34 @@ function Dashboard() {
     }
   }
   const getUser = async (id: any) => {
-    
-      if (id === undefined) {
-        return;
-      } else {
-        const query = `http://localhost:3000/api/user?search_by=email&name=${id}`
-        console.log(query)
-        
-          try {
-            const response = await axios.get(
-              query,
-            );
-      
-            setData(response.data[0]);
-  
-            setAccountData(response.data);
-  
-            console.log("Zustand store: ", account_data);
-          } catch (error) {
-            console.error("Error checking role:", error);
-          } finally {
-            setLoading(false);
-          }
-          
-          
-        
-      }
+    if (id === undefined) {
+      return;
+    } else {
+      const query = `http://localhost:3000/api/user?search_by=email&name=${id}`;
+      console.log(query);
 
-    
-    
+      try {
+        const response = await axios.get(query);
+
+        setData(response.data[0]);
+
+        setAccountData(response.data);
+
+        console.log("Zustand store: ", account_data);
+      } catch (error) {
+        console.error("Error checking role:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   useEffect(() => {
-
     checkRole(token?.user?.email);
 
-    console.log("Token", token?.user?.email)
+    console.log("Token", token?.user?.email);
 
     getUser(token?.user?.email);
-
-
   }, [token?.user?.email]);
   useEffect(() => {
     if (searchParams.has("section")) {
@@ -94,24 +83,18 @@ function Dashboard() {
   }, [searchParams]);
 
   const redirectUser = async () => {
-
     setTimeout(() => {
-      redirect("/login")
-      
-    }, 1000)
+      redirect("/login");
+    }, 1000);
+  };
 
-  }
-
-  
   const RenderAdminPage = () => {
-    
-
     if (status !== "authenticated") {
-      redirect("/login")
+      redirect("/login");
       return;
-    } else {  
+    } else {
       return data ? (
-          
+        <Suspense fallback={<div>Loading...</div>}>
           <div className="">
             <div className="flex flex-wrap gap-5 justify-center">
               <div className="flex flex-col w-[18%] gap-4 h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-5">
@@ -126,7 +109,7 @@ function Dashboard() {
                     alt="profile-pick"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
                     onClick={() => {
-                      console.log(account_data)
+                      console.log(account_data);
                     }}
                   ></Image>
                   <div className="flex flex-col justify-start">
@@ -167,12 +150,16 @@ function Dashboard() {
                   <p>Crafting Recipes</p>
                 </DashboardSectionButton>
               </div>
-              <div className="w-[78%] h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-10 overflow-y-scroll" id="scroll_area">
+              <div
+                className="w-[78%] h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-10 overflow-y-scroll"
+                id="scroll_area"
+              >
                 {/* Box */}
                 <GetSection section={section}></GetSection>
               </div>
             </div>
           </div>
+        </Suspense>
       ) : null;
     }
   };
@@ -185,9 +172,11 @@ function Dashboard() {
             RenderAdminPage()
           ) : (
             <div className="flex justify-center items-center">
-              <AuthError reason="Auth Error" explaination="To access this page you need to login in"></AuthError>
+              <AuthError
+                reason="Auth Error"
+                explaination="To access this page you need to login in"
+              ></AuthError>
             </div>
-            
           )}
         </div>
       ) : (
