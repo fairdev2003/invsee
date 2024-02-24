@@ -16,13 +16,13 @@ export default function Workspace() {
                 <h1 className="text-white text-2xl font-[600] h-[570px] ">
                         <div className="flex items-center justify-between m-5">
                             <div className="flex gap-4 items-center">
-                                <h1 className="">{workspaces.length !== 0 ? `${workspace.name}` : "No Workspace Selected"}</h1>
-                                <p className="text-red-600 text-sm">{workspaces && workspaces.length > 0 ? "Not saved" : null}</p>
+                                <h1 className="">{workspaces.length !== 0 ? `${workspace.name ? workspace.name: "No workspace selected"}` : "No Workspace Selected"}</h1>
+                                <p className="text-red-600 text-sm">{workspace.name ? "Not saved" : null}</p>
                             </div>
                             <div>
                                 {workspaces && workspaces.length > 0 ? <X className="cursor-pointer" onClick={() => {
                                     console.log(workspaces)
-                                    const new_workspaces = workspaces.filter((w: any) => w !== workspaces[workspace])
+                                    const new_workspaces = workspaces.filter((w: any) => w.name !== workspace.name)
                                     setWorkspaces(new_workspaces)
                                     setWorkspace(0)
                                 }}/> : null}
