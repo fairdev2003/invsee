@@ -1,10 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
-import { redirect } from "next/navigation";
 import { connectMongo } from "../../mongo/mongo";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const options: NextAuthOptions = {
     providers: [

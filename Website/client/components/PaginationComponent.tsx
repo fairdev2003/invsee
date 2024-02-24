@@ -5,7 +5,6 @@ import {
   PaginationItem,
   PaginationLink,
 } from "./ui/pagination";
-import { Button } from "./ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -13,14 +12,12 @@ interface PaginationProps {
   getPageCount: (items: any) => number;
   items: any;
   className?: string;
-  number_of_items?: number;
 }
 
 export default function PaginationComponent({
   getPageCount,
   items,
   className,
-  number_of_items,
 }: PaginationProps) {
   const [page, setPage] = useState<number>(1);
 
@@ -33,7 +30,8 @@ export default function PaginationComponent({
   useEffect(
     function () {
       if (searchParams.has("section")) {
-        setSection(searchParams.get("section"));
+        setSection(searchParams.get("section"));        
+
       } else {
         setSection("overview");
       }

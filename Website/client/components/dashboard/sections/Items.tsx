@@ -418,7 +418,6 @@ export default function Items() {
           )}
           <PaginationComponent
             items={items}
-            number_of_items={getPageCount(items)}
             getPageCount={getPageCount}
           />
         </div>
