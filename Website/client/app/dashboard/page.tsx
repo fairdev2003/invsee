@@ -52,21 +52,25 @@ function Dashboard() {
       } else {
         const query = `http://localhost:3000/api/user?search_by=email&name=${id}`
         console.log(query)
+        
+          try {
+            const response = await axios.get(
+              query,
+            );
+      
+            setData(response.data[0]);
   
-        try {
-          const response = await axios.get(
-            query,
-          );
-    
-          setData(response.data[0]);
-
-          setAccountData(response.data);
-
-          console.log("Zustand store: ", account_data);
-        } catch (error) {
-          console.error("Error checking role:", error);
-        } finally {
-        }
+            setAccountData(response.data);
+  
+            console.log("Zustand store: ", account_data);
+          } catch (error) {
+            console.error("Error checking role:", error);
+          } finally {
+            setLoading(false);
+          }
+          
+          
+        
       }
 
     
@@ -125,7 +129,7 @@ function Dashboard() {
                       console.log(account_data)
                     }}
                   ></Image>
-                  <div>
+                  <div className="flex flex-col justify-start">
                     <p className="text-white font-[600] text-lg">{data.nick}</p>
                     <div className="flex gap-1">
                       <Crown className="h-5 w-5 text-orange-500"></Crown>

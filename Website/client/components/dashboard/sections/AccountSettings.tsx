@@ -1,11 +1,7 @@
 
 
 import Image from 'next/image';
-import PFP from '@/assets/Avatar.png';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { set } from 'mongoose';
 import { useUserStore } from '@/stores/user_store';
 import { Crown, Hammer, Star } from 'lucide-react';
 

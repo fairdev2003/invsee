@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { PopoverClose } from "@radix-ui/react-popover";
 import { Separator } from "@radix-ui/react-separator";
 import { Crown, Hammer, Star, StarOffIcon } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
@@ -110,6 +109,9 @@ export default function Navbar() {
           <Button onClick={() => {redirect('/dashboard?section=account-settings')}} variant='outline' className="w-full bg-none h-[35px] mt-1 flex justify-start">Settings</Button>
           <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] flex justify-start">Change MC Account</Button>
           <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] flex justify-start">Billing</Button>
+          <Button onClick={() => {
+            window.location.href = "/login"
+          }} variant='outline' className="w-full bg-none h-[35px] flex justify-start">Change Account</Button>
           <Button onClick={handleLogout} variant='outline' className="w-full bg-none h-[35px] hover:bg-red-500 flex justify-start">Logout</Button>
         </PopoverContent>
       </Popover> : null}

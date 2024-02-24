@@ -35,8 +35,22 @@ export async function POST(req: Request, res: Response){
     return NextResponse.json({message: "User created", user: user});
 }
 
-export async function PATCH(req: Request, res: Response){
+export async function PATCH(req: NextRequest, res: Response){
+    // UPDATE USER
 
+    const search_by = req.nextUrl.searchParams.get('search_by') as string;
+    const value = req.nextUrl.searchParams.get('value') as string;
+    const update = req.nextUrl.searchParams.get('update') as string;
+
+
+    const { data } = await req.json();
+
+    const client = await connectMongo();
+    const db = client.db("test");
+
+    const user = await db.collection("users").updateOne({[search_by]: value}, {$set: { [update]: data }})
+
+    return NextResponse.json({message: "User updated", update: update, data: user});
   
 }
 
