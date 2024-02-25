@@ -1,0 +1,99 @@
+// Database connection
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+// USER SCHEMA
+
+model User {
+    id                String      @id @default(auto()) @map("_id") @db.ObjectId
+    email             String      @unique
+    password          String
+    nick              String
+    firstName         String
+    lastName          String
+    role              String
+    connectedAccounts McAccount[]
+    createdAt         DateTime    @default(now())
+    updatedAt         DateTime    @updatedAt
+    items             Item[]
+    badges            Badge[]
+}
+
+// ACCOUNT SCHEMA (Connect Minecraft account to user)
+
+model McAccount {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    email  String @unique
+    author User   @relation(fields: [id], references: [id])
+}
+
+// Permissions enum (read, write, delete, update, etc...)
+
+enum Permissions {
+    READ
+    WRITE
+    DELETE
+    UPDATE
+    ALL
+}
+
+// Badge schema (example)
+
+model Badge {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    name   String
+    author User   @relation(fields: [id], references: [id])
+}
+
+// Item schema (example)
+
+model Item {
+    id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    name     String
+    tag_name String
+    tags     String[]
+    author   User     @relation(fields: [id], references: [id])
+    likes    Int      @default(0)
+}
+
+// Crafting table schema (example)
+
+model CraftingTable {
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+    type CraftingTypes
+}
+
+// Crafting types enum (example)
+
+enum CraftingTypes {
+    CRAFTING_2x2
+    CRAFTING_3x3
+
+    FURNANCE
+    BLAST_FURNANCE
+    SMOKER
+    BREWING
+    CARTOGRAPHY
+    STONECUTTER
+    LOOM
+    SMITHING
+    GRINDSTONE
+    ANVIL
+    ENCHANTING
+
+    MEKANISM_INFUSING
+    MEKANISM_CRUSHING
+    MEKANISM_SMELTING
+    MEKANISM_ENRICHING
+    MEKANISM_COMBINING
+    MEKANISM_SAWMILL
+    MEKANISM_PURIFYING
+    MEKANISM_COMPRESSING
+    MEKANISM_INJECTING
+    
+}
