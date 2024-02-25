@@ -1,3 +1,4 @@
+import Provider from '@/app/_trpc/TRPCProvider'
 import { AuthProvider } from '@/components/AuthProviders'
 import Navbar from '@/components/navbar'
 import type { Metadata } from 'next'
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body className={poppins.className}>
         <AuthProvider>
           <Navbar/>
-          { children }
+          <Provider>
+            { children }
+          </Provider>
         </AuthProvider>
           
       </body>
