@@ -1,7 +1,7 @@
 import { publicProcedure, router } from "./trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
-import { userRouter } from "./routes/trpc_user";
+import { userRouter } from "./routes/useUser";
 
 export const appRouter = router({
   getUsers: publicProcedure.query(async () => {
@@ -19,7 +19,7 @@ export const appRouter = router({
     .mutation(async (input) => {
       const { name, id } = input.input;
 
-      console.log(name, id);
+      console.log(name.substring( 0 , 24 ), id);
       return input;
     }),
     user: userRouter
