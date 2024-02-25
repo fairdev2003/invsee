@@ -4,20 +4,20 @@
 import React from 'react';
 
 import { trpc } from "@/app/_trpc/client";
+import { Button } from '@/components/ui/button';
 
 const Page =  () => {
   
-  const { data } = trpc.getUsers.useQuery();
+  const { data } = trpc.user.getUserByEmail.useQuery("kubaklimkiewicz1@gmail.com");
+  const addTodo = trpc.setTodos.useMutation();
+
+  const todoFunc = async () => {
+    await addTodo.mutateAsync({name: 'Jakubek Seks', id: 1})
+  }
 
   return (
-    <section className="p-10">
-        {data?.map((todo: any, _: number) => {
-          return (
-            <div key={_} className="mb-4">
-              <p className='text-white'>{JSON.stringify(todo)}</p>
-            </div>
-          )
-        })}
+    <section className="p-10 flex flex-col gap-y-6 text-white">
+        {data ? <h1>{data.nick}</h1> : <h1>Loading...</h1>}
     </section>
   );
 };
