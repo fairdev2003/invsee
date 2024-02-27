@@ -15,7 +15,7 @@ const Page =  () => {
   const allusers = trpc.user.getAllUsers.useQuery();
 
   const toods = trpc.getUsers.useQuery()
-  const add_user = trpc.setTodos.useMutation(
+  const add_user = trpc.getDate.useMutation(
     {onSettled: () => {
       toods.refetch()
     }}

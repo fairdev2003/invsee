@@ -5,7 +5,6 @@ import axios from "axios";
 
 import { FiDatabase, FiTool, FiTag, FiSmile } from "react-icons/fi";
 import { GrOverview } from "react-icons/gr";
-import PFP from "@/assets/Avatar.png";
 import Image from "next/image";
 
 import { useUserStore } from "@/stores/user_store";
@@ -36,7 +35,7 @@ function Dashboard() {
 
       const response = await axios.get(query);
       setAdmin(
-        response.data[0].role === "Admin" ||
+          response.data[0].role === "Admin" ||
           response.data[0].role === "Mod" ||
           response.data[0].role === "Editor"
       );
@@ -81,12 +80,6 @@ function Dashboard() {
       setsection(searchParams.get("section"));
     }
   }, [searchParams]);
-
-  const redirectUser = async () => {
-    setTimeout(() => {
-      redirect("/login");
-    }, 1000);
-  };
 
   const RenderAdminPage = () => {
     if (status !== "authenticated") {
