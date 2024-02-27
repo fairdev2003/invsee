@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/c
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger } from "@/components/ui/select"
 import axios from "axios"
 import Image from "next/image"
-import { Suspense, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useUserStore } from "@/stores/user_store"
 import { Lock, RefreshCcw } from "lucide-react"
-import { set } from "mongoose"
+import { trpc } from "@/app/_trpc/client"
+import Link from "next/link"
+
 
 
 const roles_with_access = ["Admin", "Mod", "Editor", "Owner"]
@@ -14,16 +16,22 @@ const roles_with_access = ["Admin", "Mod", "Editor", "Owner"]
 
 export const UsersWithAccess = () => {
 
-    const { account_data, setUsers, users }: any = useUserStore()
-    const [ state, setState ] = useState<string>('')
+    const { account_data, setUsers, users }: any = useUserStore();
+    const [ state, setState ] = useState<string>('');
+    const updateUserRole = trpc.user.updateUserRole.useMutation(
+        {
+            onSettled: () => {
+                fetch_users()
+            }
+        }
+    );
+    const add_log = trpc.log.addLog.useMutation();
 
     const fetch_users = async () => {
         
             const response = await axios.get('api/user')
 
             setUsers(response.data)
-            
-
             console.log(users)
 
     }
@@ -41,15 +49,15 @@ export const UsersWithAccess = () => {
             fetch_users()
         }
 
-        
     }, [])
 
 
     const handleRoleChange = async (value: string, email: string) => {
 
-        
-        const response = await axios.patch(`api/user?search_by=email&value=${email}&update=role`, {data: value});
-        console.log(response.data);
+        updateUserRole.mutate({email, role: value})
+        add_log.mutate({action: `Changed role to: ${value} for user with email: ${email}`, user: account_data[0].nick})
+
+        console.log(updateUserRole.data);
         setUsers([]);
         fetch_users();
         setState("Changed role to: " + value + " for user with email: " + email);
@@ -69,7 +77,7 @@ export const UsersWithAccess = () => {
                 </div>
                 
                 <CardDescription className="mt-1">Users with access to the dashboard</CardDescription>
-                <div className="flex flex-col gap-y-4 mt-4">
+                <div className="flex flex-col gap-y-4 mt-4 mb-4">
                     {users.length > 0 ? users.slice(0, 3).map((user: any, index: number) => {
                         return (
                             <div className="flex items-center bg-gray-900/50 p-3 rounded-lg relative" key={index + 1}>
@@ -78,16 +86,16 @@ export const UsersWithAccess = () => {
                                     <p className="text-[15px] font-medium">{user.nick} <span  className="text-blue-500">{account_data[0].nick === user.nick ? "You" : null}</span></p>
                                     <p className="text-[13px] opacity-50">{user.email}</p>
                                 </div>
-                                {account_data[0].nick !== user.nick && account_data[0].role !== user.role ?<Select onValueChange={(value) => {handleRoleChange(value, user.email)}}>
+                                { account_data[0].nick !== user.nick && account_data[0].role !== user.role ?<Select onValueChange={(value) => {handleRoleChange(value, user.email)}} >
                                 <SelectTrigger className="w-[180px] border-none" disabled={account_data[0].role !== "Admin"}>
                                     <Button variant='secondary' className="w-[100px]">{user.role}</Button>
                                 </SelectTrigger>
                                 <SelectContent className="bg-gray-900 text-white border-none">
                                     <SelectGroup>
                                         <SelectLabel>Roles</SelectLabel>
-                                        <SelectItem value="Admin">Admin</SelectItem>
-                                        <SelectItem value="Mod">Mod</SelectItem>
-                                        <SelectItem value="Editor">Editor</SelectItem>
+                                        {account_data[0].role == user.role ? <SelectItem disabled={user.role === "Admin" ? true : false} value="Admin">Admin</SelectItem> : null}
+                                        <SelectItem disabled={user.role === "Mod" ? true : false} value="Mod">Mod</SelectItem>
+                                        <SelectItem disabled={user.role === "Editor" ? true : false} value="Editor">Editor</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                                 </Select> : null}
@@ -97,7 +105,7 @@ export const UsersWithAccess = () => {
                     }) : null}
                     
                 </div>
-                {users.length > 0 ? <CardDescription className=" mt-3">and {users.length - 3} more...</CardDescription> : null}
+                {users.length > 0 ? <Link href='/dashboard?section=allies' className="hover:underline hover:text-blue-500">and { users.length - 3 } more...</Link> : null}
                 {state.length > 0 ? <CardDescription className=" mt-3 text-emerald-500">{state}</CardDescription> : null}
                 
             </CardContent> : <CardContent className="border-[2px] border-gray-900/50 rounded-md text-white p-5 w-[500px] mt-5 flex flex-col gap-1 justify-center items-center">
