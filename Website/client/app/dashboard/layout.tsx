@@ -4,6 +4,7 @@ import { Inter, Poppins } from 'next/font/google'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from '@/components/AuthProviders';
 import Provider from '../_trpc/TRPCProvider';
+import { Toaster } from 'sonner';
 
 
 const poppins = Poppins({ weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"], subsets: ["devanagari"], preload: true})
@@ -25,6 +26,7 @@ export default function RootLayout({
             <Provider>
               <Navbar/>
               {children}
+              
             </Provider>
           </AuthProvider>
       </body>
