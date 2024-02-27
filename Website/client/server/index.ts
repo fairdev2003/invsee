@@ -3,12 +3,27 @@ import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
 import { userRouter } from "./routes/useUser";
 import { logRouter } from "./routes/actionLog";
+import { itemsRouter } from "./routes/items";
 
 export const appRouter = router({
+  getOverviewStats: publicProcedure.query(async () => {
+    const client = await connectMongo();
+    const db = client.db("test");
+    const items = await db.collection("items").find().count();
+    const users = await db.collection("users").find().count();
+    const logs = await db.collection("logs").find().count();
+    const stats = {
+      items,
+      users,
+      logs
+    }
+    console.log("Count", stats);
+    return stats;
+  }),
   getUsers: publicProcedure.query(async () => {
     const client = await connectMongo();
     const db = client.db("test");
-    const collection = db
+    const collection = await db
       .collection("items")
       .find({}, { projection: { _id: 0 } })
       .toArray();
@@ -24,6 +39,7 @@ export const appRouter = router({
     }),
   user: userRouter,
   log: logRouter,
+  items: itemsRouter
   
    
 });

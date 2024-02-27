@@ -1,4 +1,5 @@
 import LogCard from "../cards/LogCard";
+import QuickStatsCard from "../cards/QuickStatsCard";
 import StatsCard from "../cards/StatsCard";
 import { UsersWithAccess } from "../cards/UsersWithAccess";
 
@@ -13,6 +14,7 @@ export default function Overview() {
                 <UsersWithAccess/>
                 <LogCard/>
                 <StatsCard/>
+                <QuickStatsCard/>
             </div>
         </div>
     )
