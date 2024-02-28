@@ -17,8 +17,14 @@ import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
 import { MdOutlineGridOn } from "react-icons/md";
 
+import { useLanguageStore } from "@/stores/language_store";
+import { translations } from "@/utils/translations";
+
+
 function Dashboard() {
   const { data: token, status } = useSession();
+
+  const { language } = useLanguageStore();
 
   const { account_data, setAccountData }: any = useUserStore();
 
@@ -117,30 +123,30 @@ function Dashboard() {
                 </DashboardSectionButton>
                 <DashboardSectionButton to="overview">
                   <GrOverview clasName="text-white" size={25}></GrOverview>
-                  <p>Overview</p>
+                  <p>{translations[language]["Dashboard"]["Overview"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="mods">
                   <FiDatabase clasName="text-white" size={25}></FiDatabase>
-                  <p>Mods</p>
+                  <p>{translations[language]["Dashboard"]["Mods"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="items">
                   <FiTool clasName="text-white" size={25}></FiTool>
-                  <p>Items</p>
+                  <p>{translations[language]["Dashboard"]["Items"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="tags">
                   <FiTag clasName="text-white" size={25}></FiTag>
-                  <p>Tags</p>
+                  <p>{translations[language]["Dashboard"]["Tags"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="allies">
                   <FiSmile clasName="text-white" size={25}></FiSmile>
-                  <p>Add Allies</p>
+                  <p>{translations[language]["Dashboard"]["Users"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="crafting">
                   <MdOutlineGridOn
                     clasName="text-white"
                     size={25}
                   ></MdOutlineGridOn>
-                  <p>Crafting Recipes</p>
+                  <p>{translations[language]["Dashboard"]["Crafting Recipes"]}</p>
                 </DashboardSectionButton>
               </div>
               <div

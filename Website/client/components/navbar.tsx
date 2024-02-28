@@ -21,6 +21,7 @@ import Polish from '@/assets/poland.svg';
 import English from '@/assets/english.svg';
 import { useLanguageStore } from "@/stores/language_store";
 import { set } from "mongoose";
+import { translations } from "@/utils/translations";
 
 export default function Navbar() {
   const { data: token, status } = useSession();
@@ -79,58 +80,58 @@ export default function Navbar() {
               href="/dashboard"
               className="text-white hover:text-blue-500 transition-colors"
             >
-              Dashboard
+              {translations[language]["Dashboard"]["Dashboard"]}
             </Link>
           </div>
         </div>
       ) : (
         <div className="flex items-center justify-between gap-x-3">
           <h1 className="text-white text-[25px] font-[600]">
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/dashboard">{translations[language]["Dashboard"]["Dashboard"]}</Link>
           </h1>
 
           <Link
             href="/dashboard?section=overview"
             className="text-[15px] hover:text-blue-500"
           >
-            Overview
+            {translations[language]["Dashboard"]["Overview"]}
           </Link>
           <Link
             href="/dashboard?section=workspace"
             className="text-[15px] hover:text-blue-500"
           >
-            Workspace
+            {translations[language]["Dashboard"]["Workspace"]}
           </Link>
           <Link
             href="/dashboard?section=allies"
             className="text-[15px] hover:text-blue-500"
           >
-            Users & Roles
+            {translations[language]["Dashboard"]["User & Roles"]}
           </Link>
         </div>
       )}
 
       <div className="flex items-center gap-x-4">
-        <Select>
-          <SelectTrigger className="w-[50px] h-[35px] border-none">
+        <Select >
+          <SelectTrigger className="w-[50px] h-[35px]">
             <Button variant="outline" className="w-[50px] h-[35px]">
               {language === "en" ? "English" : "Polish"}
             </Button>
           </SelectTrigger>
-          <SelectContent className="bg-black p-1 text-white border-none">
+          <SelectContent className="bg-black text-white border-none">
               <Button
                 onClick={() => {setLanguage("en")}}
-                variant="outline"
+                variant='outline'
                 className="w-full bg-none h-[35px] flex justify-start"
               >
-                ENGLISH
+                English
               </Button>
               <Button
                 onClick={() => {setLanguage("pl")}}
-                variant="outline"
+                variant='outline'
                 className="w-full bg-none h-[35px] flex justify-start"
               >
-                POLISH
+                Polish
               </Button>
           </SelectContent>
         </Select>
@@ -140,7 +141,7 @@ export default function Navbar() {
               <Avatar>
                 <AvatarImage
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
-                  alt="@shadcn"
+                  alt="@avatar"
                 />
                 <AvatarFallback className="bg-gray-800 text-white">
                   {account_data.length > 0
@@ -180,21 +181,21 @@ export default function Navbar() {
                 variant="outline"
                 className="w-full bg-none h-[35px] mt-1 flex justify-start"
               >
-                Settings
+                {translations[language]["Dashboard"]["Settings"]}
               </Button>
               <Button
                 onClick={handleLogout}
                 variant="outline"
                 className="w-full bg-none h-[35px] flex justify-start"
               >
-                Change MC Account
+                {translations[language]["Dashboard"]["Change MC Account"]}
               </Button>
               <Button
                 onClick={handleLogout}
                 variant="outline"
                 className="w-full bg-none h-[35px] flex justify-start"
               >
-                Billing
+                {translations[language]["Dashboard"]["Billing"]}
               </Button>
               <Button
                 onClick={() => {
@@ -203,14 +204,14 @@ export default function Navbar() {
                 variant="outline"
                 className="w-full bg-none h-[35px] flex justify-start"
               >
-                Change Account
+                {translations[language]["Dashboard"]["Change Account"]}
               </Button>
               <Button
                 onClick={handleLogout}
                 variant="outline"
                 className="w-full bg-none h-[35px] hover:bg-red-500 flex justify-start"
               >
-                Logout
+                {translations[language]["Dashboard"]["Logout"]}
               </Button>
             </PopoverContent>
           </Popover>
