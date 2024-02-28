@@ -115,7 +115,9 @@ export default function Navbar() {
         <Select >
           <SelectTrigger className="w-[50px] h-[35px]">
             <Button variant="outline" className="w-[50px] h-[35px]">
-              {language === "en" ? "English" : "Polish"}
+              {language === "en" ? "English" : null}
+              {language === "es" ? "Spanish" : null}
+              {language === "pl" ? "Polish" : null}
             </Button>
           </SelectTrigger>
           <SelectContent className="bg-black text-white border-none">
@@ -132,6 +134,13 @@ export default function Navbar() {
                 className="w-full bg-none h-[35px] flex justify-start"
               >
                 Polish
+              </Button>
+              <Button
+                onClick={() => {setLanguage("es")}}
+                variant='outline'
+                className="w-full bg-none h-[35px] flex justify-start"
+              >
+                Spanish
               </Button>
           </SelectContent>
         </Select>
