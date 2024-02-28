@@ -51,7 +51,7 @@ const LogCard = () => {
         </div>
 
         <CardDescription className="mt-1">
-          What actions user performed on the dashboard
+          {translations[language]["Dashboard"]["User Logs Desc"]}
         </CardDescription>
         <div className="flex flex-col gap-y-4 mt-4 mb-4">
             {!logs.isLoading ? logs.data?.slice(logs.data?.length - 3, logs.data?.length).map((log: any, index: number) => {
