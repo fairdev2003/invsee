@@ -29,9 +29,14 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
+import { translations } from "@/utils/translations";
+import { useLanguageStore } from "@/stores/language_store";
+
 const roles_with_access = ["Admin"];
 
 export const UsersWithAccess = () => {
+
+  const { language } = useLanguageStore()
   const { account_data, setUsers, users }: any = useUserStore();
   const [state, setState] = useState<string>("");
   const updateUserRole = trpc.user.updateUserRole.useMutation({
@@ -93,7 +98,7 @@ export const UsersWithAccess = () => {
           }`}
         >
           <div className="flex justify-between">
-            <CardTitle>User with access</CardTitle>
+            <CardTitle>{translations[language]["Dashboard"]["Users with access"]}</CardTitle>
             <TooltipProvider>
               <Tooltip >
                 <TooltipTrigger>
@@ -109,14 +114,14 @@ export const UsersWithAccess = () => {
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Refresh</p>
+                  <p>{translations[language]["Dashboard"]["Refresh"]}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
 
           <CardDescription className="mt-1">
-            Users with access to the dashboard
+          {translations[language]["Dashboard"]["Users with access desc"]}
           </CardDescription>
           <div className="flex flex-col gap-y-4 mt-4 mb-4">
             {users.length > 0
@@ -134,10 +139,10 @@ export const UsersWithAccess = () => {
                         className="rounded-lg w-[45px] h-[45px]"
                       ></Image>
                       <div className="flex flex-col w-[300px] ml-5">
-                        <p className="text-[15px] font-medium">
+                        <p className="text-[15px] font-medium flex gap-2">
                           {user.nick}{" "}
-                          <span className="text-blue-500">
-                            {account_data[0].nick === user.nick ? "You" : null}
+                          <span className="text-blue-500 flex">
+                            {account_data[0].nick === user.nick ? <>{translations[language]["Dashboard"]["You"]}</> : null}
                           </span>
                         </p>
                         <p className="text-[13px] opacity-50">{user.email}</p>
