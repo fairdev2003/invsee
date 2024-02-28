@@ -14,9 +14,14 @@ import { set } from "mongoose";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useUserStore } from "@/stores/user_store";
 
+import { useLanguageStore } from "@/stores/language_store";
+import { translations } from "@/utils/translations";
+
 const roles_with_access = ["Admin"];
 
 const LogCard = () => {
+
+  const { language } = useLanguageStore()
 
   const { account_data }: any = useUserStore();  
   const logs = trpc.log.getAllLogs.useQuery();
@@ -31,14 +36,14 @@ const LogCard = () => {
     <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[870px] mt-5 h-[390px]">
       {roles_with_access.includes(account_data[0].role) ? <CardContent>
         <div className="flex justify-between">
-          <CardTitle>User Logs</CardTitle>
+          <CardTitle>{translations[language]["Dashboard"]["User Logs"]}</CardTitle>
           <TooltipProvider>
              <Tooltip>
                 <TooltipTrigger>
                     <RefreshCcw className={`w-5 h-5 cursor-pointer  transition-colors hover:text-blue-500 ${logs.isLoading ? "animate-spin duration-1000 text-blue-500" : "text-white"}`} onClick={() => {handleRefresh()}}/>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Refresh</p>
+                    <p>{translations[language]["Dashboard"]["Refresh"]}</p>
                 </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -64,19 +69,17 @@ const LogCard = () => {
             );
 
             }) : null}
-            {!logs.isLoading && logs?.data.length > 3 ? <Link href='/dashboard?section=allies' className="hover:underline hover:text-blue-500 mb-0">and { logs?.data.length - 3 } more...</Link> : null}
+            {!logs.isLoading && logs?.data.length > 3 ? <Link href='/dashboard?section=allies' className="hover:underline hover:text-blue-500 mb-0">{translations[language]["Dashboard"]["and more"].replace("%s", logs?.data.length - 3 )}</Link> : null}
 
             
         </div>
       </CardContent> : <CardContent className="rounded-md text-white p-5 mt-5 flex flex-col gap-1 justify-center items-center">
           <div className="flex gap-2 items-center">
             <Lock className="text-red-500" />
-            <h2 className="text-red-500">No permission</h2>
+            <h2 className="text-red-500">{translations[language]["Dashboard"]["No permission"]}</h2>
           </div>
           <h3 className="text-gray-500 mt-1 text-sm text-center">
-            This content might be blocked because your role is too low. <br />
-            Try to log into account with <b>Admin</b> or above to access this
-            section!
+            {translations[language]["Dashboard"]["Permission error"]}
           </h3>
         </CardContent>}
     </Card>

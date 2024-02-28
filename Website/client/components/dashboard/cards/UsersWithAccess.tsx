@@ -139,7 +139,7 @@ export const UsersWithAccess = () => {
                         className="rounded-lg w-[45px] h-[45px]"
                       ></Image>
                       <div className="flex flex-col w-[300px] ml-5">
-                        <p className="text-[15px] font-medium flex gap-2">
+                        <p className="text-[15px] font-medium flex gap-1">
                           {user.nick}{" "}
                           <span className="text-blue-500 flex">
                             {account_data[0].nick === user.nick ? <>{translations[language]["Dashboard"]["You"]}</> : null}
@@ -201,7 +201,7 @@ export const UsersWithAccess = () => {
               href="/dashboard?section=allies"
               className="hover:underline hover:text-blue-500"
             >
-              and {users.length - 3} more...
+              {translations[language]["Dashboard"]["and more"].replace("%s", users?.length - 3 )}
             </Link>
           ) : null}
           {state.length > 0 ? (
@@ -214,12 +214,10 @@ export const UsersWithAccess = () => {
         <CardContent className="border-[2px] border-gray-900/50 rounded-md text-white p-5 w-[500px] h-[390px] mt-5 flex flex-col gap-1 justify-center items-center">
           <div className="flex gap-2 items-center">
             <Lock className="text-red-500" />
-            <h2 className="text-red-500">No permission</h2>
+            <h2 className="text-red-500">{translations[language]["Dashboard"]["No permission"]}</h2>
           </div>
           <h3 className="text-gray-500 mt-1 text-sm text-center">
-            This content might be blocked because your role is too low. <br />
-            Try to log into account with <b>Admin</b> or above to access this
-            section!
+          {translations[language]["Dashboard"]["Permission error"]}
           </h3>
         </CardContent>
       )}
