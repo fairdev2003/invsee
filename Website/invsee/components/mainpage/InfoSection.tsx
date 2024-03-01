@@ -41,7 +41,7 @@ const InfoSection = () => {
             <h1 className="text-2xl text-white font-[600]">{translations[language]["Mainpage"]["InfoSection"]["Card Title"]}</h1>
             <p className="mt-3">{translations[language]["Mainpage"]["InfoSection"]["Card Description"]}</p>
             <div className="bg-black w-full h-full my-5 rounded-xl">
-            {!data.isLoading && data.data && data.data.length > 0 !== null ? <div className="flex flex-col gap-2 mt-5 p-5 rounded-xl mb-5 justify-center items-center">
+            {!data.isLoading && data.data && data.data.length > 0 !== null ? <div className="flex flex-col gap-2 mt-10 p-5 rounded-xl mb-5 justify-center items-center">
               <p>{translations[language]["Mainpage"]["InfoSection"]["Served Data"]}</p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">item_name</span>: "{itemdata && itemdata.item_name !== null ? itemdata.item_name : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">tag_name</span>: "{itemdata && itemdata.tag_name ? itemdata.tag_name.replace("__", ":") : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>

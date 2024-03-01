@@ -17,14 +17,14 @@ import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
 import { MdOutlineGridOn } from "react-icons/md";
 
-import { useLanguageStore } from "@/stores/persist_store";
+import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 
 
 function Dashboard() {
   const { data: token, status } = useSession();
 
-  const { language } = useLanguageStore();
+  const { language } = usePersistStore();
 
   const { account_data, setAccountData }: any = useUserStore();
 

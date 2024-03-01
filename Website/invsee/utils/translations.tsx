@@ -56,6 +56,10 @@ export const translations: any = {
                 "Card Title": "Bądź na bieżąco!",
                 "Card Description": "Dostawaj świeże dane. Szukaj przedmiotu tutaj lub wykorzystaj nasze API do swojej aplikacji i daj czadu!",
                 "Served Data": "Oto dane serwowe:"
+            },
+            "LiveChatPresentSection": {
+                "How live chat works?": "Jak działa czat na żywo?",
+                "Live Chat Description": "Kiedy serwer ma zainstalowaną modyfikację, możesz przeglądać wiadomości, powiadamiać, jeśli gracz dołączył lub opuścił serwer. Gracze mogą udostępniać przedmioty na czacie, a przedmiot zostanie wyświetlony ze wszystkimi zaklęciami i innymi atrybutami danego przedmiotu (mana, energia). Idealna modyfikacja dla osób, które chcą komunikować się z innymi graczami, nie będąc bezpośrednio na serwerze. Poniżej zamieszczę kilka przykładów, jak to działa na podstawie moich testów:"
             }
         }
     },
@@ -116,6 +120,10 @@ export const translations: any = {
                 "Card Title": "Stay up to date!",
                 "Card Description": "Get fresh data. Search for item here or get our API to your application and make rock!",
                 "Served Data": "Server data:",
+            },
+            "LiveChatPresentSection": {
+                "How live chat works?": "How live chat works?",
+                "Live Chat Description": "When server has mod installed, you can view messages, notify if player joined or left. Players can share items on the chat and itemn will be displayed with all enchanments and stuff (mana, energy). Perfect mod for people who want to communicate with other players without being directly on the server. Below i will post some examples how it works from my tests:"
             }
         }
 
@@ -173,9 +181,14 @@ export const translations: any = {
                 "Description": "Los mods siempre han sido interesantes. No importa cuál sea tu mod favorito, siempre te proporcionaremos información completa sobre este artículo. También te proporcionaremos las últimas noticias sobre el artículo, ¿quieres saber más?",
                 "Search Mods": "Buscar mods",
                 "Search Items": "Buscar artículos",
+                "Search": "Buscar...",
                 "Card Title": "¡Mantente al día!",
                 "Card Description": "¡Obtén datos frescos. Busca el artículo aquí o consigue nuestra API para tu aplicación y haz que rockee!",
                 "Served Data": "Datos del servidor:",
+            },
+            "LiveChatPresentSection": {
+                "How live chat works?": "¿Cómo funciona el chat en vivo?",
+                "Live Chat Description": "Cuando el servidor tiene instalado el mod, puedes ver mensajes, notificar si un jugador se unió o se fue. Los jugadores pueden compartir artículos en el chat y el artículo se mostrará con todos los encantamientos y cosas (mana, energía). Mod perfecto para personas que quieren comunicarse con otros jugadores sin estar directamente en el servidor. A continuación, publicaré algunos ejemplos de cómo funciona a partir de mis pruebas:"
             }
         }
     }

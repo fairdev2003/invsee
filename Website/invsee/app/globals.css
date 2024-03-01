@@ -12,6 +12,22 @@
 }
 
 
+
+body::-webkit-scrollbar {
+  width: 12px;
+  display: none;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  display: none;       /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: none;  /* color of the scroll thumb */
+  border-radius: 20px;   
+  display:none    /* roundness of the scroll thumb */;  /* creates padding around scroll thumb */
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 50px;
