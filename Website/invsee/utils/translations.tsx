@@ -55,11 +55,33 @@ export const translations: any = {
                 "Search Items": "Szukaj przedmiotów",
                 "Card Title": "Bądź na bieżąco!",
                 "Card Description": "Dostawaj świeże dane. Szukaj przedmiotu tutaj lub wykorzystaj nasze API do swojej aplikacji i daj czadu!",
-                "Served Data": "Oto dane serwowe:"
+                "Served Data": "Oto dane serwowe:",
+                "Easy to use": "łatwy w użyciu",
+                "Search live items": "szukaj aktualizowanych na bieżąco przedmiotów",
             },
             "LiveChatPresentSection": {
                 "How live chat works?": "Jak działa czat na żywo?",
                 "Live Chat Description": "Kiedy serwer ma zainstalowaną modyfikację, możesz przeglądać wiadomości, powiadamiać, jeśli gracz dołączył lub opuścił serwer. Gracze mogą udostępniać przedmioty na czacie, a przedmiot zostanie wyświetlony ze wszystkimi zaklęciami i innymi atrybutami danego przedmiotu (mana, energia). Idealna modyfikacja dla osób, które chcą komunikować się z innymi graczami, nie będąc bezpośrednio na serwerze. Poniżej zamieszczę kilka przykładów, jak to działa na podstawie moich testów:"
+            },
+            "ApiSection": {
+                "ApiSectionTitle": "Użycie naszego API!",
+                "ApiSectionDescription": "Nasze API jest dostępne dla każdego, kto chce wykorzystać nasze dane w swojej aplikacji. Dostarczamy pełne dane na temat przedmiotów, modyfikacji, tagów i wiele więcej! Wszystko to w jednym miejscu. Wystarczy, że skontaktujesz się z nami, a my dostarczymy Ci klucz API, który pozwoli Ci na korzystanie z naszych danych!",
+                "Retrieve Player Data": "Wykorzastaj dane gracza",
+                "All players data": "Pobierz wszystkie dane graczy",
+                "Get Logistical Storage (AE2, Refined Storage)": "Pobierz dane z logistycznego systemu (AE2, Refined Storage)",
+                "Get item info": "Wykorzystaj informacje o przedmiocie",
+                "Get author info": "Wykorzystaj informacje o autorze",
+                "Get mod info": "Wykorzystaj informacje o modyfikacji",
+            },
+            "ComingSoonSection": {
+                "Hyped for more?": "Jesteś gotowy na więcej?",
+                "ComingSoonDescription": "Pracujemy nad kolejnymi funkcjami i ulepszeniami, aby Twoje doświadczenie było lepsze. Naszym celem jest sprawienie, aby wspólne granie było lepsze niż kiedykolwiek wcześniej. Na naszej liście do zrobienia mamy system handlu z graczami - możesz kupować/sprzedawać przedmioty bezpośrednio na stronie, nawet nie będąc na serwerze. Kolejną rzeczą jest ułatwienie moderacji serwera, gdy nie jesteś online - banowanie/wyrzucanie graczy, sprawdzanie, czy serwer jest online zdalnie na swoim telefonie. Bądźcie czujni na nowe aktualizacje!"
+            },
+            "AccountSection": {
+                "Title": "Kilka serwerów? Nie ma problemu!",
+                "Description": "Możesz przechodzisz pomiędzy kontami jednym kliknięciem. Nie ma potrzeby do logowania sie kilka razy. Co nie że super?",
+                "ArrowTooltip": "Jesteś obecnie zalogowany na to konto!",
+                "Server": "Serwer"
             }
         }
     },
@@ -120,10 +142,32 @@ export const translations: any = {
                 "Card Title": "Stay up to date!",
                 "Card Description": "Get fresh data. Search for item here or get our API to your application and make rock!",
                 "Served Data": "Server data:",
+                "Easy to use": "easy to use",
+                "Search live items": "search live updated items",
             },
             "LiveChatPresentSection": {
                 "How live chat works?": "How live chat works?",
                 "Live Chat Description": "When server has mod installed, you can view messages, notify if player joined or left. Players can share items on the chat and itemn will be displayed with all enchanments and stuff (mana, energy). Perfect mod for people who want to communicate with other players without being directly on the server. Below i will post some examples how it works from my tests:"
+            },
+            "ApiSection": {
+                "ApiSectionTitle": "API Usage",
+                "ApiSectionDescription": "Our API is available for everyone who wants to use our data in their application. We provide full data about items, mods, tags and many more! All in one place. Just contact us and we will provide you API key that will allow you to use our data!",
+                "Retrieve Player Data": "Retrieve player data",
+                "All players data": "Get all players inforamtion",
+                "Get Logistical Storage (AE2, Refined Storage)": "Get Logistical Storage (AE2, Refined Storage)",
+                "Get item info": "Get item info",
+                "Get author info": "Get author info",
+                "Get mod info": "Get mod info",
+            },
+            "ComingSoonSection": {
+                "Hyped for more?": "Hyped for more?",
+                "ComingSoonDescription": "We are working on more features and improvements to make your experience better. Our idea is to make playing together more fun than ever before. In our checklist we have player trading system - you can buy/sell item direclty on the page without being even on the server. Next thing is to make server moderation more accesible when you are not online - ban/kick players, check if server is online remotely on your phone. Stay tuned!"
+            }, 
+            "AccountSection": {
+                "Title": "Multiple servers? No problem!",
+                "Description": "You can switch between servers with just one click. No need to re-enter your credentials. How cool is that!",
+                "ArrowTooltip": "You are currently logged in to this account!",
+                "Server": "Server"
             }
         }
 
@@ -185,10 +229,32 @@ export const translations: any = {
                 "Card Title": "¡Mantente al día!",
                 "Card Description": "¡Obtén datos frescos. Busca el artículo aquí o consigue nuestra API para tu aplicación y haz que rockee!",
                 "Served Data": "Datos del servidor:",
+                "Easy to use": "fácil de usar",
+                "Search live items": "buscar artículos actualizados en vivo",
             },
             "LiveChatPresentSection": {
                 "How live chat works?": "¿Cómo funciona el chat en vivo?",
                 "Live Chat Description": "Cuando el servidor tiene instalado el mod, puedes ver mensajes, notificar si un jugador se unió o se fue. Los jugadores pueden compartir artículos en el chat y el artículo se mostrará con todos los encantamientos y cosas (mana, energía). Mod perfecto para personas que quieren comunicarse con otros jugadores sin estar directamente en el servidor. A continuación, publicaré algunos ejemplos de cómo funciona a partir de mis pruebas:"
+            }, 
+            "ApiSection": {
+                "ApiSectionTitle": "Uso de la API",
+                "ApiSectionDescription": "Nuestra API está disponible para todos los que quieran usar nuestros datos en su aplicación. ¡Proporcionamos datos completos sobre artículos, mods, etiquetas y muchos más! Todo en un solo lugar. ¡Solo contáctanos y te proporcionaremos una clave de API que te permitirá usar nuestros datos!",
+                "Retrieve Player Data": "Recuperar datos del jugador",
+                "All players data": "Obtener toda la información de los jugadores",
+                "Get Logistical Storage (AE2, Refined Storage)": "Obtener almacenamiento logístico (AE2, Refined Storage)",
+                "Get item info": "Obtener información del artículo",
+                "Get author info": "Obtener información del autor",
+                "Get mod info": "Obtener información del mod",
+            },
+            "ComingSoonSection": {
+                "Hyped for more?": "¿Emocionado por más?",
+                "ComingSoonDescription": "Estamos trabajando en más funciones y mejoras para hacer tu experiencia mejor. Nuestra idea es hacer que jugar juntos sea más divertido que nunca. En nuestra lista de tareas pendientes tenemos un sistema de comercio de jugadores: puedes comprar/vender artículos directamente en la página sin siquiera estar en el servidor. La siguiente cosa es hacer que la moderación del servidor sea más accesible cuando no estás en línea: prohibir/expulsar jugadores, comprobar si el servidor está en línea de forma remota en tu teléfono. ¡Mantente atento!"
+            }, 
+            "AccountSection": {
+                "Title": "¿Múltiples servidores? ¡No hay problema!",
+                "Description": "Puedes cambiar entre servidores con solo un clic. No es necesario volver a ingresar tus credenciales. ¡Qué genial es eso!",
+                "ArrowTooltip": "¡Actualmente has iniciado sesión en esta cuenta!",
+                "Server": "Servidor"
             }
         }
     }

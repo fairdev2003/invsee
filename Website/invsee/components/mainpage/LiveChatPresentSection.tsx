@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Presentation from "@/assets/live_chat_presentation.webp";
 import Presentation2 from "@/assets/live_chat_presentation_2.webp"
