@@ -7,6 +7,8 @@ import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 import Image from "next/image";
 import Arrow from "@/assets/curly-arrow-2.png";
+import { motion } from "framer-motion";
+import { set } from "mongoose";
 
 const InfoSection = () => {
 
@@ -52,13 +54,13 @@ const InfoSection = () => {
             <h1 className="text-2xl text-white font-[600]">{translations[language]["Mainpage"]["InfoSection"]["Card Title"]}</h1>
             <p className="mt-3">{translations[language]["Mainpage"]["InfoSection"]["Card Description"]}</p>
             <div className="bg-black w-full h-full my-5 rounded-xl">
-            {!data.isLoading && data.data && data.data.length > 0 !== null ? <div className="flex flex-col gap-2 mt-10 p-5 rounded-xl mb-5 justify-center items-center">
+            {itemdata && !data.isLoading && data.data && data.data.length > 0 !== null ? <motion.div initial={{opacity: 0, x: -100}} animate={{opacity: 1, x: 0}} transition={{duration: 0.5}} key={itemdata} className="flex flex-col gap-2 mt-10 p-5 rounded-xl mb-5 justify-center items-center">
               <p>{translations[language]["Mainpage"]["InfoSection"]["Served Data"]}</p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">item_name</span>: "{itemdata && itemdata.item_name !== null ? itemdata.item_name : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">tag_name</span>: "{itemdata && itemdata.tag_name ? itemdata.tag_name.replace("__", ":") : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">short_description</span>: "{itemdata && itemdata.short_description && itemdata.short_description.length > 0 ? itemdata.short_description : <span className="text-red-500">No data</span>}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod && itemdata.mod.length > 0 ? itemdata.mod[0].mod_name : "Minecraft"}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
-            </div> : <p className="flex justify-center items-center mt-10">{translations[language]["Dashboard"]["Loading"]}</p>}
+            </motion.div> : null}
             </div>
           </div>
           <div className="w-[40%] rounded-r-lg h-full flex text-start justify-start p-5 flex-col">
@@ -70,7 +72,17 @@ const InfoSection = () => {
             <div className="flex flex-col gap-4 mt-4">
               {!data.isLoading && data.data ? data.data.map((item: any, index: number) => {
                   return (
-                    <div onClick={() => {setItemData(item)}} className={`text-white hover:translate-x-3 transition-all cursor-pointer ${itemdata === item ? "bg-blue-700 translate-x-3" : "bg-blue-500"} h-[90px] rounded-lg p-5 flex items-center gap-5 truncate`}>
+
+                    <div onClick={() => {
+                      if (item === itemdata) {
+                        setItemData(item);
+                      } else {
+                        setItemData(null)
+                        setTimeout(() => {
+                          setItemData(item);
+                        }, 10)
+                      }                  
+                      }} className={`text-white hover:translate-x-3 transition-all cursor-pointer ${itemdata === item ? "bg-blue-700 translate-x-3" : "bg-blue-500"} h-[90px] rounded-lg p-5 flex items-center gap-5 truncate`}>
                       <Image
                       src={`/mc_assets/${item.tag_name.split("__")[0]}/${
                         item.tag_name

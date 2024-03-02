@@ -59,9 +59,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="max-w-[2000px] flex items-center justify-between px-5 py-5 text-white border-b-gray-800 border-b-[1px] mx-7 h-[75px] mb-3 sticky top-0 z-50 bg-black rounded-b-lg">
+    <nav className="w-ull flex items-center justify-between text-white border-b-gray-800 border-b-[1px] h-[75px] gap-10 px-5 sticky top-0 z-50 bg-black">
       {!isLogged ? (
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <h1 className="text-white text-[25px] font-[600]">
             <Link href="/">Minecraft Wiki</Link>
           </h1>
@@ -81,7 +81,7 @@ export default function Navbar() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-between gap-x-3">
+        <div className="w-[2000px] flex items-center justify-between gap-x-3">
           <h1 className="text-white text-[25px] font-[600]">
             <Link href="/dashboard">{translations[language]["Dashboard"]["Dashboard"]}</Link>
           </h1>
