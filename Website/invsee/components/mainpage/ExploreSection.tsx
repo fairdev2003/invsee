@@ -20,7 +20,7 @@ const ExploreSection = () => {
         <Image alt={"SVG"} className="absolute -top-[200px] -left-[500px]" height={200} width={200} src={Meatball}></Image>
         <Image alt={"SVG"} className="absolute top-[100px] left-[800px]" height={200} width={200} src={Meatball}></Image>
         <Image alt={"SVG"} className="absolute -top-[250px] left-[1000px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute top-[450px] left-[1000px]" height={200} width={200} src={Meatball}></Image>
+        <Image alt={"SVG"} className="absolute top-[350px] left-[1000px]" height={200} width={200} src={Meatball}></Image>
         <Image alt={"SVG"} className="absolute top-[600px] -left-[500px]" height={200} width={200} src={Meatball}></Image>
         <Image alt={"SVG"} className="absolute top-[160px] -left-[50px]" height={200} width={200} src={Meatball}></Image>
         <h1 className="text-4xl text-white font-[700] w-[700px] text-center mt-10 tracking-wider">

@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Presentation from "@/assets/live_chat_presentation.webp";
 import Presentation2 from "@/assets/live_chat_presentation_2.webp"
+import Presentation3 from "@/assets/live_chat_presentation_3.webp"
 import { usePersistStore } from "@/stores/persist_store";
+
 import { translations } from "@/utils/translations";
 
 const LiveChatPresentSection = () => {
@@ -23,8 +25,9 @@ const LiveChatPresentSection = () => {
             </div>
             <div className="live-chat-present-section__container__content">
             <div className="flex flex-col gap-5 justify-center items-center">
-                <Image src={Presentation} alt="live-chat-present" />
-                <Image src={Presentation2} alt="live-chat-present" />
+                <Image src={Presentation} alt="live-chat-present_1" />
+                <Image src={Presentation2} alt="live-chat-present_2" />
+                <Image src={Presentation3} alt="live-chat-present_3" />
             </div>
             </div>
         </div>
