@@ -94,8 +94,8 @@ function Dashboard() {
     } else {
       return data ? (
         <Suspense fallback={<div>Loading...</div>}>
-          <div className="">
-            <div className="flex flex-wrap gap-5 justify-center">
+          <div className="mt-10">
+            <div className="flex flex-wrap gap-5 justify-center mt-10">
               <div className="flex flex-col w-[18%] gap-4 h-[86vh] bg-none border-[1.5px] border-gray-800 rounded-xl p-5">
                 <DashboardSectionButton
                   to="account-settings"
