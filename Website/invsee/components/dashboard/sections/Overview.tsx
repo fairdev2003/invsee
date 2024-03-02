@@ -3,11 +3,11 @@ import QuickStatsCard from "../cards/QuickStatsCard";
 import StatsCard from "../cards/StatsCard";
 import { UsersWithAccess } from "../cards/UsersWithAccess";
 
-import { useLanguageStore } from "@/stores/persist_store";
+import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 
 export default function Overview() {
-    const { language } = useLanguageStore()
+    const { language } = usePersistStore()
 
 
     return (

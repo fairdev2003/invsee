@@ -1,9 +1,12 @@
+'use client'
+
 import React, { useEffect } from "react";
 import { Input } from "../ui/input";
 import { trpc } from "@/app/_trpc/client";
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 import Image from "next/image";
+import Arrow from "@/assets/curly-arrow-2.png";
 
 const InfoSection = () => {
 
@@ -24,7 +27,15 @@ const InfoSection = () => {
   }, [])
 
   return (
-    <div className="flex justify-center items-center text-white">
+    <div className="flex justify-center items-center text-white relative z-2">
+      <div className="absolute top-[120px] right-0">
+          <Image src={Arrow} className="rotate-90" alt="iron_ingot" width={100} height={100}></Image>
+          <p className="text-white absolute top-[60px] left-[140px] text-start w-[400px]">{translations[language]["Mainpage"]["InfoSection"]["Search live items"]}</p>
+      </div>
+      <div className="absolute top-[150px] -left-[120px]">
+          <Image src={Arrow} id='arrow-2' className="" alt="iron_ingot" width={100} height={100}></Image>
+          <p className="text-white absolute top-[120px] -left-10">{translations[language]["Mainpage"]["InfoSection"]["Easy to use"]}</p>
+      </div>
       <div className="flex text-center items-center flex-col gap-y-3 justify-center">
         <h1 className={`text-${color} font-[700] text-[40px] mt-10`}>
           {translations[language]["Mainpage"]["InfoSection"]["How about mods?"]}
