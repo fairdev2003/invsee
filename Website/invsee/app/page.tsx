@@ -11,6 +11,7 @@ import LiveChatPresentSection from '@/components/mainpage/LiveChatPresentSection
 import ApiComponent from '@/components/mainpage/ApiSection';
 import MoreComingComponent from '@/components/mainpage/MoreComingSection';
 import AccountSwitchComponent from '@/components/mainpage/SwitchExplainSection';
+import AboutMeSection from '@/components/dashboard/sections/AboutAuthorSection';
 
 export default async function Home() {
   return (
@@ -21,6 +22,7 @@ export default async function Home() {
       <ApiComponent/>
       <AccountSwitchComponent/>
       <MoreComingComponent/>
+      <AboutMeSection/>
     </main>
   )
 }
