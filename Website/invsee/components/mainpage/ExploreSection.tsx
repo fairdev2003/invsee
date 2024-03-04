@@ -13,17 +13,11 @@ const ExploreSection = () => {
   const { language } = usePersistStore();
   return (
     <div
-      className="flex flex-col items-center justify-center w-full h-[600px] relative"
-      
+      className="flex flex-col sm:p-10 items-center justify-center w-full h-[600px] sm:text-md relative"
+      id='explore_section'
     >
       <div className="flex flex-col items-center bg-black rounded-lg p-5 relative">
-        <Image alt={"SVG"} className="absolute -top-[200px] -left-[500px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute top-[100px] left-[800px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute -top-[250px] left-[1000px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute top-[350px] left-[1000px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute top-[600px] -left-[500px]" height={200} width={200} src={Meatball}></Image>
-        <Image alt={"SVG"} className="absolute top-[160px] -left-[50px]" height={200} width={200} src={Meatball}></Image>
-        <h1 className="text-4xl text-white font-[700] w-[700px] text-center mt-10 tracking-wider">
+        <h1 className="text-4xl text-white font-[700] max-w-[700px] text-center mt-10 tracking-wider">
         {translations[language]["Mainpage"]["ExploreSection"]["Explore you favorite"]}{" "}
           <span className="p-1 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {translations[language]["Mainpage"]["ExploreSection"]["Mods"]}
