@@ -106,7 +106,7 @@ function Dashboard() {
                     height={60}
                     className="rounded-full"
                     alt="profile-pick"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
+                    src={data.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}
                     onClick={() => {
                       console.log(account_data);
                     }}

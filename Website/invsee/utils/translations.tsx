@@ -1,6 +1,19 @@
 export const translations: any = {
     "pl": {
         "Dashboard": {
+            "Added Chart": {
+                "Modders added": "Dodani modderzy",
+                "Items added": "Dodane przedmioty",
+                "Tags added": "Dodane tagi",
+                "Mods added": "Dodane mody",
+                "Monday": "Poniedziałek",
+                "Tuesday": "Wtorek",
+                "Wednesday": "Środa",
+                "Thursday": "Czwartek",
+                "Friday": "Piątek",
+                "Saturday": "Sobota",
+                "Sunday": "Niedziela",
+            },
             "Overview": "Przegląd",
             "Dashboard": "Panel",
             "English": "Angielski",
@@ -82,11 +95,28 @@ export const translations: any = {
                 "Description": "Możesz przechodzisz pomiędzy kontami jednym kliknięciem. Nie ma potrzeby do logowania sie kilka razy. Co nie że super?",
                 "ArrowTooltip": "Jesteś obecnie zalogowany na to konto!",
                 "Server": "Serwer"
+            },
+            "AboutMeSection": {
+                "Title": "O autorze",
+                "Description": "Hej, nazywam się Jakub. Moją pasją jest programowanie aplikacji fullstackowych. Aktualnie mieszkam w Polsce . Lubię tworzyć nowe projekty i uczyć się nowych technologii. Ten projekt jest moim największym. Chcę, aby ta strona była komercyjna co za tym idzie chciałbym kazdą rzecz dopiąć na ostatny guzik. W trakcie rozwoju będę zamieszczał informacje o postępach na Twitterze, więc jeśli jesteś zainteresowany, sprawdź moje linki poniżej!"
             }
         }
     },
     "en": {
         "Dashboard": {
+            "Added Chart": {
+                "Modders added": "Modders added",
+                "Items added": "Items added",
+                "Tags added": "Tags added",
+                "Mods added": "Mods added",
+                "Monday": "Monday",
+                "Tuesday": "Tuesday",
+                "Wednesday": "Wednesday",
+                "Thursday": "Thursday",
+                "Friday": "Friday",
+                "Saturday": "Saturday",
+                "Sunday": "Sunday",
+            },
             "Users": "Users",
             "English": "English",
             "Polish": "Polish",
@@ -168,12 +198,29 @@ export const translations: any = {
                 "Description": "You can switch between servers with just one click. No need to re-enter your credentials. How cool is that!",
                 "ArrowTooltip": "You are currently logged in to this account!",
                 "Server": "Server"
+            },
+            "AboutMeSection": {
+                "Title": "About Author",
+                "Description": "Hey, my name is Jakub. Im pasionate fullstack developer from Poland. I do like make new projects. This project is my biggest. I want to make this website smooth. Along the development i will post news about progress on Twitter so if you are hyped, check my links below!"
             }
         }
 
     },
     "es": {
         "Dashboard": {
+            "Added Chart": {
+                "Modders added": "Modders añadidos",
+                "Items added": "Artículos añadidos",
+                "Tags added": "Etiquetas añadidas",
+                "Mods added": "Mods añadidos",
+                "Monday": "Lunes",
+                "Tuesday": "Martes",
+                "Wednesday": "Miércoles",
+                "Thursday": "Jueves",
+                "Friday": "Viernes",
+                "Saturday": "Sábado",
+                "Sunday": "Domingo",
+            }, 
             "Users": "Usuarios",
             "English": "Inglés",
             "Polish": "Polaco",
@@ -255,6 +302,10 @@ export const translations: any = {
                 "Description": "Puedes cambiar entre servidores con solo un clic. No es necesario volver a ingresar tus credenciales. ¡Qué genial es eso!",
                 "ArrowTooltip": "¡Actualmente has iniciado sesión en esta cuenta!",
                 "Server": "Servidor"
+            },
+            "AboutMeSection": {
+                "Title": "Sobre el autor",
+                "Description": "¡Hola, mi nombre es Jakub. Soy un apasionado desarrollador fullstack de Polonia. Me gusta hacer nuevos proyectos. Este proyecto es el más grande. Quiero que este sitio web sea suave. A lo largo del desarrollo, publicaré noticias sobre el progreso en Twitter, así que si estás emocionado, ¡mira mis enlaces a continuación!"
             }
         }
     }

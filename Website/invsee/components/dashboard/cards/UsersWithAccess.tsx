@@ -133,7 +133,7 @@ export const UsersWithAccess = () => {
                     >
                       <Image
                         alt="profile image"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
+                        src={user.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}
                         width={100}
                         height={100}
                         className="rounded-lg w-[45px] h-[45px]"

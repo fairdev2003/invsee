@@ -145,7 +145,7 @@ export default function Navbar() {
             <PopoverTrigger>
               <Avatar>
                 <AvatarImage
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk"
+                  src={account_data[0]?.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}
                   alt="@avatar"
                 />
                 <AvatarFallback className="bg-gray-800 text-white">
