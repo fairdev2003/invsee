@@ -12,6 +12,7 @@ import ApiComponent from '@/components/mainpage/ApiSection';
 import MoreComingComponent from '@/components/mainpage/MoreComingSection';
 import AccountSwitchComponent from '@/components/mainpage/SwitchExplainSection';
 import AboutMeSection from '@/components/dashboard/sections/AboutAuthorSection';
+import Footer from '@/components/footer';
 
 export default async function Home() {
   return (
@@ -23,6 +24,7 @@ export default async function Home() {
       <AccountSwitchComponent/>
       <MoreComingComponent/>
       <AboutMeSection/>
+      <Footer/>
     </main>
   )
 }

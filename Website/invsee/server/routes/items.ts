@@ -1,10 +1,14 @@
 import { publicProcedure, router } from "../trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
-import { PrismaClient } from "@prisma/client";
-import { db } from "@/prisma/prisma";
+import Item from "../db/schemas/ItemSchema";
 
 export const itemsRouter = router({
+  get_all: publicProcedure
+    .query(async () => {
+      const items = await Item.find({})
+      return items;
+    }),
   getItemByQuery: publicProcedure
     .input(z.string().max(100))
     .mutation(async (input) => {
@@ -50,5 +54,5 @@ export const itemsRouter = router({
         console.log("mutation: ", collection);
         return collection.slice(0,3);
       }
-    }),
+    }),  
 });

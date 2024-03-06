@@ -73,7 +73,7 @@ export default function Login() {
 
   return (
     <AuthProvider>
-      <section className="flex items-center justify-center">
+      <section className="mt-5 mt flex items-center justify-center">
         <div className="w-[500px] h-[auto] bg-gray-900/60 rounded-xl p-10">
           <div className="flex flex-col justify-center gap-4 items-center">
             <Image

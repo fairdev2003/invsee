@@ -25,9 +25,9 @@ const LiveChatPresentSection = () => {
             </div>
             <div className="live-chat-present-section__container__content">
             <div className="flex flex-col gap-5 justify-center items-center px-10">
-                <Image src={Presentation} alt="live-chat-present" id="live-chat-present" className="md:w-[50%] sm:w-[50%] h-auto lg:w-full"/>
-                <Image src={Presentation2} alt="live-chat-present" id="live-chat-present" className="md:w-[50%] sm:w-[50%] h-auto lg:w-full"/>
-                <Image src={Presentation3} alt="live-chat-present" id="live-chat-present" className="md:w-[50%] sm:w-[50%] h-auto lg:w-full"/>
+                <Image src={Presentation} alt="live-chat-present" id="live-chat-present" className="md:w-[70%] sm:w-[50%] h-auto lg:w-full"/>
+                <Image src={Presentation2} alt="live-chat-present" id="live-chat-present" className="md:w-[70%] sm:w-[50%] h-auto lg:w-full"/>
+                <Image src={Presentation3} alt="live-chat-present" id="live-chat-present" className="md:w-[70%] sm:w-[50%] h-auto lg:w-full"/>
             </div>
             </div>
         </div>
