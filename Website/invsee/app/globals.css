@@ -14,9 +14,19 @@
 #arrow-2 {
 
   transform: rotateX(180deg)
-  rotate(300deg)
+  rotate(600deg)
 }
 
+#spin-meat {
+  transition: transform .2s ease-in-out;
+}
+
+#user_card:hover {
+  #spin-meat {
+    transform: rotate(260deg);
+  }
+  
+}
 
 body::-webkit-scrollbar {
   width: 12px;

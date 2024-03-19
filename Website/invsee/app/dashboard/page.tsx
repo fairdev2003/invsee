@@ -16,6 +16,7 @@ import GetSection from "@/components/dashboard/getSection";
 import { useSession } from "next-auth/react";
 import AuthError from "@/components/AuthError";
 import { MdOutlineGridOn } from "react-icons/md";
+import { ChakraProvider } from '@chakra-ui/react'
 
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";

@@ -1,87 +1,86 @@
+import { trpc } from "@/app/_trpc/client";
 import {
   Table,
-  TableBody,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
   TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+  TableContainer,
+  ChakraProvider,
+  Button,
+  extendBaseTheme,
+  extendTheme,
+} from "@chakra-ui/react";
+import Image from "next/image";
+import { useUserStore } from "@/stores/user_store";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+const theme = extendTheme({
+  styles: {
+    global: () => ({
+      body: {
+        bg: "",
+      },
+    }),
   },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-]
+});
 
-export default function TableDemo() {
+const Users = () => {
+
+  const users = trpc.getUsers.useQuery();
+  console.log(users.data)
+
+
+  const { account_data }: any = useUserStore();
+  console.log(account_data)
+
   return (
-    <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody className="text-white">
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            <TableCell>{invoice.paymentStatus}</TableCell>
-            <TableCell>{invoice.paymentMethod}</TableCell>
-            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
-  )
-}
+    <div>
+      <h1 className="text-2xl text-white font-[600]">Users</h1>
+      <ChakraProvider theme={theme}>
+        <TableContainer className="mt-5 ">
+          <Table variant='unstyled' className="text-white border-[2px] rounded-full border-gray-900/50">
+            <Thead>
+              <Tr>
+                <Th className="text-gray-600" >ID</Th>
+                <Th className="text-gray-600"></Th>
+                <Th className="text-gray-600">Fullname</Th>
+                <Th className="text-gray-600">nick</Th>
+                <Th className="text-gray-600">role</Th>
+                <Th className="text-gray-600">email</Th>
+                <Th className="text-gray-600">Actions</Th>
+              </Tr>
+            </Thead>
+            <Tbody className="rounded-lg">
+              {users.data?.map((user: any, index: number) => {
+                return (
+                  <Tr key={index}>
+                    <Td>{index + 1}</Td>
+                    <Td>
+                      <Image className="rounded-full" width={40} height={40} alt={`${user?.nick}`} src={user.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}></Image>
+                    </Td>
+                    <Td>{user.first_name + " " + user.last_name}</Td>
+                    <Td>{user.nick}</Td>
+                    <Td>{user.role}</Td>
+                    <Td>{user.email}</Td>
+                    <Td>
+                      {user.first_name !== account_data[0].first_name && user.role !== account_data[0].role ? <div className='flex gap-2'>
+                        <Button colorScheme="green">Edit</Button>
+                        <Button colorScheme="red">Delete</Button>
+                      </div> : null}
+                    </Td>
+                  </Tr>
+                )
+              })}
+              
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </ChakraProvider>
+    </div>
+  );
+};
+
+export default Users;

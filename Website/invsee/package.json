@@ -12,8 +12,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
     "@prisma/client": "^5.9.1",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -37,7 +40,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "dotenv": "^16.4.1",
-    "framer-motion": "^11.0.5",
+    "framer-motion": "^11.0.8",
     "lucide-react": "^0.307.0",
     "mongoose": "^8.1.1",
     "next": "14.0.4",

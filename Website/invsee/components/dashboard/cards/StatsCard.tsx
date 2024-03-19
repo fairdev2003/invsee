@@ -5,24 +5,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useUserStore } from "@/stores/user_store";
-
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
-import { Bar, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 Chart.register(CategoryScale);
 
 import { Cloudinary } from '@cloudinary/url-gen';
-import { AdvancedImage } from '@cloudinary/react'
-import Image from "next/image";
 
 const roles_with_access = ["Admin"];
 

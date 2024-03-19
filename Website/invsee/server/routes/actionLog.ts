@@ -7,7 +7,21 @@ export const logRouter = router({
     getAllLogs: publicProcedure.query(async () => {
         const client = await connectMongo();
         const db = client.db("test");
-        const collection = db.collection("logs").find({}, { projection: { _id: 0 } }).toArray();
+        const collection = await db.collection("logs")
+            .aggregate([
+                {
+                    $lookup: 
+                {
+                    from: "users",
+                    localField: "user",
+                    foreignField: "nick",
+                    as: "user_info"
+                }
+            }
+            ])
+            .toArray();
+
+        console.log("mutation: ", collection.user_info);
 
         return collection;
     }),
