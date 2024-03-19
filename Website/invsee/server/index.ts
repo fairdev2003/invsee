@@ -12,10 +12,20 @@ export const appRouter = router({
     const items = await db.collection("items").find().count();
     const users = await db.collection("users").find().count();
     const logs = await db.collection("logs").find().count();
+    const mods = await db.collection("mods").find().count();
+    const crafting = await db.collection("crafting").find().count();
+    const music = await db.collection("musicdatas").find().count();
+    const wiki_pages = 134 
+    const tags = 40
     const stats = {
       items,
       users,
-      logs
+      logs,
+      mods,
+      wiki_pages,
+      tags,
+      music,
+      crafting
     }
     console.log("Count", stats);
     return stats;
@@ -24,7 +34,7 @@ export const appRouter = router({
     const client = await connectMongo();
     const db = client.db("test");
     const collection = await db
-      .collection("items")
+      .collection("users")
       .find({}, { projection: { _id: 0 } })
       .toArray();
 

@@ -21,7 +21,7 @@ const QuickStatsCard = () => {
 }
 
   return (
-    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[500px] h-[270px]">
+    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[515px] h-[270px] ">
       <CardContent className="flex flex-col gap-y-2">
         <div className="flex flex-col gap-y-2">
           <div className="flex justify-between">
@@ -50,7 +50,7 @@ const QuickStatsCard = () => {
           {translations[language]["Dashboard"]["Quick Stats Desc"]}
           </CardDescription>
         </div>
-        <div className="bg-gray-900/50 rounded-full mt-2">
+        <div className="bg-gray-900/50 h-[40px] rounded-full mt-2">
           <div className="flex justify-between items-center p-2 px-4">
             <p className="text-[15px]">{translations[language]["Dashboard"]["Users"]}</p>
             {!stats.isLoading ? (
@@ -60,7 +60,7 @@ const QuickStatsCard = () => {
             )}
           </div>
         </div>
-        <div className="bg-gray-900/50 rounded-full mt-2">
+        <div className="bg-gray-900/50 h-[40px] rounded-full mt-2">
           <div className="flex justify-between items-center p-2 px-4">
             <p className="text-[15px]">{translations[language]["Dashboard"]["Logs"]}</p>
             {!stats.isLoading ? (
@@ -70,7 +70,7 @@ const QuickStatsCard = () => {
             )}
           </div>
         </div>
-        <div className="bg-gray-900/50 rounded-full mt-2">
+        <div className="bg-gray-900/50 h-[40px] items-center rounded-full mt-2">
           <div className="flex justify-between items-center p-2 px-4">
             <p className="text-[15px]">{translations[language]["Dashboard"]["Items"]}</p>
             {!stats.isLoading ? (

@@ -17,7 +17,7 @@ import { useUserStore } from "@/stores/user_store";
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 
-const roles_with_access = ["Admin"];
+const roles_with_access: string[] = ["Admin"];
 
 const LogCard = () => {
 
@@ -25,6 +25,7 @@ const LogCard = () => {
 
   const { account_data }: any = useUserStore();  
   const logs = trpc.log.getAllLogs.useQuery();
+
   console.log( logs?.isLoading ? "Loading" : logs?.data)
 
   const handleRefresh = () => {
@@ -33,7 +34,7 @@ const LogCard = () => {
 }
 
   return (
-    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[870px] mt-5 h-[390px]">
+    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[885px] h-[390px]">
       {roles_with_access.includes(account_data[0].role) ? <CardContent>
         <div className="flex justify-between">
           <CardTitle>{translations[language]["Dashboard"]["User Logs"]}</CardTitle>
@@ -59,11 +60,11 @@ const LogCard = () => {
                 <div
                 className="flex items-center bg-gray-900/50 p-3 rounded-lg relative"
                 key={1}
-                >
-                    <Image alt='profile image' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT77tI2-d92MthNA0HLYbVqYueO9r6P3u7zEDTYoOjLLmJVetvXJp_j1eU0v4uYUd02Jk" width={100} height={100} className='rounded-lg w-[45px] h-[45px]'></Image>
+                >   
+                    <Image alt={`pfp-${index}`} src={ log.user_info[0].image_src } width={100} height={100} className='rounded-lg w-[45px] h-[45px]'></Image>
                     <div className="flex flex-col ml-5">
-                        <p className="text-[15px] font-medium">{log.action}</p>
-                        <p className="text-[13px] opacity-50">{log.user} {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
+                        <p className="text-[15px] font-medium">{ log.action }</p>
+                        <p className="text-[13px] opacity-50">{ log.user_info[0].nick } {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
                     </div>
                 </div>
             );

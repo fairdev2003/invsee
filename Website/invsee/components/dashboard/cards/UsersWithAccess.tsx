@@ -93,7 +93,7 @@ export const UsersWithAccess = () => {
       {account_data.length > 0 &&
       roles_with_access.includes(account_data[0].role) ? (
         <CardContent
-          className={`border-[2px] border-gray-900/50 rounded-md text-white p-5 w-[500px] mt-5 h-${
+          className={`border-[2px] border-gray-900/50 rounded-md text-white p-5 w-[500px] h-${
             state.length === 0 ? "[390px]" : "auto"
           }`}
         >
