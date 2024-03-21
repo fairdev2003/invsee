@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from '@/components/AuthProviders';
 import Provider from '../_trpc/TRPCProvider';
 import { Toaster } from 'sonner';
+import { Suspense } from 'react';
 
 
 const poppins = Poppins({ weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"], subsets: ["devanagari"], preload: true})
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body className={poppins.className}>
         <AuthProvider>
           <Provider>
-            <Navbar />
-            {children}
+            <Suspense>
+              <Navbar />
+              {children}
+            </Suspense>
           </Provider>
         </AuthProvider>
       </body>

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Separator } from "@radix-ui/react-separator";
-import { Crown, Hammer, Star } from "lucide-react";
+import { Crown, Dot, Hammer, Star } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
 import axios from "axios";
 import { redirect } from "next/navigation";
@@ -141,7 +141,7 @@ export default function Navbar() {
           </SelectContent>
         </Select>
         {account_data && account_data.length > 0 ? (
-          <Popover>
+          <Popover >
             <PopoverTrigger>
               <Avatar>
                 <AvatarImage
