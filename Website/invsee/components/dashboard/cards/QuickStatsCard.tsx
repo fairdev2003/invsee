@@ -21,7 +21,7 @@ const QuickStatsCard = () => {
 }
 
   return (
-    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 w-[515px] h-[270px] ">
+    <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 col-span-2 lg:w-auto md:w-full h-[270px] ">
       <CardContent className="flex flex-col gap-y-2">
         <div className="flex flex-col gap-y-2">
           <div className="flex justify-between">

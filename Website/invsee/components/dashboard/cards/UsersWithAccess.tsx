@@ -81,7 +81,7 @@ export const UsersWithAccess = () => {
     toast("Changed role to: " + value + " for user with email: " + email, {
         duration: 5000,
         closeButton: true
-      });
+    });
 
     setTimeout(() => {
       setState("");
@@ -93,9 +93,7 @@ export const UsersWithAccess = () => {
       {account_data.length > 0 &&
       roles_with_access.includes(account_data[0].role) ? (
         <CardContent
-          className={`border-[2px] border-gray-900/50 rounded-md text-white p-5 w-[500px] h-${
-            state.length === 0 ? "[390px]" : "auto"
-          }`}
+          className={`border-[2px] border-gray-900/50 rounded-md text-white p-5 lg:w-auto md:w-full h-full`}
         >
           <div className="flex justify-between">
             <CardTitle>{translations[language]["Dashboard"]["Users with access"]}</CardTitle>

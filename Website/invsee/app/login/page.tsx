@@ -1,17 +1,17 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 
 import Google from "@/assets/google.svg";
 import Discord from "@/assets/discord.svg";
-import { Eye, EyeOff, Key } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProviders";
 
 export default function Login() {
+
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, setserror] = useState("");

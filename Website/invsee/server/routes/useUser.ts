@@ -5,6 +5,19 @@ import { connectMongo } from "@/app/api/mongo/mongo";
 // tRPC router
 
 export const userRouter = router({
+
+  getSingleUser: publicProcedure
+    .input(z.string())
+    .mutation(async (email) => {
+      const client = await connectMongo();
+      const db = client.db("test");
+
+      const collection = db.collection("users").findOne({email}, {projection: {password: 0}})
+
+
+      return collection
+    }),
+
   updateUserRole: publicProcedure
     .input(z.object({ email: z.string(), role: z.string() }))
     .mutation(async (input) => {
@@ -23,8 +36,8 @@ export const userRouter = router({
   }),
   updateUserData: publicProcedure
     .input(z.object({ email: z.string(), data: z.object({
-      firstname: z.string(),
-      lastname: z.string(),
+      first_name: z.string(),
+      last_name: z.string(),
       nick: z.string(),
       role: z.string()
     }) }))
@@ -33,12 +46,14 @@ export const userRouter = router({
       const db = client.db("test");
 
       const { email, data } = input.input;
+
+      console.log("data", {...data, email})
       
-      const collection = db.collection("users").updateOne(
+      const collection = await db.collection("users").updateOne(
         { email },
         { $set: data }
       );
 
       return collection;
-    }),
+    })
 });
