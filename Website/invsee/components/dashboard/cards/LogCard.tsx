@@ -63,8 +63,8 @@ const LogCard = () => {
                 >   
                     <Image alt={`pfp-${index}`} src={ log.user_info[0].image_src } width={100} height={100} className='rounded-lg w-[45px] h-[45px]'></Image>
                     <div className="flex flex-col ml-5">
-                        <p className="text-[15px] font-medium">{ log.action }</p>
-                        <p className="text-[13px] opacity-50">{ log.user_info[0].nick } {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
+                        <p className="text-sm font-medium">{ log.action }</p>
+                        <p className="text-sm opacity-50">{ log.user_info[0].nick } {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
                     </div>
                 </div>
             );

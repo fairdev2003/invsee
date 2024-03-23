@@ -30,7 +30,7 @@ export default function AccountSettings() {
   });
 
   const keydownFunc = (e: any) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" && !loadingUpdate) {
         handleUpdate();
       }
   }
@@ -113,8 +113,9 @@ export default function AccountSettings() {
               </div>
             </div>
           </div>
-          <div className="bg-none border-[2px] border-gray-900/50 h-auto w-[600px] mt-5 rounded-lg flex flex-col gap-y-5 p-5 px-7">
-            <h1 className="text-2xl text-white font-[600]">Basic Info</h1>
+          <div className="bg-none border-[2px] border-gray-900/50 h-auto w-full mt-5 rounded-lg flex flex-col gap-y-5 p-5 px-7">
+            <h1 className="text-2xl text-white font-[600]">Basic Information</h1>
+            <p className=''></p>
             <input
               ref={first_nameRef}
               className="border-[2px] p-3 text-white rounded-lg border-gray-900/50 bg-transparent focus:border-green-500"
@@ -136,22 +137,22 @@ export default function AccountSettings() {
               defaultValue={account_data[0].nick}
               placeholder={account_data[0].nick}
             />
-            <div className="border-[2px] p-3 text-white bg-green-500/5 rounded-lg border-gray-900/50 focus:border-green-500">
+            <div className="border-[2px] p-3 text-white rounded-lg border-gray-900/50 focus:border-green-500">
               <p className="text-white">Email: {account_data[0].email}</p>
             </div>
             <div className="flex justify-end mt-1">
               <Button
                 variant="secondary"
                 onClick={handleUpdate}
-                className={`w-[20%] ${loadingUpdate ? "opacity-50" : null}`}
+                className={`w-[10%] ${loadingUpdate ? "opacity-50" : null}`}
               >
-                {loadingUpdate ? "Loading" : "Update"}
+                {loadingUpdate ? "Updating..." : "Update"}
               </Button>
             </div>
           </div>
         </div>
       ) : null}
-      <Toaster className="bg-none text-green-500"></Toaster>
+      <Toaster className="bg-none text-green-500"/>
     </section>
   );
 }

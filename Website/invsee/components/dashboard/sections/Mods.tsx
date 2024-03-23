@@ -4,14 +4,9 @@ import Image from "next/image";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
-import { redirect } from "next/dist/server/api-utils";
-import Link from "next/link";
 
 const pagination_items = 5;
 
