@@ -1,7 +1,7 @@
 import { publicProcedure, router } from "./trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
-import { userRouter } from "./routes/useUser";
+import { userRouter } from "./routes/user";
 import { logRouter } from "./routes/actionLog";
 import { itemsRouter } from "./routes/items";
 

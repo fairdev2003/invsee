@@ -10,14 +10,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { getToken } from "next-auth/jwt"
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import PaginationComponent from "@/components/PaginationComponent";
-import { useResize } from "@/lib/hooks/useResize";
-import { Edit, Plus, Trash, ZoomIn, ZoomOut } from "lucide-react";
+import { Edit, Trash, ZoomOut } from "lucide-react";
 import { Popover } from "@/components/ui/popover";
 import {
   PopoverClose,

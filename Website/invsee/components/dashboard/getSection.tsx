@@ -1,7 +1,3 @@
-import { cn } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
-import { GrOverview } from "react-icons/gr";
 import AccountSettings from "./sections/AccountSettings";
 import Users from "./sections/Users";
 import Tags from "./sections/Tags";
@@ -12,12 +8,10 @@ import CraftingSection from "./sections/CraftingSection";
 import Workspace from "./sections/Workspace";
 
 interface SectionProps {
-  className?: string 
   section : any
 }
 
 export default function GetSection({
-  className,
   section
 }: SectionProps) {
   return (

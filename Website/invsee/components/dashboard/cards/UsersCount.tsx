@@ -5,6 +5,7 @@ import { User, Wrench, Database, Newspaper, Group, Tag, Grid3X3, Music } from "l
 import Meatball from '@/assets/meatball.svg'
 import Image from "next/image";
 import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 
 
 interface UserCountProps {
@@ -38,7 +39,7 @@ const UsersCount = ({
     }
 
     return (
-        <Card onClick={() => {
+        <motion.div initial={{opacity: 0}} animate={{opacity: 1}} onClick={() => {
 
             // todo: delay
 
@@ -52,7 +53,7 @@ const UsersCount = ({
                 <Image src={Meatball} id="spin-meat" className="w-[200px] text-white h-[200px] opacity-0 group-hover:opacity-80 transition-opacity absolute left-5 top-10" alt="meatball"/>
             </div>
             <h1 className="flex justify-end font-[800] text-4xl text-white group-hover:text-emerald-500 transition-colors">{count}</h1>
-        </Card>
+        </motion.div>
     )
 }
 

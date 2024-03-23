@@ -148,19 +148,12 @@ export default function Navbar() {
                   src={account_data[0]?.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}
                   alt="@avatar"
                 />
-                <AvatarFallback className="bg-gray-800 text-white">
-                  {account_data.length > 0
-                    ? account_data[0].first_name.slice(0, 1)
-                    : null}
-                  {account_data.length > 0
-                    ? account_data[0].last_name.slice(0, 1)
-                    : null}
-                </AvatarFallback>
+                
               </Avatar>
             </PopoverTrigger>
             <PopoverContent className="bg-black text-white w-auto border-[1px] border-gray-800 p-1">
               <p className="mx-2 my-1 text-[15px] flex gap-x-2 items-center font-medium">
-                {account_data.length > 0 &&
+              {account_data.length > 0 &&
                 account_data[0].role === "Editor" ? (
                   <Hammer size={15} className="text-orange-400" />
                 ) : null}

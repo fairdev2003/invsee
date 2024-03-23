@@ -1,18 +1,16 @@
 import Navbar from '@/components/navbar'
 import type { Metadata } from 'next'
-import { Inter, Poppins } from 'next/font/google'
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import { Poppins } from 'next/font/google'
 import { AuthProvider } from '@/components/AuthProviders';
 import Provider from '../_trpc/TRPCProvider';
-import { Toaster } from 'sonner';
 import { Suspense } from 'react';
 
 
 const poppins = Poppins({ weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"], subsets: ["devanagari"], preload: true})
 
 export const metadata: Metadata = {
-  title: 'Crafting',
-  description: 'Wiki about your favorite mods!',
+  title: 'Dashboard',
+  description: 'Dashboard for staff',
 }
 
 export default function RootLayout({
@@ -26,7 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <Provider>
             <Suspense>
-              <Navbar />
+              
               {children}
             </Suspense>
           </Provider>

@@ -20,7 +20,6 @@ import { MdOutlineGridOn } from "react-icons/md";
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 
-
 function Dashboard() {
   const { data: token, status } = useSession();
 
@@ -41,7 +40,7 @@ function Dashboard() {
 
       const response = await axios.get(query);
       setAdmin(
-          response.data[0].role === "Admin" ||
+        response.data[0].role === "Admin" ||
           response.data[0].role === "Mod" ||
           response.data[0].role === "Editor"
       );
@@ -106,13 +105,20 @@ function Dashboard() {
                     height={60}
                     className="rounded-full"
                     alt="profile-pick"
-                    src={data.image_src || "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"}
+                    src={
+                      data.image_src ||
+                      "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"
+                    }
                     onClick={() => {
                       console.log(account_data);
                     }}
                   ></Image>
                   <div className="flex flex-col justify-start">
-                    <p className="text-white font-[600] text-lg">{data.nick}</p>
+                    <p className="text-white font-[600] text-lg">
+                      {data.nick.length > 14
+                        ? data.nick.slice(0, 14) + "..."
+                        : data.nick}
+                    </p>
                     <div className="flex gap-1">
                       <Crown className="h-5 w-5 text-orange-500"></Crown>
                       <p className="text-white font-[400] text-sm">
@@ -146,7 +152,9 @@ function Dashboard() {
                     clasName="text-white"
                     size={25}
                   ></MdOutlineGridOn>
-                  <p>{translations[language]["Dashboard"]["Crafting Recipes"]}</p>
+                  <p>
+                    {translations[language]["Dashboard"]["Crafting Recipes"]}
+                  </p>
                 </DashboardSectionButton>
               </div>
               <div
