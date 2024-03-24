@@ -1,7 +1,8 @@
 import type { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { connectMongo } from "../../mongo/mongo";
+import { db } from "@/prisma/prisma";
+
 
 export const options: NextAuthOptions = {
     providers: [
@@ -16,19 +17,18 @@ export const options: NextAuthOptions = {
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
             // @ts-ignore
-            async authorize(credentials: any, req) {
+            async authorize(credentials: any) {
                 const password = credentials.password as string;
                 const email = credentials.email as string;
-                console.log("Credentials from authorize: ", credentials);
-                    
-                const client = await connectMongo();
-                const db = client.db("test");
+                const ctx = await db.user.findFirst({
+                    where: {
+                        password, email
+                    }
+                })
 
-                const user = await db.collection("users").find({password: password, email: email}).toArray();
-                console.log("User from authorize: ", user);
+                const user = ctx
 
-
-                if (user.length > 0) {
+                if (ctx !== null) {
                     return user
                 } else {
                     return false
