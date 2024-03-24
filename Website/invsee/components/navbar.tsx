@@ -62,7 +62,7 @@ export default function Navbar() {
     <nav className="w-ull flex items-center justify-between text-white border-b-gray-800 border-b-[1px] h-[75px] gap-10 px-5 sticky top-0 z-50 bg-black">
       {!isLogged ? (
         <div className="flex items-center ">
-          <h1 className="text-white text-[25px] font-[600]">
+          <h1 className="text-white text-lg font-[600]">
             <Link href="/">Minecraft Wiki</Link>
           </h1>
           <div className="flex gap-5 ml-5">
@@ -82,25 +82,25 @@ export default function Navbar() {
         </div>
       ) : (
         <div className="w-[2000px] flex items-center justify-between gap-x-3">
-          <h1 className="text-white text-[25px] font-[600]">
+          <h1 className="text-white text-lg font-[600]">
             <Link href="/dashboard">{translations[language]["Dashboard"]["Dashboard"]}</Link>
           </h1>
 
           <Link
             href="/dashboard?section=overview"
-            className="text-[15px] hover:text-blue-500"
+            className="text-sm hover:text-blue-500"
           >
             {translations[language]["Dashboard"]["Overview"]}
           </Link>
           <Link
             href="/dashboard?section=workspace"
-            className="text-[15px] hover:text-blue-500"
+            className="text-sm hover:text-blue-500"
           >
             {translations[language]["Dashboard"]["Workspace"]}
           </Link>
           <Link
             href="/dashboard?section=allies"
-            className="text-[15px] hover:text-blue-500"
+            className="text-sm hover:text-blue-500"
           >
             {translations[language]["Dashboard"]["User & Roles"]}
           </Link>
@@ -111,9 +111,11 @@ export default function Navbar() {
         <Select >
           <SelectTrigger className="w-[50px] h-[35px]">
             <Button variant='outline' className="p-3 w-[50px] h-[35px]">
-              {language === "en" ? <p className='mx-3'>{translations[language]["Dashboard"]["English"]}</p> : null}
-              {language === "es" ? <p className='mx-3'>{translations[language]["Dashboard"]["Spanish"]}</p> : null}
-              {language === "pl" ? <p className='mx-3'>{translations[language]["Dashboard"]["Polish"]}</p> : null}
+              <button>
+                {language === "en" ? <p className='mx-3'>{translations[language]["Dashboard"]["English"]}</p> : null}
+                {language === "es" ? <p className='mx-3'>{translations[language]["Dashboard"]["Spanish"]}</p> : null}
+                {language === "pl" ? <p className='mx-3'>{translations[language]["Dashboard"]["Polish"]}</p> : null}
+              </button>
             </Button>
           </SelectTrigger>
           <SelectContent className="bg-black text-white border-none">

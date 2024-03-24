@@ -12,12 +12,14 @@ interface UserCountProps {
     card_name: string
     count: number | undefined
     link: string
+    animation_duration?: number 
 }
 
 const UsersCount = ({
     card_name = "Users",
     count = 230,
-    link = "allies"
+    link = "allies",
+    animation_duration = 0.5
 }: UserCountProps) => {
 
     const router = useRouter()
@@ -39,9 +41,9 @@ const UsersCount = ({
     }
 
     return (
-        <motion.div initial={{opacity: 0}} animate={{opacity: 1}} onClick={() => {
+        <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: animation_duration, duration: 0.5}} onClick={() => {
 
-            // todo: delay
+            
 
             router.push(
                 `/dashboard?section=${link}`
@@ -50,7 +52,7 @@ const UsersCount = ({
             <div className="flex gap-2 group-hover:font-[600]">
                 {handlePhoto()}
                 <h1 className="group-hover:text-emerald-500 transition-colors">{ card_name }</h1>
-                <Image src={Meatball} id="spin-meat" className="w-[200px] text-white h-[200px] opacity-0 group-hover:opacity-80 transition-opacity absolute left-5 top-10" alt="meatball"/>
+                <Image src={Meatball} width={200} height={200} id="spin-meat" className="text-white opacity-0 group-hover:opacity-80 transition-opacity absolute left-5 top-10" alt="meatball"/>
             </div>
             <h1 className="flex justify-end font-[800] text-4xl text-white group-hover:text-emerald-500 transition-colors">{count}</h1>
         </motion.div>

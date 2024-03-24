@@ -2,6 +2,7 @@ import { publicProcedure, router } from "@/server/trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
 import { db } from "@/prisma/prisma";
+import { User } from "@prisma/client";
 
 export const userRouter = router({
 
@@ -29,18 +30,50 @@ export const userRouter = router({
       return data 
       
     }),
-    
+  
+  getUserByEmail: publicProcedure
+    .input(z.string())
+    .mutation(async (e) => {
+      const { input } = e
+
+      const data = await db.user.findFirst({
+        where: {
+          email: input
+        },
+        include: {
+          posts: true
+        }
+      })
+
+      return data
+    }),
     
   getSingleUser: publicProcedure
     .input(z.string())
     .mutation(async (email) => {
-      const client = await connectMongo();
-      const db = client.db("test");
 
-      const collection = db.collection("users").findOne({email}, {projection: {password: 0}})
+      const { input } = email
 
+      const data = await db.user.findFirst({
+        where: {
+          email: input
+        },
 
-      return collection
+        select: {
+          id: true,
+          email: true,
+          password: false,
+          nick: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          image: true,
+          createdAt: true,
+          updatedAt: true,
+        }
+      })
+
+      return data
     }),
 
   updateUserRole: publicProcedure

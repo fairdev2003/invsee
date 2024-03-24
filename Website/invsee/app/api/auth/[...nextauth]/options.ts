@@ -2,6 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/prisma/prisma";
+import { User } from "@prisma/client";
 
 
 export const options: NextAuthOptions = {
@@ -20,6 +21,7 @@ export const options: NextAuthOptions = {
             async authorize(credentials: any) {
                 const password = credentials.password as string;
                 const email = credentials.email as string;
+                
                 const ctx = await db.user.findFirst({
                     where: {
                         password, email

@@ -19,11 +19,16 @@ import { MdOutlineGridOn } from "react-icons/md";
 
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
+import { trpc } from "../_trpc/client";
 
 function Dashboard() {
   const { data: token, status } = useSession();
 
   const { language } = usePersistStore();
+  const user_data = trpc.user.getUserByEmail.useMutation({
+     
+  })
+  
 
   const { account_data, setAccountData }: any = useUserStore();
 
@@ -40,7 +45,7 @@ function Dashboard() {
 
       const response = await axios.get(query);
       setAdmin(
-        response.data[0].role === "Admin" ||
+          response.data[0].role === "Admin" ||
           response.data[0].role === "Mod" ||
           response.data[0].role === "Editor"
       );
@@ -54,19 +59,18 @@ function Dashboard() {
     if (id === undefined) {
       return;
     } else {
-      const query = `http://localhost:3000/api/user?search_by=email&name=${id}`;
-      console.log(query);
+      user_data.mutate(id)
+      const query = `/api/user?search_by=email&name=${id}`;
 
       try {
-        const response = await axios.get(query);
+        const response: any = await axios.get(query);
 
         setData(response.data[0]);
 
         setAccountData(response.data);
 
-        console.log("Zustand store: ", account_data);
       } catch (error) {
-        console.error("Error checking role:", error);
+        console.error("Error: ", error);
       } finally {
         setLoading(false);
       }
@@ -80,16 +84,26 @@ function Dashboard() {
 
     getUser(token?.user?.email);
   }, [token?.user?.email]);
+  
   useEffect(() => {
     if (searchParams.has("section")) {
       setsection(searchParams.get("section"));
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (user_data.isLoading) {
+      console.log("Loading User data")
+    } else {  
+      console.log("User data: ", [user_data.data])
+    }
+
+    
+  }, [user_data.isLoading])
+
   const RenderAdminPage = () => {
     if (status !== "authenticated") {
       redirect("/login");
-      return;
     } else {
       return data ? (
         <Suspense fallback={<div>Loading...</div>}>
