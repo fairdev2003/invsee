@@ -20,6 +20,7 @@ model User {
     firstName String
     lastName  String
     role      Role
+    image     String?
     posts     Post[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

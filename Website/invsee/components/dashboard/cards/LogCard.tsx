@@ -35,7 +35,7 @@ const LogCard = () => {
 
   return (
     <Card className="border-[2px] border-gray-900/50 rounded-md text-white pt-5 lg:w-auto md:w-full h-auto">
-      {roles_with_access.includes(account_data[0].role) ? <CardContent>
+      {roles_with_access.includes(account_data && account_data.length > 0 ? account_data[0].role : null) ? <CardContent>
         <div className="flex justify-between">
           <CardTitle>{translations[language]["Dashboard"]["User Logs"]}</CardTitle>
           <TooltipProvider>
