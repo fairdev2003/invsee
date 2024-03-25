@@ -13,24 +13,31 @@ generator client {
 // USER SCHEMA
 
 model User {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    email     String   @unique
-    password  String
-    nick      String
-    firstName String
-    lastName  String
-    role      Role
-    image     String?
-    posts     Post[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id            String   @id @default(auto()) @map("_id") @db.ObjectId
+    email         String   @unique
+    password      String
+    nick          String
+    firstName     String
+    lastName      String
+    role          Role
+    image         String   @default("https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif")
+    posts         Post[]
+    items_created Item[]
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+    Mod           Mod[]
 }
+
+// Roles
 
 enum Role {
     Admin
+    Community
     Mod
     Editor
 }
+
+// Post Model
 
 model Post {
     id          String @id @default(auto()) @map("_id") @db.ObjectId
@@ -38,4 +45,55 @@ model Post {
     author      User   @relation(fields: [authorId], references: [id])
     title       String
     description String
+}
+
+// Item model
+
+model Item {
+    id                String    @id @default(auto()) @map("_id") @db.ObjectId
+    authorId          String    @db.ObjectId()
+    author            User      @relation(fields: [authorId], references: [id])
+    item_name         String
+    item_tag          String    @unique
+    
+    stack_size        Int       @default(64)
+    type              String    @default("NO_TYPE_PROVIDED")
+    short_description String    @default("NO_SHORT_DESCRIPRION_PROVIDED")
+    gallery           Gallery[]
+    modId             String?   @db.ObjectId()
+    mod               Mod?      @relation(fields: [modId], references: [id])
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+}
+
+// Gallery model
+
+model Gallery {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    itemId    String   @db.ObjectId()
+    item      Item     @relation(fields: [itemId], references: [id])
+    image_src String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum ModLoader {
+    FORGE
+    FABRIC
+    NEOFORGE
+    QUILT
+}
+
+// Mod model
+
+model Mod {
+    id             String      @id @default(auto()) @map("_id") @db.ObjectId()
+    modName        String
+    image_src      String      @default("IMAGE HREF HERE PLS")
+    modDescription String      @default("Description")
+    tag            String      @unique
+    author         User        @relation(fields: [userId], references: [id])
+    items          Item[]
+    modloaders     ModLoader[]
+    userId         String      @db.ObjectId()
 }
