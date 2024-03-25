@@ -2,35 +2,24 @@ import { publicProcedure, router } from "@/server/trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
 import { db } from "@/prisma/prisma";
-import { User } from "@prisma/client";
 
 export const userRouter = router({
 
-  getUser: publicProcedure
-    .query(async () => {
+  getUsersByEmail: publicProcedure
+    .input(z.string().includes("@"))
+    .mutation(async (e) => {
+      const{ input } = e;
 
-      interface SearchByInterface {
-        key: string,
-        value: string
-      }
-
-      const searchBy: SearchByInterface = {
-        key: "role",
-        value: "Admin"
-      }
-
-      const { key, value } = searchBy
-      
       const data = await db.user.findMany({
-        include: {
-          posts: true
+        where: {
+          email: input
         }
       })
 
-      return data 
+      return data
       
-    }),
-  
+  }),
+
   getUserByEmail: publicProcedure
     .input(z.string())
     .mutation(async (e) => {
