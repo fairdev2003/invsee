@@ -1,11 +1,13 @@
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
 import { db } from "@/prisma/prisma";
 
 export const itemsRouter = router({
-  get_all: publicProcedure
-    .query(async () => {
+  get_all: protectedProcedure
+    .query(async ({ctx}) => {
+      console.log("Message: ", ctx)
+
       const data = await db.item.findMany({
         include: {
           mod: true
@@ -13,6 +15,7 @@ export const itemsRouter = router({
       });
 
       const count: number = data.length;
+
 
       return { count, data };
     }),

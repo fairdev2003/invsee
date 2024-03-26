@@ -1,5 +1,8 @@
 import { createTRPCReact } from '@trpc/react-query';
+import { createContext } from '@/server/trpc';
 
-import { type AppRouter } from '@/server'; 
+import { appRouter, type AppRouter } from '@/server'; 
+import { createNextApiHandler } from '@trpc/server/adapters/next';
 
-export const trpc = createTRPCReact<AppRouter>({});
+export const trpc = createTRPCReact<AppRouter>();
+
