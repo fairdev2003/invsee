@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { trpc } from "../_trpc/client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 
 
