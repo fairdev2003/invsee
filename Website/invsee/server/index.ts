@@ -1,9 +1,10 @@
-import { publicProcedure, router } from "./trpc";
+import { protectedProcedure, publicProcedure, router } from "./trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
 import { userRouter } from "./routes/user";
 import { logRouter } from "./routes/actionLog";
 import { itemsRouter } from "./routes/items";
+import { db } from "@/prisma/prisma";
 
 export const appRouter = router({
   getOverviewStats: publicProcedure.query(async () => {
@@ -29,6 +30,29 @@ export const appRouter = router({
     }
     console.log("Count", stats);
     return stats;
+  }),
+  getTraffic: protectedProcedure
+    .query(async ({ctx}) => {
+      const data = await db.traffic.findMany({
+        include: {
+          user: true
+        }
+      })
+      return data.slice(data.length - 5, data.length)
+  }),
+  makeFakeTraffic: publicProcedure
+    .query(async ({ctx}) => {
+
+      const date = new Date().toTimeString()
+      
+      const data = await db.traffic.create({data: {
+        code: 501,
+        code_message: "SERVER ERROR",
+        geo: "Cracov",
+        ip: "12.21.21.121",
+        createdAt: date,
+      }})
+
   }),
   getUsers: publicProcedure.query(async () => {
     const client = await connectMongo();
