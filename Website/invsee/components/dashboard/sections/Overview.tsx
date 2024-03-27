@@ -10,6 +10,7 @@ import { translations } from "@/utils/translations";
 import UsersCount from "../cards/UsersCount";
 import { trpc } from "@/app/_trpc/client";
 import { useUserStore } from "@/stores/user_store";
+import TrafficCard from "../cards/TrafficCard";
 
 export default function Overview() {
     const { language } = usePersistStore()
@@ -54,6 +55,11 @@ export default function Overview() {
                     <StatsCard/>
                     <QuickStatsCard/>
                 </div>
+                <div className="grid grid-cols-2 gap-x-5">
+                    <TrafficCard></TrafficCard>
+                </div>
+
+                
 
                 
             </div>

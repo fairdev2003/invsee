@@ -6,7 +6,7 @@ import { db } from "@/prisma/prisma";
 export const itemsRouter = router({
   get_all: protectedProcedure
     .query(async ({ctx}) => {
-      console.log("Message: ", ctx)
+      console.log("Message: ", ctx.user)
 
       const data = await db.item.findMany({
         include: {
