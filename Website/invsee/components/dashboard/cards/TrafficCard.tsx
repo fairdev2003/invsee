@@ -7,7 +7,12 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@radix-ui/react-hover-card";
+import Image from "next/image";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@radix-ui/react-hover-card";
 import { Clock, Eye, EyeOff, Server, User } from "lucide-react";
 import { useState } from "react";
 
@@ -79,14 +84,26 @@ const TrafficCard = () => {
                     )}
 
                     <HoverCard>
-                        <HoverCardTrigger className="cursor-pointer">
-                            {item.user ? (
-                            <p>{item.user.nick}</p>
-                            ) : (
-                            <p>{!iphidden ? item.ip : "IP HIDDEN"}</p>
-                            )}
-                            <HoverCardContent>siema</HoverCardContent>
-                        </HoverCardTrigger>
+                      <HoverCardTrigger className="hover:underline">
+                        {item.user ? (
+                          <p className="cursor-pointer">{item.user && item.user.nick}</p>
+                        ) : (
+                          <p className="cursor-pointer">{!iphidden ? item.ip : "IP HIDDEN"}</p>
+                        )}
+                        <HoverCardContent className="flex gap-5 items-center border-[2px] border-gray-900 bg-black w-[300px] h-[100px] p-3 rounded-lg">
+                          <Image
+                            width={50}
+                            height={50}
+                            className="rounded-full"
+                            src={
+                              item.user && item.user.image ||
+                              "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"
+                                }
+                            alt={""}
+                          />
+                          <h1>{item.user ? item.user.nick : null}</h1>
+                        </HoverCardContent>
+                      </HoverCardTrigger>
                     </HoverCard>
                   </div>
                 </div>

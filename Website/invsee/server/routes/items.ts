@@ -10,7 +10,8 @@ export const itemsRouter = router({
 
       const data = await db.item.findMany({
         include: {
-          mod: true
+          mod: true,
+          gallery: true
         }
       });
 
