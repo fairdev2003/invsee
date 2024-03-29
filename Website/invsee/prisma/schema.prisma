@@ -19,7 +19,7 @@ model User {
     nick          String
     firstName     String
     lastName      String
-    role          Role
+    role          String
     image         String    @default("https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif")
     posts         Post[]
     items_created Item[]
@@ -27,15 +27,6 @@ model User {
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @updatedAt
     Mod           Mod[]
-}
-
-// Roles
-
-enum Role {
-    Admin
-    Community
-    Mod
-    Editor
 }
 
 // Post Model
@@ -69,12 +60,14 @@ model Item {
 // Gallery model
 
 model Gallery {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    itemId    String   @db.ObjectId()
-    item      Item     @relation(fields: [itemId], references: [id])
-    image_src String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    itemId      String   @db.ObjectId()
+    item        Item     @relation(fields: [itemId], references: [id])
+    image_src   String
+    title       String?
+    description String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 enum ModLoader {
@@ -109,5 +102,18 @@ model Traffic {
     message      String?
     createdAt    String?
     user         User?   @relation(fields: [user_id], references: [id])
-    user_id      String?  @db.ObjectId()
+    user_id      String? @db.ObjectId()
+}
+
+enum Permissions {
+    CAN_READ
+    CAN_EDIT
+    CAN_DELETE
+    CAN_ACCESS
+}
+
+model Role {
+    id          String        @id @default(auto()) @map("_id") @db.ObjectId()
+    permissions Permissions[]
+    name        String
 }

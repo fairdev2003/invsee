@@ -5,6 +5,7 @@ import { userRouter } from "./routes/user";
 import { logRouter } from "./routes/actionLog";
 import { itemsRouter } from "./routes/items";
 import { db } from "@/prisma/prisma";
+import { modsRouter } from "./routes/mods";
 
 export const appRouter = router({
   getOverviewStats: publicProcedure.query(async () => {
@@ -32,7 +33,7 @@ export const appRouter = router({
     return stats;
   }),
   getTraffic: protectedProcedure
-    .query(async ({ctx}) => {
+    .query(async ({ ctx }) => {
       const data = await db.traffic.findMany({
         include: {
           user: true
@@ -73,7 +74,8 @@ export const appRouter = router({
     }),
   user: userRouter,
   log: logRouter,
-  items: itemsRouter
+  items: itemsRouter,
+  mods: modsRouter
   
    
 });

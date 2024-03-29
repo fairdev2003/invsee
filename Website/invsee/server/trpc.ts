@@ -33,7 +33,7 @@ export const protectedProcedure = t.procedure.use(async function isAuthed({ ctx,
 
     if (!ctx?.session) {
 
-        console.log(await LogUnAuthorized(ctx?.ip.dns.ip, 401, ctx?.ip.dns.geo, "UNAUTHORIZED"))
+        console.log((await LogUnAuthorized(ctx?.ip.dns.ip, 401, ctx?.ip.dns.geo, "UNAUTHORIZED")).message)
 
         throw new TRPCError({
             code: "UNAUTHORIZED",
@@ -50,7 +50,7 @@ export const protectedProcedure = t.procedure.use(async function isAuthed({ ctx,
         }
     })
 
-    console.log(await LogAuthorized(ctx?.ip.dns.ip, 200, ctx?.ip.dns.geo, "AUTHORIZED", user?.id))
+    console.log((await LogAuthorized(ctx?.ip.dns.ip, 200, ctx?.ip.dns.geo, "AUTHORIZED", user?.id)).message)
 
     return next({ ctx: {
         user
