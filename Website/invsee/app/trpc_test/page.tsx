@@ -97,7 +97,7 @@ const TestTRPC = () => {
                     )
                 })}
             </div>
-            <Media src="https://res.cloudinary.com/dzaslaxhw/video/upload/v1711740515/destroyme.mp3" size="medium" type='music'/>
+            <Media src="https://res.cloudinary.com/dzaslaxhw/video/upload/v1711740515/destroyme.mp3" size="large" type='music'/>
         </div>
     )
 

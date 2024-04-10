@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        "card_gray": "1C1A1A"
+      },
       rotate: {
         '60': '60deg',
       },

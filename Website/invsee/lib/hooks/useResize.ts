@@ -1,25 +1,20 @@
 import { useState, useEffect } from 'react';
 
 export const useResize = () => {
-  const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+
+  const [clickcount, setclickcount] = useState<number>(0)
+
+  function handleUserKeyPress(e: any) {
+    setclickcount(5)
+    console.error(e)
+  }
+
 
   useEffect(() => {
-    const handleResize = () => {
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-
+    window.addEventListener('keydown', handleUserKeyPress);
+  
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('keydown', handleUserKeyPress);
     };
   }, []);
-
-  return size;
 };

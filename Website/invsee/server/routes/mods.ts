@@ -1,8 +1,7 @@
 import { publicProcedure, protectedProcedure , router } from "../trpc";
 import { z } from "zod";
 import { db } from "@/prisma/prisma";
-
-const ModLoadersEnum = z.enum(["FORGE", "FABRIC", "NEOFORGE", "QUILT"])
+import { ModLoadersEnum, ByFilterEnum } from "@/lib/types/mods/modsTypes";
 
 export const modsRouter = router({
 
@@ -34,6 +33,54 @@ export const modsRouter = router({
             const count = await db.mod.count()
             return { data, count }
     }),
+
+    getFilteredMods: publicProcedure
+        .input(z.object({
+            by: ByFilterEnum,
+            value: z.any()
+        }))
+        .mutation(async ({ input }) => {
+
+            const by = input.by
+            const value = input.value
+
+            const data = await db.mod.findMany({
+                where: {
+                    AND: {
+                        [by]: value
+                    } 
+                    
+                    
+                },
+                include: {
+                    items: {
+                        include: {
+                            gallery: true
+                        }
+                    }
+                }
+            })   
+
+            if (by === "modloaders") {
+                const data = await db.mod.findMany({
+                    where: {
+                        modloaders: {
+                            has: value
+                        }
+                    },
+                    include: {
+                        items: {
+                            include: {
+                                gallery: true
+                            }
+                        }
+                    }
+                })
+            } 
+             
+            return { data }
+
+        }),
 
     createMod: protectedProcedure
         .input(z.object({
@@ -71,7 +118,7 @@ export const modsRouter = router({
             }),
             id: z.string()
         }))
-        .mutation(async ({input, ctx}) => {
+        .mutation(async ({ input, ctx }) => {
 
             const { data, id } = input
             const { image_src, modDescription, modName, modloaders, tag } = data
@@ -106,5 +153,5 @@ export const modsRouter = router({
         })
 
         return { status: "OK", response: update_response }
-    })
+    }),
 })

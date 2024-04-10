@@ -9,5 +9,6 @@ withAuth({
       newUser: '/'
 }})
 
+
 export default withAuth
 

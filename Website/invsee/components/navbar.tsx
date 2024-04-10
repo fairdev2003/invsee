@@ -59,7 +59,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-ull flex items-center justify-between text-white border-b-gray-800 border-b-[1px] h-[75px] gap-10 px-5 sticky top-0 z-50 bg-black">
+    <nav className="w-ull flex items-center justify-between text-white h-[75px] gap-10 px-5 sticky top-0 z-50 bg-black">
       {!isLogged ? (
         <div className="flex items-center ">
           <h1 className="text-white text-lg font-[600]">
