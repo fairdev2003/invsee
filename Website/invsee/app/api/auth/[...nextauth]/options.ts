@@ -2,7 +2,6 @@ import type { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/prisma/prisma";
-import { User } from "@prisma/client";
 
 
 export const options: NextAuthOptions = {
@@ -17,7 +16,9 @@ export const options: NextAuthOptions = {
                 email: {label: "Email:", type: "email", placeholder:"Enter your email"},
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
+
             // @ts-ignore
+
             async authorize(credentials: any) {
                 const password = credentials.password as string;
                 const email = credentials.email as string;

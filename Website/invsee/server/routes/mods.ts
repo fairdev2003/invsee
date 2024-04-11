@@ -34,6 +34,34 @@ export const modsRouter = router({
             return { data, count }
     }),
 
+    getFilteredMod : publicProcedure
+        .input(z.object({
+            by: ByFilterEnum,
+            value: z.any()
+        }))
+        .mutation(async ({input}) => {
+            const by = input.by
+            const value = input.value
+
+            const data = await db.mod.findFirst({
+                where: {
+                    [by]: value
+                },
+                include: {
+                    items: {
+                        include: {
+                            gallery: true
+                        }
+                    }
+                }
+            })
+
+            return {
+                ...data,
+                items: data?.items.filter(item => item.item_tag === value)
+            }
+        }),
+
     getFilteredMods: publicProcedure
         .input(z.object({
             by: ByFilterEnum,
