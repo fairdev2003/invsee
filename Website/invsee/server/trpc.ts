@@ -42,8 +42,6 @@ export const protectedProcedure = t.procedure.use(async function isAuthed({ ctx,
         });
     }
 
-    
-
     const user = await db.user.findFirst({
         where: {
             email: `${ctx?.session?.user?.email}`
