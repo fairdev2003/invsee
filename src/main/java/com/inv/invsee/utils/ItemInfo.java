@@ -26,6 +26,10 @@ public class ItemInfo {
             if (o.equals("Blood")) {
                 object.addProperty("Blood", compound.getInt("Blood"));
             }
+            if (o.equals("Energy")) {
+                object.addProperty("Energy", compound.getInt("Energy"));
+            }
+
 
 
         }

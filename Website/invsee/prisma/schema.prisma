@@ -164,6 +164,12 @@ enum CraftingType {
     Furnace
     Blasting
     Smoking
+    Campfire
+    StoneCutter
+    Smithing
+    Brewing
+    Cartography
+    MekanismInfuser
 }
 
 model Role {
@@ -173,15 +179,17 @@ model Role {
 }
 
 model RecipeIngredient {
-    id       String  @id @default(auto()) @map("_id") @db.ObjectId()
-    itemId   String  @db.ObjectId()
-    item     Item    @relation(fields: [itemId], references: [id])
-    recipeId String  @db.ObjectId()
-    index    Int
-    recipe   Recipes @relation(fields: [recipeId], references: [id])
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId()
+    itemId        String  @db.ObjectId()
+    item          Item    @relation(fields: [itemId], references: [id])
+    recipeId      String  @db.ObjectId()
+    index         Int     
+    inputoroutput Boolean
+    recipe        Recipe  @relation(fields: [recipeId], references: [id])
+    count         Int
 }
 
-model Recipes {
+model Recipe {
     id               String             @id @default(auto()) @map("_id") @db.ObjectId()
     title            String?
     description      String?

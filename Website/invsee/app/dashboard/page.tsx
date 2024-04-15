@@ -86,8 +86,8 @@ function Dashboard() {
   }, [token?.user?.email]);
   
   useEffect(() => {
-    if (searchParams.has("section")) {
-      setsection(searchParams.get("section"));
+    if (searchParams?.has("section")) {
+      setsection(searchParams?.get("section"));
     }
   }, [searchParams]);
 
@@ -142,28 +142,28 @@ function Dashboard() {
                   </div>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="overview">
-                  <GrOverview clasName="text-white" size={25}></GrOverview>
+                  <GrOverview className="text-white" size={25}></GrOverview>
                   <p>{translations[language]["Dashboard"]["Overview"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="mods">
-                  <FiDatabase clasName="text-white" size={25}></FiDatabase>
+                  <FiDatabase className="text-white" size={25}></FiDatabase>
                   <p>{translations[language]["Dashboard"]["Mods"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="items">
-                  <FiTool clasName="text-white" size={25}></FiTool>
+                  <FiTool className="text-white" size={25}></FiTool>
                   <p>{translations[language]["Dashboard"]["Items"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="tags">
-                  <FiTag clasName="text-white" size={25}></FiTag>
+                  <FiTag className="text-white" size={25}></FiTag>
                   <p>{translations[language]["Dashboard"]["Tags"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="allies">
-                  <FiSmile clasName="text-white" size={25}></FiSmile>
+                  <FiSmile className="text-white" size={25}></FiSmile>
                   <p>{translations[language]["Dashboard"]["Users"]}</p>
                 </DashboardSectionButton>
                 <DashboardSectionButton to="crafting">
                   <MdOutlineGridOn
-                    clasName="text-white"
+                    className="text-white"
                     size={25}
                   ></MdOutlineGridOn>
                   <p>

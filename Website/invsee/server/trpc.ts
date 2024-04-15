@@ -30,7 +30,6 @@ const t = initTRPC.context<Awaited<ReturnType<typeof createContext>>>().create({
 
 export const protectedProcedure = t.procedure.use(async function isAuthed({ ctx, next }) {
 
-
     if (!ctx?.session) {
 
         console.log((await LogUnAuthorized(ctx?.ip.dns.ip, 401, ctx?.ip.dns.geo, "UNAUTHORIZED")).message)

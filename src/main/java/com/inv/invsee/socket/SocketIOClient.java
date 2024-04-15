@@ -3,16 +3,10 @@ package com.inv.invsee.socket;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.inv.invsee.inventories.mc.PlayerHandler;
-import com.inv.invsee.utils.HttpRequestMethods;
 import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.server.ServerLifecycleEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class SocketIOClient {
