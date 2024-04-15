@@ -6,6 +6,8 @@ import { ModLoadersEnum, ByFilterEnum } from "@/lib/types/mods/modsTypes";
 export const modsRouter = router({
 
     // Get mods without any relations
+
+
     getRawMods: publicProcedure
         .query(async () => {
             const data = await db.mod.findMany()
@@ -34,6 +36,7 @@ export const modsRouter = router({
             return { data, count }
     }),
 
+    // get mod by id
     getFilteredMod : publicProcedure
         .input(z.object({
             by: ByFilterEnum,
@@ -61,7 +64,8 @@ export const modsRouter = router({
                 items: data?.items.filter(item => item.item_tag === value)
             }
         }),
-
+    
+    // get mods by filter
     getFilteredMods: publicProcedure
         .input(z.object({
             by: ByFilterEnum,
@@ -83,6 +87,7 @@ export const modsRouter = router({
                 include: {
                     items: {
                         include: {
+                            author: true,
                             gallery: true
                         }
                     }
@@ -109,7 +114,8 @@ export const modsRouter = router({
             return { data }
 
         }),
-
+    
+    // create a new mod
     createMod: protectedProcedure
         .input(z.object({
             modName: z.string(),
@@ -135,6 +141,8 @@ export const modsRouter = router({
 
             return { status: "OK", response: create_response }
         }),
+    
+    // update a mod
     updateMod: protectedProcedure
         .input(z.object({
             data: z.object({
@@ -166,6 +174,8 @@ export const modsRouter = router({
             })
             return { status: "OK", response: update_response }
         }),
+
+    // delete a mod
     deleteMod: protectedProcedure
     .input(z.object({
         id: z.string()

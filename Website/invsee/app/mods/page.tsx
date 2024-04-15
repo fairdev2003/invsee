@@ -40,7 +40,7 @@ const Mods = () => {
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
-          const params = new URLSearchParams(searchParams.toString())
+          const params = new URLSearchParams(searchParams?.toString())
           params.set(name, value)
 
           setmodselected(value)
@@ -73,8 +73,8 @@ const Mods = () => {
             }
         };
 
-        if (searchParams.has('mod')) {
-            setmodselected(searchParams.get('mod'));
+        if (searchParams?.has('mod')) {
+            setmodselected(searchParams?.get('mod'));
             
         };
     
@@ -83,11 +83,11 @@ const Mods = () => {
     }, []);
 
     useEffect(() => {
-        if (searchParams.has("section")) {
+        if (searchParams?.has("section")) {
             setsection(searchParams.get("section"))
         };
 
-        if (searchParams.has('mod')) {
+        if (searchParams?.has('mod')) {
             setmodselected(searchParams.get('mod'));
             
         }

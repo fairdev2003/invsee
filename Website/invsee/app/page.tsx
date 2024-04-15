@@ -14,6 +14,8 @@ import AccountSwitchComponent from '@/components/mainpage/SwitchExplainSection';
 import AboutMeSection from '@/components/dashboard/sections/AboutAuthorSection';
 import Footer from '@/components/footer';
 
+
+
 export default async function Home() {
   return (
     <main className="flex flex-col justify-center items-center mb-[100px]" id='mainpage'>
