@@ -9,7 +9,8 @@ import { useResize } from "@/lib/hooks/useResize";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { Item, ItemInfo, Mod } from "@prisma/client";
-import Card from "./(components)/copy_card";
+import Card from "./(components)/CopyCard";
+import WikiHeader from "./(components)/Header";
 
 const ZodTagName = z.string().includes("__");
 type TagName = z.infer<typeof ZodTagName>;
@@ -80,35 +81,8 @@ const ModPage = (id: { tag: string; item_tag: string }) => {
           );
         })}
       </div>
-      <div className="justify-center col-span-3 rounded-xl grid grid-rows-4 grid-cols-1 gap-y-4">
-        <div className="bg-[#1C1A1A] flex row-span-1 w-full rounded-3xl">
-          {!mod.isLoading
-            ? getMod()
-                .data?.slice(0, 1)
-                .map((item: any) => {
-                  return (
-                    <div className="text-white px-5 flex gap-5 items-center">
-                      <Image
-                        alt={item.id}
-                        width={150}
-                        height={150}
-                        src={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709745445/${tag}/${item.item_tag}.png`}
-                      ></Image>
-                      <div className="flex flex-col justify-start items-start gap-2">
-                        <h1 className="font-[700] text-3xl">
-                          {item.item_name}
-                        </h1>
-                        <p className="font-[500] text-md italic text-[#AAA3A3]">
-                          {`"${item.short_description}"`}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })
-            : "loading"}
-        </div>
-        <div className="bg-[#1C1A1A] flex w-full row-span-3 rounded-3xl"></div>
-      </div>
+      
+      <WikiHeader func={getMod} mod={mod} tag={tag}/>
 
       <div className="justify-center col-span-1 rounded-xl grid grid-rows-4 grid-cols-1 gap-y-4">
         <div className="bg-[#1C1A1A] w-full rounded-3xl flex justify-center items-center">
@@ -120,7 +94,9 @@ const ModPage = (id: { tag: string; item_tag: string }) => {
             
           </div>
         </div>
-        <div className="bg-[#1C1A1A] flex w-full row-span-3 rounded-3xl"></div>
+        <div className="bg-[#1C1A1A] flex w-full row-span-3 rounded-3xl">
+          
+        </div>
       </div>
     </div>
   );
