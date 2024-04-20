@@ -14,7 +14,10 @@ const ioHandler = (req: Any, res: Any) => {
 
     const httpServer = res.socket.server as NetServer;
     const io = new ServerIO(httpServer, {
-      /* options */
+      cors: {
+        origin: 'localhost:3000',
+        methods: ['GET', 'POST'],
+      },
     });
 
     io.on('connection', (socket: Socket) => {
@@ -32,10 +35,6 @@ const ioHandler = (req: Any, res: Any) => {
 
   res.end();
 }
-
-// q: hwo can i use this in my app?
-// a: import this file in your server.ts file
-// q: where is server.ts file?
 
 
 export default ioHandler;

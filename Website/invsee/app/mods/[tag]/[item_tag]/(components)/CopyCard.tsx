@@ -13,7 +13,7 @@ const Card = ({
 
   const [ checked, setChecked ] = useState(false);
 
-  const copyToClipboard = ( text: string | number | undefined ) => {
+  const copyToClipboard = ( text: string ) => {
     navigator.clipboard.writeText(`${text}`);
     setChecked(true);
     setTimeout(() => {
@@ -28,6 +28,7 @@ const Card = ({
         {/* @ts-ignore */}
 
         
+
         
         {!checked && <Clipboard className="absolute right-5 h-5 w-5 ml-2 text-[#AAA3A3] hover:text-white transition-colors cursor-pointer" onClick={
           () => copyToClipboard(value || "")

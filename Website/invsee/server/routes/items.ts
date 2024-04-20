@@ -20,6 +20,22 @@ export const itemsRouter = router({
 
       return { count, data };
     }),
+
+  getItemByTag: publicProcedure
+    .input(z.string().includes("__"))
+    .mutation(async ( { input } ) => {
+      const data = await db.item.findFirst({
+        where: {
+          item_tag: input
+        },
+        include: {
+          mod: true,
+          gallery: true,
+        }
+      });
+
+      return data;
+  }),
     
   createNewItem: publicProcedure
     .input(z.object({
