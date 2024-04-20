@@ -90,6 +90,7 @@ model Item {
     updatedAt         DateTime           @updatedAt
     RecipeIngredient  RecipeIngredient[]
     recipesId         String?            @db.ObjectId()
+    tags              String[]
     LiveChatMessages  LiveChatMessages[]
 }
 

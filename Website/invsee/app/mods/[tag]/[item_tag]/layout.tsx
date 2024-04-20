@@ -1,10 +1,9 @@
-import Navbar from '@/components/navbar'
+import NavigationBar from '@/components/Navbar/NavigationBar';
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import { AuthProvider } from '@/components/AuthProviders';
-import Provider from '../_trpc/TRPCProvider';
+import Provider from '@/app/_trpc/TRPCProvider';
 import { Suspense } from 'react';
-import NavigationBar from '@/components/Navbar/NavigationBar';
 
 const poppins = Poppins({ weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"], subsets: ["devanagari"], preload: true})
 
@@ -25,7 +24,7 @@ export default async function RootLayout({
         <AuthProvider>
           <Provider>
             <Suspense>
-              <NavigationBar/>
+              <NavigationBar />
               {children}
             </Suspense>
           </Provider>

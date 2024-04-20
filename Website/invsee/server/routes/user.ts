@@ -102,5 +102,33 @@ export const userRouter = router({
       );
 
       return collection;
-    })
+    }),
+    login: publicProcedure
+      .input(z.object({ email: z.string(), password: z.string() }))
+      .mutation(async ({ input }) => {
+        const { email, password } = input;
+        const user = await db.user.findFirst({
+          where: {
+            email,
+            password
+          }
+        });
+
+        if (!user) {
+          return {
+            error: "User not found"
+          }
+        }
+
+        if (user.password !== password) {
+          return {
+            error: "Invalid password",
+            error_code: 401
+          }
+        }
+
+        return {
+          user
+        }
+      })
 });

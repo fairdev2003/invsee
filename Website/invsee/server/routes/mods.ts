@@ -53,7 +53,8 @@ export const modsRouter = router({
                 include: {
                     items: {
                         include: {
-                            gallery: true
+                            gallery: true,
+                            author: true
                         }
                     }
                 }
