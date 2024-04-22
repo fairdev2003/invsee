@@ -3,5 +3,15 @@ export type VanillaCraftingGrids = "Workbench" | "Inventory" | "Furnace" | "Blas
 export interface WorkbenchProps {
     items: any;
     final_item: any;
+}
 
+export interface InventoryProps {
+    items: any;
+    final_item: any;
+}
+
+export interface FurnaceProps {
+    items: any;
+    fuel: any;
+    final_item: any;
 }

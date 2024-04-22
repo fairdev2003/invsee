@@ -1,3 +1,4 @@
+import { Furnace, Inventory, Workbench } from "@/components/CraftingGrids/VanillaGrids";
 import { ItemSlot } from "@/components/Item/ItemStack";
 import Image from "next/image";
 
@@ -38,22 +39,10 @@ const WikiHeader = ({ func, mod, tag }: WikiHeaderProps) => {
               })
           : "loading"}
       </div>
-      <div className="bg-[#1C1A1A] row-span-3 rounded-3xl flex flex-col p-5 gap-2">
-        <div className="flex gap-2">
-          <ItemSlot size={50} itemTag="ae2__controller" itemName="ME Controller" mod="ae2"/>
-          <ItemSlot size={50}itemTag="ae2__chest" itemName="ME Chest" mod="ae2"/>
-          <ItemSlot size={50} itemTag="ae2__charger" itemName="Charger" mod="ae2"/>
-        </div>
-        <div className="flex gap-2">
-          <ItemSlot/>
-          <ItemSlot itemTag="ae2__charger" itemName="Charger" mod="ae2"/>
-          <ItemSlot itemTag="ae2__chest" itemName="ME Chest" mod="ae2"/>
-        </div>
-        <div className="flex gap-2">
-          <ItemSlot itemTag="ae2__controller" itemName="ME Controller" mod="ae2"/>
-          <ItemSlot itemTag="ae2__chest" itemName="ME Chest" mod="ae2"/>
-          <ItemSlot itemTag="ae2__charger" itemName="Charger" mod="ae2"/>
-        </div>
+      <div className="bg-[#1C1A1A] row-span-3 rounded-3xl flex flex-col p-5 gap-2 gap-y-10">
+        <Workbench/>
+        <Inventory/>
+        <Furnace/>
       </div>
     </div>
   );
