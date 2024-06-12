@@ -50,7 +50,7 @@ export default function PaginationComponent({
         <PaginationContent>
           <button
             onClick={() => {
-              router.push(`?section=${section}&page=${page - 1}`);
+              router.push(`?section=${section}&page=${page - 1 !== 0 ? page - 1 : getPageCount(items)}`);
             }}
             className={cn(
               "w-8 h-8 flex justify-center items-center rounded-md bg-[#2d2d2d] text-white",

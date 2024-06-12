@@ -52,7 +52,6 @@ public class Ae2NetworkHandler implements EventListener {
     @SubscribeEvent()
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
 
-
         if (event.getSide().isServer()) {
             Player player = event.getEntity();
             Level world = event.getLevel();

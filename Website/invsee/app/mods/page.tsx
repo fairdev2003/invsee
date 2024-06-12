@@ -115,7 +115,7 @@ const Mods = () => {
             <div className="flex flex-grow-2 gap-10 mx-[50px]">
                 <div className="bg-[#26292f] border-[#464444] border-[2px] w-[800px] p-5 h-[950px] rounded-lg">
                     <h1 className="text-2xl font-[700] text-white m-5">Listed Mods:</h1>
-                    {mods.length > 0 && mods ? mods.map((mod: any, number: number) => {
+                    { mods.length > 0 && mods ? mods.map((mod: any, number: number) => {
                         return (
                             <div key={mod} className={`flex gap-3 m-5 select-none bg-[#32343a] hover:bg-[#353b44] rounded-lg p-4 cursor-pointer border-${mod.mod_tag === modselected ? "white border-[3px]" : "[#464444] border-[2px]"}`} onClick={() => {
                                 router.push(

@@ -25,6 +25,11 @@ import {
 import { AddItemModal } from "../Modal";
 import { getAllItems } from "@/actions/itemHelpers";
 
+const handleDeafultImage = (e: any) => {
+  e.target.src = "deafult.png";
+  
+}
+
 export default function Items() {
   const [items, setItems] = useState<any>([]);
   const [page, setPage] = useState(1);
@@ -154,15 +159,16 @@ export default function Items() {
                 <div className="flex gap-5 justify-between items-center bg-gray-900/80 rounded-md p-5" key={item.tag_name}>
                   <div className="flex gap-5 items-center">
                     <Image
-                      src={`/mc_assets/${item.tag_name.split("__")[0]}/${
+
+                      src={item.tag_name !== "minecraft__air" ? `/mc_assets/${item.tag_name.split("__")[0]}/${
                         item.tag_name
-                      }.png`}
+                      }.png` : "/deafult.png"}
                       alt="item_image"
                       className="w-10 h-10"
                       width={50}
                       height={50}
                       onError={(event) => {
-                        handleDeafultImage(event);
+                        return handleDeafultImage(event);
                       }}
                     ></Image>
                     <div>
