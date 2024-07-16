@@ -48,7 +48,7 @@ const InfoSection = () => {
               <p>{translations[language]["Mainpage"]["InfoSection"]["Served Data"]}</p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">item_name</span>: "{itemdata && itemdata.item_name !== null ? itemdata.item_name : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">tag_name</span>: "{itemdata && itemdata.tag_name ? itemdata.tag_name.replace("__", ":") : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
-              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">tag_name</span>: "{itemdata && itemdata.mod_tag ? itemdata.mod_tag : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
+              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod_tag ? itemdata.mod_tag : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">short_description</span>: "{itemdata && itemdata.short_description && itemdata.short_description.length > 0 ? itemdata.short_description : <span className="text-red-500">No data</span>}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod && itemdata.mod.length > 0 ? itemdata.mod[0].mod_name : "Minecraft"}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               </motion.div> : null}
@@ -61,7 +61,7 @@ const InfoSection = () => {
             }} 
             placeholder={translations[language]["Mainpage"]["InfoSection"]["Search"]} className="bg-blue-500 mt-3 text-white placeholder:text-white"></Input>
             <div className="flex flex-col gap-4 mt-4">
-              {!data.isLoading && data.data ? data.data.map((item: any, index: number) => {
+              {!data.isLoading && data.data && data.data.map((item: any, index: number) => {
                   return (
                     console.log(itemdata),
                     <div onClick={() => {
@@ -85,7 +85,7 @@ const InfoSection = () => {
                         <p className="text-sm">{item.mod && item.mod.length > 0 ? item.mod[0].mod_name : "Minecraft"}</p>
                       </div>
                     </div>)
-              }) : null}
+              })}
               <div className="flex gap-3 justify-center items-center">
                 <div className="h-1 rounded-full w-[30%] bg-blue-500 mt-1"></div>
                 <div className="h-1 rounded-full w-[30%] bg-blue-500 mt-1"></div>

@@ -31,10 +31,18 @@ export default function RootLayout({
           
           <Provider>
             {children}
+          
+
+
+      
           </Provider>
           
         </AuthProvider>
+
+
+
       </body>
     </html>
   );
 }
+

@@ -1,10 +1,6 @@
 'use server'
 
-import Navbar from '@/components/navbar'
-import { ArrowRight } from 'lucide-react';
-import Image from 'next/image'
-import Link from 'next/link';
-import BackgroundImage from '@/assets/background.jpg'
+import Navbar from '@/components/navbar';
 import ExploreSection from '@/components/mainpage/ExploreSection';
 import InfoSection from '@/components/mainpage/InfoSection';
 import LiveChatPresentSection from '@/components/mainpage/LiveChatPresentSection';
@@ -18,7 +14,8 @@ import Footer from '@/components/footer';
 
 export default async function Home() {
   return (
-    <main className="flex flex-col justify-center items-center mb-[100px]" id='mainpage'>
+    <main className="flex flex-col justify-center items-center" id='mainpage'>
+      <Navbar/>
       <ExploreSection/>
       <InfoSection/>
       <LiveChatPresentSection/>

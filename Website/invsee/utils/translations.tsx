@@ -100,7 +100,26 @@ export const translations: any = {
             "AboutMeSection": {
                 "Title": "O autorze",
                 "Description": "Hej, nazywam się Jakub. Moją pasją jest programowanie aplikacji fullstackowych. Aktualnie mieszkam w Polsce . Lubię tworzyć nowe projekty i uczyć się nowych technologii. Ten projekt jest moim największym. Chcę, aby ta strona była komercyjna co za tym idzie chciałbym kazdą rzecz dopiąć na ostatny guzik. W trakcie rozwoju będę zamieszczał informacje o postępach na Twitterze, więc jeśli jesteś zainteresowany, sprawdź moje linki poniżej!"
+            },
+            "Footer": {
+                "FirstColumn": [
+                    "Mody",
+                    "Przedmioty",
+                    "Invsee Mod",
+                    "Eksplorator przedmiotów",
+                    "Wyszukiwarka przedmiotów"
+                ],
+                "SecondColumn": [
+                    "Polityka prywatności",
+                    "Warunki korzystania",
+                    "Polityka plików cookie",
+                    "Polityka płatności",
+                    "FAQ"
+                ],
+                "FooterElement": "FooterElement",
+                "Footer": "Footer",
             }
+
         }
     },
     "en": {
@@ -204,6 +223,24 @@ export const translations: any = {
             "AboutMeSection": {
                 "Title": "About Author",
                 "Description": "Hey, my name is Jakub. Im pasionate fullstack developer from Poland. I do like make new projects. This project is my biggest. I want to make this website smooth. Along the development i will post news about progress on Twitter so if you are hyped, check my links below!"
+            },
+            "Footer": {
+                "FirstColumn": [
+                    "Mods",
+                    "Items",
+                    "Invsee Mod",
+                    "Item Explorer",
+                    "Item Search"
+                ],
+                "SecondColumn": [
+                    "Privacy Policy",
+                    "Terms of Service",
+                    "Cookie Policy",
+                    "Paymant Policy",
+                    "FAQ"
+                ],
+                "FooterElement": "FooterElement",
+                "Footer": "Footer",
             }
         }
 
@@ -308,7 +345,26 @@ export const translations: any = {
             "AboutMeSection": {
                 "Title": "Sobre el autor",
                 "Description": "¡Hola, mi nombre es Jakub. Soy un apasionado desarrollador fullstack de Polonia. Me gusta hacer nuevos proyectos. Este proyecto es el más grande. Quiero que este sitio web sea suave. A lo largo del desarrollo, publicaré noticias sobre el progreso en Twitter, así que si estás emocionado, ¡mira mis enlaces a continuación!"
+            },
+            "Footer": {
+                "FirstColumn": [
+                    "Mods",
+                    "Items",
+                    "Invsee Mod",
+                    "Explorador de artículos",
+                    "Búsqueda de artículos"
+                ],
+                "SecondColumn": [
+                    "Política de privacidad",
+                    "Términos de servicio",
+                    "Política de cookies",
+                    "Política de pagos",
+                    "FAQ"
+                ],
+                "FooterElement": "FooterElement",
+                "Footer": "Footer",
             }
+
         }
     }
 
