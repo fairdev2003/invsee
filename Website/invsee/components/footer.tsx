@@ -4,38 +4,10 @@
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 import { motion } from 'framer-motion'
-import { useState } from 'react';
-
-const FirstColumnn: string[] = [
-    "Mods",
-    "Items",
-    "Invsee Mod",
-    "Item Explorer",
-    "Item Search"
-
-]
-
-const SecondColumn: string[] = [
-    "Privacy Policy",
-    "Terms of Service",
-    "Cookie Policy",
-    "Paymant Policy",
-    "FAQ"
-]
-
-const FooterElement = (item: string) => {
-    return (
-        <p className="hover:font-bold hover:text-underline">{item}</p>
-    )
-
-}
 
 const Footer = () => {
 
     const { language } = usePersistStore();
-    const [FirstColumn] = useState<string[]>(translations[language]["Mainpage"]["Footer"]["FirstColumn"])
-    const [SecondColumn] = useState<string[]>(translations[language]["Mainpage"]["Footer"]["SecondColumn"])
-
 
     return (
             <footer className="bg-blue-600 w-full" id='soon'>
