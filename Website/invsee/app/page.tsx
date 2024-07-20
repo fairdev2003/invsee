@@ -9,20 +9,24 @@ import MoreComingComponent from '@/components/mainpage/MoreComingSection';
 import AccountSwitchComponent from '@/components/mainpage/SwitchExplainSection';
 import AboutMeSection from '@/components/dashboard/sections/AboutAuthorSection';
 import Footer from '@/components/footer';
+import ContactUs from '@/components/mainpage/ContactUs';
+import Social from '@/components/mainpage/Gallery';
 
 
 
 export default async function Home() {
   return (
     <main className="flex flex-col justify-center items-center" id='mainpage'>
-      <Navbar/>
+      
       <ExploreSection/>
       <InfoSection/>
       <LiveChatPresentSection/>
       <ApiComponent/>
       <AccountSwitchComponent/>
+      <Social/>
       <MoreComingComponent/>
       <AboutMeSection/>
+      <ContactUs/>
       <Footer/>
     </main>
   )
