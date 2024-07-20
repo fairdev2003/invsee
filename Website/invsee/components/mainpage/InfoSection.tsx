@@ -13,10 +13,11 @@ const InfoSection = () => {
   const { language, color } = usePersistStore();
   const [itemdata, setItemData] = React.useState<any>({});
 
-  const data = trpc.items.getItemByQuery.useMutation(
+  const data = trpc.items.getItemByQueryPrisma.useMutation(
     {
       onSettled: (data) => {
 
+        // @ts-ignore
         setItemData(data[0]);
       },
     }
@@ -49,8 +50,8 @@ const InfoSection = () => {
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">item_name</span>: "{itemdata && itemdata.item_name !== null ? itemdata.item_name : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">tag_name</span>: "{itemdata && itemdata.tag_name ? itemdata.tag_name.replace("__", ":") : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod_tag ? itemdata.mod_tag : null}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
-              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">short_description</span>: "{itemdata && itemdata.short_description && itemdata.short_description.length > 0 ? itemdata.short_description : <span className="text-red-500">No data</span>}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
-              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod && itemdata.mod.length > 0 ? itemdata.mod[0].mod_name : "Minecraft"}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
+              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">short_description</span>: "{itemdata && itemdata.short_description && itemdata.short_description.length > 0 ? itemdata.short_description.slice(0, 50) + "..." : <span className="text-red-500">No data</span>}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
+              <p><span className="text-blue-500 font-[700]">{"{"}</span>{" "}<span className="text-green-500">mod_name</span>: "{itemdata && itemdata.mod && itemdata.mod.modName.length > 0 ? itemdata.mod.modName : "Minecraft"}"{" "}<span className="text-blue-500 font-[700]">{"}"}</span></p>
               </motion.div> : null}
             </div>
           </div>
@@ -75,14 +76,14 @@ const InfoSection = () => {
                       }                  
                       }} className={`text-white hover:translate-x-3 transition-all cursor-pointer ${itemdata === item ? "bg-blue-700 translate-x-3" : "bg-blue-500"} h-[90px] rounded-lg p-5 flex items-center gap-5 truncate`}>
                       <Image
-                      src={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709745445/${item.mod_tag}/${item.tag_name}.png`}
+                      src={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709745445/${item.mod.tag}/${item.item_tag}.png`}
                       alt="item_image"
                       className="w-10 h-10"
                       width={70}
                       height={70}/>
                       <div className="flex flex-col px-2">
                         <h1 className="text-lg font-[600]">{item && item.item_name.length > 15 ? item.item_name.substring(0,15) + "..." : item.item_name}</h1>
-                        <p className="text-sm">{item.mod && item.mod.length > 0 ? item.mod[0].mod_name : "Minecraft"}</p>
+                        <p className="text-sm">{item.mod && item.mod.modName.length > 0 ? item.mod.modName : "Minecraft"}</p>
                       </div>
                     </div>)
               })}

@@ -1,3 +1,5 @@
-type ENV_STRING = any;
-
 type Any = any;
+
+export function isAny(value: Any): value is Any {
+  return true;
+}

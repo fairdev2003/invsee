@@ -56,10 +56,20 @@ export const translations: any = {
         },
         "Mainpage": {
             "ExploreSection": {
-                "Explore you favorite": "Odkryj swoje ulubione",
+                "Explore you favorite": "Odkrywaj swoje ulubione",
                 "Mods": "mody",
-                "and wiki about them!": "i wiki o nich!",
-                "Get Started": "Zacznij",
+                "and wiki about them!": "i ich wiki!",
+                "Get Started": "Rozpocznij",
+                "Images": [
+                    "Pokój Gwiezdnej Bramy",
+                    "Obszar Sfery Dysona",
+                    "Fabryka Oleju Napędowego",
+                    "Pokój Ze Średnim Napięciem",
+                    "Pokój Kontrolny",
+                    "Obszar Rewolucji Przemysłowej",
+                    "Łódzka Fabryka",
+                    "Strefa Rozładunku",
+                ]
             },
             "InfoSection": {
                 "How about mods?": "A co z modyfikacjami?",
@@ -118,6 +128,10 @@ export const translations: any = {
                 ],
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
+            },
+            "ContactUs": {
+                "Title": "Skontaktuj się z nami",
+                "Description": "W razie pytań lub wątpliwości skontaktuj się z nami pod adresem: ",
             }
 
         }
@@ -179,10 +193,20 @@ export const translations: any = {
         },
         "Mainpage": {
             "ExploreSection": {
-                "Explore you favorite": "Explore you favorite",
+                "Explore you favorite": "Explore your favorite",
                 "Mods": "Mods",
                 "and wiki about them!": "and wiki about them!",
                 "Get Started": "Get started",
+                "Images": [
+                    "Stargate Room",
+                    "Dyson Sphere Area",
+                    "Diesel Factory",
+                    "MV Room",
+                    "Controller Room",
+                    "Industrial Revolution Area",
+                    "Boat City Factory",
+                    "Docking Area",
+                ]
             },
             "InfoSection": {
                 "How about mods?": "How about mods?",
@@ -241,6 +265,10 @@ export const translations: any = {
                 ],
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
+            },
+            "ContactUs": {
+                "Title": "Contact Us",
+                "Description": "For any questions or concerns, please contact us at: ",
             }
         }
 
@@ -305,6 +333,16 @@ export const translations: any = {
                 "Mods": "Mods",
                 "and wiki about them!": "¡y wiki sobre ellos!",
                 "Get Started": "Empezar",
+                "Images": [
+                    "Sala de Stargate",
+                    "Área de la esfera de Dyson",
+                    "Fábrica de diésel",
+                    "Sala de MV",
+                    "Sala de control",
+                    "Área de la Revolución Industrial",
+                    "Fábrica de Lodz",
+                    "Área de descarga",
+                ]
             },
             "InfoSection": {
                 "How about mods?": "¿Qué tal los mods?",
@@ -363,6 +401,10 @@ export const translations: any = {
                 ],
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
+            },
+            "ContactUs": {
+                "Title": "Contáctanos",
+                "Description": "Para cualquier pregunta o inquietud, contáctanos en: ",
             }
 
         }
