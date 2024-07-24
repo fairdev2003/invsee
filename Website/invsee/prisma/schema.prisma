@@ -91,6 +91,7 @@ model Item {
     RecipeIngredient  RecipeIngredient[]
     recipesId         String?            @db.ObjectId()
     tags              String[]
+    material_value    Int               @default(0)
     LiveChatMessages  LiveChatMessages[]
 }
 
@@ -184,7 +185,7 @@ model RecipeIngredient {
     itemId        String  @db.ObjectId()
     item          Item    @relation(fields: [itemId], references: [id])
     recipeId      String  @db.ObjectId()
-    index         Int     
+    index         Int
     inputoroutput Boolean
     recipe        Recipe  @relation(fields: [recipeId], references: [id])
     count         Int
