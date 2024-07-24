@@ -11,7 +11,7 @@ const MoreComingComponent = () => {
     const { language } = usePersistStore();
 
     return (
-        <div className="flex justify-center bg-blue-700 w-full mt-20" id='soon'>
+        <div className="flex justify-center bg-blue-700 w-full" id='soon'>
             <Image src={Steve} alt="steve" className="scale-[65%]" id='steve' />
             <div className="flex flex-col items-center justify-center gap-0">
                 <h1 className="text-4xl text-start font-[700] text-white">{translations[language]["Mainpage"]["ComingSoonSection"]["Hyped for more?"]}</h1>

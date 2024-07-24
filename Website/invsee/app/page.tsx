@@ -22,8 +22,8 @@ export default async function Home() {
       <InfoSection/>
       <LiveChatPresentSection/>
       <ApiComponent/>
-      <AccountSwitchComponent/>
       <Social/>
+      <AccountSwitchComponent/>
       <MoreComingComponent/>
       <AboutMeSection/>
       <ContactUs/>
