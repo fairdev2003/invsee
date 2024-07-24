@@ -12,6 +12,7 @@ import Art6 from "@/assets/Art6.png";
 import Art7 from "@/assets/Art7.png";
 import Art8 from "@/assets/Art8.png";
 import Art9 from "@/assets/Art9.png";
+import Art10 from "@/assets/Art9.png";
 import { GoDot, GoDotFill } from "react-icons/go";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { motion } from "framer-motion";
