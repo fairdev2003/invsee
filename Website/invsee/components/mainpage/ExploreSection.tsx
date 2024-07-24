@@ -1,27 +1,21 @@
 "use client";
-
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
-import Meatball from "@/assets/meatball.svg";
-import Image from "next/image";
-import Art1 from "@/assets/art1.png";
-import Art2 from "@/assets/art2.png";
-import Art3 from "@/assets/art3.png";
-import Art4 from "@/assets/art4.png";
-import Art5 from "@/assets/art5.png";
-import Art6 from "@/assets/art6.png";
-import Art7 from "@/assets/art7.png";
-import Art8 from "@/assets/art8.png";
-import Art9 from "@/assets/art9.png";
+import Art1 from "@/assets/Art1.png";
+import Art2 from "@/assets/Art2.png";
+import Art3 from "@/assets/Art3.png";
+import Art4 from "@/assets/Art4.png";
+import Art5 from "@/assets/Art5.png";
+import Art6 from "@/assets/Art6.png";
+import Art7 from "@/assets/Art7.png";
+import Art8 from "@/assets/Art8.png";
+import Art9 from "@/assets/Art9.png";
 import { GoDot, GoDotFill } from "react-icons/go";
 import { FaPlay, FaPause } from "react-icons/fa";
-import { url } from "inspector";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { set } from "mongoose";
 
 const ExploreSection = () => {
   const { language } = usePersistStore();
