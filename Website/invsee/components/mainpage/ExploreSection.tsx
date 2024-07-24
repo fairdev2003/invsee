@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 
 const ExploreSection = () => {
   const { language } = usePersistStore();
-  const [image, setImage] = useState(Art2.src);
+  const [image, setImage] = useState("https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art1.png");
   const [index, setIndex] = useState(0);
   const [hidden, setHidden] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -27,15 +27,15 @@ const ExploreSection = () => {
   const imageReference = translations[language]["Mainpage"]["ExploreSection"]["Images"]
 
   const images = [
-    { image: Art1.src, name: imageReference[0] },
-    { image: Art2.src, name: imageReference[1] },
-    { image: Art3.src, name: imageReference[2] },
-    { image: Art4.src, name: imageReference[3] },
-    { image: Art5.src, name: imageReference[4] },
-    { image: Art6.src, name: imageReference[5] },
-    { image: Art7.src, name: imageReference[6] },
-    { image: Art8.src, name: imageReference[7] },
-    { image: Art9.src, name: imageReference[8] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art1.png", name: imageReference[0] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art2.png", name: imageReference[1] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art3.png", name: imageReference[2] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art4.png", name: imageReference[3] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art5.png", name: imageReference[4] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art6.png", name: imageReference[5] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art7.png", name: imageReference[6] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art8.png", name: imageReference[7] },
+    { image: "https://res.cloudinary.com/dzaslaxhw/image/upload/v1721836749/gallery/Art9.png", name: imageReference[8] },
   ];
 
   useEffect(() => {
