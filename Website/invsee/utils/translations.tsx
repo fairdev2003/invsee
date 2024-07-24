@@ -65,10 +65,11 @@ export const translations: any = {
                     "Obszar Sfery Dysona",
                     "Fabryka Oleju Napędowego",
                     "Pokój Ze Średnim Napięciem",
-                    "Pokój Kontrolny",
+                    "Punkt Kontrolny",
                     "Obszar Rewolucji Przemysłowej",
                     "Łódzka Fabryka",
                     "Strefa Rozładunku",
+                    "Tunel P2P",
                 ]
             },
             "InfoSection": {
@@ -128,6 +129,10 @@ export const translations: any = {
                 ],
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
+            },
+            "Social": {
+                "Title": "Nasza społeczność. NIE! To Twoja społeczność!",
+                "Description": "Dołącz do naszej społeczności i dziel się swoimi dziełami z innymi ludźmi! Twoje budowle, mody i inne dzieła będą dostępne dla wszystkich do zobaczenia. Możesz również odkrywać dzieła innych ludzi i inspirować się nimi, aby stworzyć własne arcydzieła!"
             },
             "ContactUs": {
                 "Title": "Skontaktuj się z nami",
@@ -202,10 +207,11 @@ export const translations: any = {
                     "Dyson Sphere Area",
                     "Diesel Factory",
                     "MV Room",
-                    "Controller Room",
+                    "Control Point",
                     "Industrial Revolution Area",
                     "Boat City Factory",
                     "Docking Area",
+                    "P2P Tunnel",
                 ]
             },
             "InfoSection": {
@@ -266,6 +272,12 @@ export const translations: any = {
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
             },
+
+            "Social": {
+                "Title": "Our community. NO! Your community!",
+                "Description": "Join our community and share your creations with other people! Your images, mods, and other creations will be available for everyone to see. You can also explore other people's creations and get inspired by them to create your own beatiful art!",
+            },
+
             "ContactUs": {
                 "Title": "Contact Us",
                 "Description": "For any questions or concerns, please contact us at: ",
@@ -342,6 +354,7 @@ export const translations: any = {
                     "Área de la Revolución Industrial",
                     "Fábrica de Lodz",
                     "Área de descarga",
+                    "Túnel P2P"
                 ]
             },
             "InfoSection": {
@@ -402,6 +415,12 @@ export const translations: any = {
                 "FooterElement": "FooterElement",
                 "Footer": "Footer",
             },
+            
+            "Social": {
+                "Title": "Nuestra comunidad. ¡NO! ¡Tu comunidad!",
+                "Description": "¡Únete a nuestra comunidad y comparte tus creaciones con otras personas! Tus imágenes, mods y otras creaciones estarán disponibles para que todos las vean. ¡También puedes explorar las creaciones de otras personas e inspirarte en ellas para crear tu propia obra maestra!"
+            },
+
             "ContactUs": {
                 "Title": "Contáctanos",
                 "Description": "Para cualquier pregunta o inquietud, contáctanos en: ",

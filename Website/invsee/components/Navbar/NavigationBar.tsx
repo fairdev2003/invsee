@@ -8,10 +8,10 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "@radix-ui/react-separator";
-import { Crown, Hammer, Star, User } from "lucide-react";
+import { Crown, Hammer, Settings, Star, User } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
+import { redirect } from "next/navigation"; 
 import axios from "axios";
-import { redirect } from "next/navigation";
 import { Select, SelectContent } from "../ui/select";
 import { SelectTrigger } from "@radix-ui/react-select";
 
@@ -73,17 +73,17 @@ const NavigationBar = () => {
           <div className="flex gap-3 items-center">
             <BsCircle className="text-green-500" />
             <a href="/dashboard?section=overview">
-              <p className="text-[13px] cursor-pointer">DASHBOARD</p>
+              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">DASHBOARD</p>
             </a>
-            <a href="/dashboard?section=workspace">
-              <p className="text-[13px] cursor-pointer">WORKSPACE</p>
+            <a href="/admin/workspace">
+              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">WORKSPACE</p>
             </a>
             <a href="/dashboard?section=items">
-              <p className="text-[13px] cursor-pointer">ITEMS & BLOCKS</p>
+              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">ITEMS & BLOCKS</p>
             </a>
 
             <p
-              className="text-[13px] cursor-pointer"
+              className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
               onClick={() => {
                 if (g === 2) {
                   setg(0);
@@ -95,9 +95,10 @@ const NavigationBar = () => {
             >
               CHANGE LANGUAGE
             </p>
+            <Settings size={20} className="cursor-pointer" />
           </div>
           <a href="/dashboard?section=account-settings">
-            <div className="text-[13px] flex gap-1 items-center cursor-pointer">
+            <div className="text-[13px] flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
               <User size={20} />{" "}
               <p>
                 {account_data[0].first_name.toUpperCase()}{" "}
@@ -107,7 +108,7 @@ const NavigationBar = () => {
           </a>
         </div>
       ) : null}
-      <div className="flex justify-between items-center p-1 bg-black h-[70Fpx] top-0 z-100">
+      <div className="flex justify-between items-center p-1 bg-black h-[100px] top-0 z-100">
         <a href="/">
           <h1 className="text-white text-2xl m-5 font-bold">Modopedia</h1>
         </a>
@@ -202,7 +203,7 @@ const NavigationBar = () => {
                 <p className="mx-2 my-1 text-[12px] truncate text-red-500">
                   {account_data.length > 0
                     ? "EMAIL IS HIDDEN"
-                    : "loading..."}
+                    : 'loading...'}
                 </p>
                 <Separator
                   orientation="horizontal"
@@ -250,7 +251,7 @@ const NavigationBar = () => {
               </PopoverContent>
             </Popover>
           </div>
-        ) : null}
+        ) : <Button variant="secondary" className="mr-5" onClick={() => window.location.href = '/login'}>Login</Button>}
       </div>
     </div>
   );

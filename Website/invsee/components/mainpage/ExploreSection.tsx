@@ -15,6 +15,7 @@ import Art5 from "@/assets/art5.png";
 import Art6 from "@/assets/art6.png";
 import Art7 from "@/assets/art7.png";
 import Art8 from "@/assets/art8.png";
+import Art9 from "@/assets/art9.png";
 import { GoDot, GoDotFill } from "react-icons/go";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { url } from "inspector";
@@ -40,6 +41,7 @@ const ExploreSection = () => {
     { image: Art6.src, name: imageReference[5] },
     { image: Art7.src, name: imageReference[6] },
     { image: Art8.src, name: imageReference[7] },
+    { image: Art9.src, name: imageReference[8] },
   ];
 
   useEffect(() => {
