@@ -82,7 +82,7 @@ const TestTRPC = () => {
                             <p className="text-white">{JSON.stringify(item)}</p>
                             <div className="text-white p-5 flex-col bg-gray-700 rounded-lg w-[1000px] flex items-center gap-20">
                                     <Image width={256} height={256} alt={item.id} src={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/${item.mod.tag}/${item.item_tag}`}></Image>
-                                    <p>[{" "}<span className="text-blue-500 font-bold">{item.mod.modName}</span>{" "}] {item.item_name}</p>
+                                    <p>[{" "}<span className="text-blue-500 font-bold">{ item.mod.modName }</span>{" "}] {item.item_name}</p>
                                     { item.gallery.map((image: any) => {
                                         return (
                                             <div>

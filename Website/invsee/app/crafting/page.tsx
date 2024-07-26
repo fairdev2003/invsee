@@ -2,7 +2,6 @@
 
 import { CraftingBig } from "@/components/crafting_components/CraftingBig";
 import { CraftingSmall } from "@/components/crafting_components/CraftingSmall";
-import { connectMongo } from '@/app/api/mongo/mongo'
 import { useEffect, useState } from "react";
 
 const furnace: any = [
@@ -339,9 +338,7 @@ const stick: any = [
 
 export default function Home() {
   
-    useEffect(() => {
-        connectMongo()
-    })
+    
 
   return (
     <main className="m-10" id="main">

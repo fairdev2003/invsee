@@ -22,7 +22,7 @@ export const auth: NextAuthOptions = {
                 const password = credentials.password as string;
                 const email = credentials.email as string;
                 
-                const ctx = await db.user.findFirst({
+            const ctx = await db.user.findFirst({
                     where: {
                         password, email
                     }

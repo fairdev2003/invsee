@@ -61,10 +61,10 @@ const LogCard = () => {
                 className="flex items-center bg-gray-900/50 p-3 rounded-lg relative"
                 key={1}
                 >   
-                    <Image alt={`pfp-${index}`} src={ log.user_info[0].image_src } width={100} height={100} className='rounded-lg w-[45px] h-[45px]'></Image>
+                    <Image alt={`pfp-${index}`} src={ log.user_info && log.user_info.length > 0 ? log.user_info[0].image_src : 'https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif' } width={100} height={100} className='rounded-lg w-[45px] h-[45px]'></Image>
                     <div className="flex flex-col ml-5">
                         <p className="text-sm font-medium">{ log.action }</p>
-                        <p className="text-sm opacity-50">{ log.user_info[0].nick } {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
+                        <p className="text-sm opacity-50">{ log.user_info && log.user_info.length > 0 ?log.user_info[0].nick : "null" } {">"} <span className="text-blue-500 font-[700]">  {" "}{log.date.slice(0, 21)}</span></p>
                     </div>
                 </div>
             );

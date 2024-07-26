@@ -19,11 +19,16 @@ import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 import { trpc } from "@/app/_trpc/client";
 import { BsCircle } from "react-icons/bs";
+import { useWorkspaceStore } from "@/app/admin/workspace/stores/workspaceBroswerData";
+import { set } from "mongoose";
 
 const NavigationBar = () => {
   const { data: token, status } = useSession();
 
   const { account_data, setAccountData } = useUserStore();
+
+  const { page, setpage, itemWorksapce } = useWorkspaceStore();
+
 
   const { language, setLanguage } = usePersistStore();
 
@@ -64,7 +69,9 @@ const NavigationBar = () => {
   };
 
   const languages = ["pl", "en", "es"];
+  const pages = ["mainpage" , "item" , "mod" , "crafting" , "user"];
   const [g, setg] = useState(0);
+  const [p, setp] = useState(0);
 
   return (
     <div className="fixed w-full z-[2] top-0">
@@ -94,6 +101,19 @@ const NavigationBar = () => {
               }}
             >
               CHANGE LANGUAGE
+            </p>
+            <p
+              className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
+              onClick={() => {
+                if (p === 2) {
+                  setp(0);
+                } else {
+                  setp(p + 1);
+                }
+                setpage(pages[p]);
+              }}
+            >
+              Editing {itemWorksapce.workspaceName}
             </p>
             <Settings size={20} className="cursor-pointer" />
           </div>

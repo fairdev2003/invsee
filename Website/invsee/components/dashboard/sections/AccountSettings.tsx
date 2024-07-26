@@ -11,7 +11,6 @@ export default function AccountSettings() {
   const [loadingUpdate, setloadingUpdate] = useState<boolean>(false);
 
   const { account_data, setAccountData } = useUserStore();
-  
 
   const [first_nameRef, last_nameRef, nick_nameRef] = [
     useRef<HTMLInputElement>(null),
@@ -30,13 +29,13 @@ export default function AccountSettings() {
   });
 
   const keydownFunc = (e: any) => {
-      if (e.key === "Enter" && !loadingUpdate) {
-        handleUpdate();
-      }
-  }
+    if (e.key === "Enter" && !loadingUpdate) {
+      handleUpdate();
+    }
+  };
 
   useEffect(() => {
-    window.addEventListener("keydown", keydownFunc)
+    window.addEventListener("keydown", keydownFunc);
   }, []);
 
   const handleUpdate = () => {
@@ -114,8 +113,10 @@ export default function AccountSettings() {
             </div>
           </div>
           <div className="bg-none border-[2px] border-gray-900/50 h-auto w-full mt-5 rounded-lg flex flex-col gap-y-5 p-5 px-7">
-            <h1 className="text-2xl text-white font-[600]">Basic Information</h1>
-            <p className=''></p>
+            <h1 className="text-2xl text-white font-[600]">
+              Basic Information
+            </h1>
+            <p className=""></p>
             <input
               ref={first_nameRef}
               className="border-[2px] p-3 text-white rounded-lg border-gray-900/50 bg-transparent focus:border-green-500"
@@ -152,7 +153,7 @@ export default function AccountSettings() {
           </div>
         </div>
       ) : null}
-      <Toaster className="bg-none text-green-500"/>
+      <Toaster className="bg-none text-green-500" />
     </section>
   );
 }

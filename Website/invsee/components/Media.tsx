@@ -7,7 +7,9 @@ const media = z.object({
 });
 type MediaProps = z.infer<typeof media>;
 
+
 const Media = ({ src, size = "large", type }: MediaProps) => {
+  console.log("performance: " + performance.now());
   const video_size = (prop: "w" | "h") => {
     switch (size) {
       case "small": {
@@ -16,7 +18,7 @@ const Media = ({ src, size = "large", type }: MediaProps) => {
       }
       case "medium": {
         if (prop === "w") return "620";
-        if (prop === "h") return "440";
+        if (prop === "h") return "440"; 
       }
       case "large": {
         if (prop === "w") return "1240";

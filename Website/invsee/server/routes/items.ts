@@ -75,6 +75,18 @@ export const itemsRouter = router({
       return { success: true, data };
     }),
 
+  checkifitemexists: protectedProcedure
+    .input(z.string())
+    .mutation(async ({input}) => {
+      const data = await db.item.findFirst({
+        where: {
+          item_tag: input,
+        },
+      });
+
+      return data;
+    }),
+
   getItemByQuery: publicProcedure
     .input(z.string().max(100))
     .mutation(async (input) => {
@@ -148,3 +160,21 @@ export const itemsRouter = router({
       return data.slice(0, 3);
     }),
 });
+
+interface ItemTypes {
+  type: "block" | "weapon" | "ore" | "tool";
+}
+
+interface Gallery {
+  title: string;
+  description: string;
+  link: string;
+}
+
+interface Item {
+  type: ItemTypes;
+  name: string;
+  emcValue: number;
+  gallery: Gallery[];
+  p;
+}

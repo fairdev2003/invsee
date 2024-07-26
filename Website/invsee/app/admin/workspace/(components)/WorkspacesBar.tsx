@@ -1,5 +1,5 @@
 "use client";
-import { useWorkspaceStore } from "@/stores/workspaceBroswerData";
+import { useWorkspaceStore } from "@/app/admin/workspace/stores/workspaceBroswerData";
 
 const testWorkspaces = [
   {

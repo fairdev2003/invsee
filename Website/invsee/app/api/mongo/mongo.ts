@@ -1,4 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from "mongodb";
 let cachedClient: any = null;
 
 export const connectMongo = async () => {
@@ -7,7 +7,7 @@ export const connectMongo = async () => {
     return Promise.resolve(cachedClient);
   }
 
-  return MongoClient.connect(process.env.MONGO_URI)
+  return MongoClient.connect(process.env.MONGO_URI as string)
     .then((client: any) => {
       console.log('🔥 New DB Connection');
       cachedClient = client;
