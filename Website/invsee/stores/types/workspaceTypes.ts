@@ -1,54 +1,60 @@
 import type { Item as ItemType, Mod as ModType } from "@prisma/client";
 
 interface WorkspaceActions {
-    setWorkspace: (data: any) => void;
-    setWorkspaces: (data: any) => void;
-    addWorkspace: (data: any) => void;
+  setItemWorkspaceState: (
+    key: "workspaceName" | "itemName" | "itemTag" | "itemImage" | "gallery" | "itemDescription" | "materialValue" | "wikiElements" | "modTag" | "step",
+    value: any
+  ) => void;
+  setpage: (data: number) => void;
+  setErrorExplaination: (message: string, description: string) => void;
+  setErrorState: (data: boolean) => void;
+}
+
+interface WorksapceErorr {
+  error: boolean;
+  description: string;
+  message: string;
 }
 
 interface ItemWorkspaceProps {
-    itemName: string;
-    itemTag: string;
-    itemImage: string;
-    gallery: string[];
-    itemDescription: string;
-    materialValue: number;
-    wikiElements: WikiElement[];
-    modTag: string;
+  workspaceErorr: WorksapceErorr;
+  workspaceName: string;
+  itemName: string;
+  itemTag: string;
+  itemImage: any;
+  gallery: string[];
+  itemDescription: string;
+  materialValue: number;
+  wikiElements: WikiElement[];
+  modTag: string;
+  step: 1 | 2 | 3;
 }
 
 enum WorkspaceType {
-    Item = "Item",
-    Mod = "Mod",
-    Wiki = "Wiki",
+  Item = "Item",
+  Mod = "Mod",
+  Wiki = "Wiki",
 }
 
 interface WikiElement {
-    title: string;
-    content: string;
-    image: string;
-    links?: string[];
+  title: string;
+  content: string;
+  image: string;
+  links?: string[];
 }
 
-interface ModWorkspace {
-
-}
-
+interface ModWorkspace {}
 
 interface Workspaces {
-    workspaces: Workspace[];
-    workspace: Workspace;
-    workspaceIsSelected: boolean;
+  itemWorksapce: ItemWorkspaceProps;
+  page: string;
 }
 
 interface Workspace {
-    workspace: ItemWorkspaceProps;
-    name?: string;
-    type: WorkspaceType;
-    page: 1 | 2 | 3
+  workspace: ItemWorkspaceProps;
+  name?: string;
+  type: WorkspaceType;
+  page: 1 | 2 | 3;
 }
 
-export type { WorkspaceActions, Workspace, Workspaces }
-
-
-
+export type { WorkspaceActions, Workspace, Workspaces };

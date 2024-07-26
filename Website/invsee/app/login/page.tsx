@@ -11,7 +11,6 @@ import { signIn } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProviders";
 
 export default function Login() {
-
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [error, setserror] = useState("");
@@ -26,41 +25,39 @@ export default function Login() {
     setserror("");
 
     if (email.length === 0 || password.length === 0) {
-      setloading(false)
-      setserror("All fields are required")
+      setloading(false);
+      setserror("All fields are required");
       return;
     }
 
     if (email.includes("@") === false) {
-      setloading(false)
-      setserror("Invalid email")
+      setloading(false);
+      setserror("Invalid email");
       return;
     }
 
     if (password.length < 8) {
-      setloading(false)
-      setserror("Password should be at least 8 characters long")
+      setloading(false);
+      setserror("Password should be at least 8 characters long");
       return;
     }
 
     setTimeout(async () => {
       try {
-
-        setemail(email.trim())
-        setpassword(password.trim())
+        setemail(email.trim());
+        setpassword(password.trim());
         const res = await signIn("credentials", {
           email,
           password,
           redirect: false,
         });
         if (res?.ok) {
-          setloading(false)
-          window.location.href = '/dashboard?section=overview'
+          setloading(false);
+          window.location.href = "/dashboard?section=overview";
         } else {
-          setloading(false)
-          setserror("Invalid email or password")
+          setloading(false);
+          setserror("Invalid email or password");
         }
-        
       } catch (error) {
       } finally {
       }
@@ -145,20 +142,23 @@ export default function Login() {
                 <p>Sign in</p>
               </button>
             )}
-            {error.length > 0 ? <div className="text-red-500 p-4 font-medium rounded-md bg-red-500/40 border-[1px] h-[50px] border-red-500 flex items-center justify-center mb-3">
-              {error}
-            </div> : null}
+            {error.length > 0 ? (
+              <div className="text-red-500 p-4 font-medium rounded-md bg-red-500/40 border-[1px] h-[50px] border-red-500 flex items-center justify-center mb-3">
+                {error}
+              </div>
+            ) : null}
             <div className="flex gap-2 justify-center items-center">
               <div className="bg-[#41454d] h-[2px] w-full"></div>
               <p className="text-white">OR</p>
               <div className="bg-[#41454d] h-[2px] w-full"></div>
             </div>
             <div className="flex flex-col gap-3 justify-center items-center mt-5">
-              <button className="bg-gray-900/90 hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3" onClick={
-                () => signIn("discord")
-              }>
+              <button
+                className="bg-gray-900/90 hover:bg-[#222327] transition-colors w-full h-[50px] rounded-xl text-white flex items-center justify-center gap-3"
+                onClick={() => signIn("discord")}
+              >
                 <div className="flex select-none gap-4 justify-center items-center">
-                <Image alt="google" width={35} height={35} src={Discord} />
+                  <Image alt="google" width={35} height={35} src={Discord} />
                   <p>Login with Discord</p>
                 </div>
               </button>
