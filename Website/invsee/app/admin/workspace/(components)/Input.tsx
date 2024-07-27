@@ -40,7 +40,7 @@ const WorkspaceInput = ({
           onChange={onChange}
           className={cn(
             className,
-            `w-${width} h-${height} p-2 col-span-2 rouned px-2 rounded-sm text-black`
+            `w-${width} h-${height} p-2 bg-transparent border-[1px] border-white text-white col-span-2 rouned px-2 rounded-sm `
           )}
           placeholder={placeholder}
         />
@@ -50,7 +50,7 @@ const WorkspaceInput = ({
           onChange={onChange}
           className={cn(
             className,
-            `w-${width} h-${height} col-span-2 rouned px-2 rounded-sm text-black`
+            `w-${width} h-${height} bg-transparent border-[1px] border-white text-white col-span-2 rouned px-2 rounded-sm `
           )}
           placeholder={placeholder}
         />

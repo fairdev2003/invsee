@@ -54,6 +54,24 @@ export const translations: any = {
             "Change MC Account": "Zmień konto MC",
             "Crafting Recipes": "Receptury rzemiosła",
         },
+        "Workspace": {
+            "Next": "Następny",
+            "Previous": "Poprzedni",
+            "Editing": "Edytujesz",
+            "Save": "Zapisz",
+            "ItemWorkspace": {
+                "Item Workspace": "Przestrzeń robocza przedmiotu",
+                "General Info": "Informacje ogólne",
+                "Basic Info": "Podstawowe informacje",
+                "Item Name": "Nazwa przedmiotu",
+                "Item Tag": "Tag przedmiotu",
+                "Material Value": "Wartość materiałowa",
+                "Mod Tag": "Tag modyfikacji",
+                "Item Description": "Opis przedmiotu",
+                "Wiki Elementor": "Elementor Wiki",
+                "Media": "Zdjęcia",
+            }
+        },
         "Mainpage": {
             "ExploreSection": {
                 "Explore you favorite": "Odkrywaj swoje ulubione",
@@ -195,6 +213,24 @@ export const translations: any = {
             "Mods": "Mods",
             "Tags": "Tags",
             "Crafting Recipes": "Crafting Recipes",
+        },
+        "Workspace": {
+            "Next": "Next",
+            "Previous": "Previous",
+            "Editing": "Editing",
+            "Save": "Save",
+            "ItemWorkspace": {
+                "Item Workspace": "Item Workspace",
+                "General Info": "General Info",
+                "Basic Info": "Basic Info",
+                "Item Name": "Item Name",
+                "Item Tag": "Item Tag",
+                "Material Value": "Material Value",
+                "Mod Tag": "Mod Tag",
+                "Item Description": "Item Description",
+                "Wiki Elementor": "Wiki Elementor",
+                "Media": "Media",
+            }
         },
         "Mainpage": {
             "ExploreSection": {
@@ -338,7 +374,25 @@ export const translations: any = {
             "Mods": "Mods",
             "Tags": "Etiquetas",
             "Crafting Recipes": "Recetas de crafteo",
-        }, 
+        },
+        "Workspace": {
+            "Next": "Siguiente",
+            "Previous": "Anterior",
+            "Editing": "Edición",
+            "Save": "Guardar",
+            "ItemWorkspace": {
+                "Item Workspace": "Espacio de trabajo del artículo",
+                "General Info": "Información general",
+                "Basic Info": "Información básica",
+                "Item Name": "Nombre del artículo",
+                "Item Tag": "Etiqueta del artículo",
+                "Material Value": "Valor material",
+                "Mod Tag": "Etiqueta de mod",
+                "Item Description": "Descripción del artículo",
+                "Wiki Elementor": "Wiki Elementor",
+                "Media": "Medios",
+            }
+        },
         "Mainpage": {
             "ExploreSection": {
                 "Explore you favorite": "Explora tus favoritos",

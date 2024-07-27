@@ -7,8 +7,11 @@ import ItemWorkspace3 from "./ItemWorkspace3";
 import { trpc } from "@/app/_trpc/client";
 import Error from "../../Error";
 import { motion } from "framer-motion";
+import { translations } from "@/utils/translations";
+import { usePersistStore } from "@/stores/persist_store";
 
 const ItemWorkspace = () => {
+  const { language } = usePersistStore();
   const [photo, setPhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -62,9 +65,9 @@ const ItemWorkspace = () => {
       )}
       <div>
         <h1 className="text-3xl text-white font-bold">
-          Item Workspace{" "}
+          {translations[language]["Workspace"]["ItemWorkspace"]["Item Workspace"]}{" "}
           <span className="ml-1 text-gray-500 text-base">
-            Ediitng: {itemWorksapce.workspaceName}
+          {translations[language]["Workspace"]["Editing"]}: {itemWorksapce.workspaceName}
           </span>
         </h1>
       </div>
@@ -79,7 +82,7 @@ const ItemWorkspace = () => {
             }
           }}
         >
-          1. Basic Info
+          1. {translations[language]["Workspace"]["ItemWorkspace"]["Basic Info"]}
         </div>
         <div
           className={`${
@@ -97,7 +100,7 @@ const ItemWorkspace = () => {
             }
           }}
         >
-          2. Wiki Elementor
+          2. {translations[language]["Workspace"]["ItemWorkspace"]["Wiki Elementor"]}
         </div>
         <div
           className={`${
@@ -110,7 +113,7 @@ const ItemWorkspace = () => {
                 }`
           } h-[50px] w-full px-3 flex items-center rounded-lg cursor-pointer font-semibold`}
         >
-          3. Media
+          3. {translations[language]["Workspace"]["ItemWorkspace"]["Media"]}
         </div>
       </motion.div>
 
@@ -135,7 +138,7 @@ const ItemWorkspace = () => {
             }}
             className="bg-transparent rounded-xl p-4 w-[150px] transition-colors h-[70px] text-white font-medium text-lg"
           >
-            {"< Previous"}
+            {"<"} {translations[language]["Workspace"]["Previous"]}
           </button>
         )}
         <button
@@ -157,7 +160,7 @@ const ItemWorkspace = () => {
           }}
           className="bg-blue-600 rounded-xl p-4 w-[250px] hover:bg-white hover:text-black transition-colors h-[70px] text-white font-medium text-lg"
         >
-          {itemWorksapce.step === 3 ? "Save" : "Next >"}
+          {itemWorksapce.step === 3 ? `${translations[language]["Workspace"]["Save"]}` : `${translations[language]["Workspace"]["Next"]}`}
         </button>
       </div>
     </div>

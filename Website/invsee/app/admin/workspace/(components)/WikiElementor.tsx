@@ -42,6 +42,7 @@ const WikiElementor = ({ elements }: WikiElementorProps) => {
             <WikiElement
               id={element.id}
               key={index}
+              image={element.image}
               title={element.title}
               content={element.content}
             />
@@ -62,11 +63,11 @@ const WikiElementor = ({ elements }: WikiElementorProps) => {
 interface WikiElementProps {
   id: number;
   content: string;
-  image: string;
-  title: string;
+  image?: string;
+  title?: string;
 }
 
-const WikiElement = ({ content, image, title, id }: WikiElementProps) => {
+const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
   const { deleteWikiElement, editWikiElement } = useWorkspaceStore();
   const [ editmode, setEditMode ] = useState(false);
 
@@ -85,7 +86,7 @@ const WikiElement = ({ content, image, title, id }: WikiElementProps) => {
       <div>
         <div className="flex justify-between items-center mb-5">
           {!editmode ? (
-            <h1 dangerouslySetInnerHTML={{__html: WikiContentHandler({content: title})}} className="text-2xl font-semibold"/>
+            <WikiContentHandler content={title} className="text-2xl font-semibold"/>
           ) : (
             <motion.input
               initial={{ opacity: 0 }}
@@ -127,7 +128,7 @@ const WikiElement = ({ content, image, title, id }: WikiElementProps) => {
         </div>
 
         {!editmode ? (
-          <p dangerouslySetInnerHTML={{__html: WikiContentHandler({content})}} className="text-md font-normal"/>
+          <WikiContentHandler content={content} />
         ) : (
           <motion.textarea
             initial={{ opacity: 0 }}
