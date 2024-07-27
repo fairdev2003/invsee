@@ -1,0 +1,16 @@
+#wrapper * {
+    color: white;
+}
+
+#wrapper p {
+    color: white;
+}
+
+#wrapper a {
+    color: #007bff;
+    font-weight: bold;
+}
+
+#wrapper a:hover {
+    text-decoration: underline;
+}

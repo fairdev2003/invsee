@@ -1,4 +1,3 @@
-import type { Item as ItemType, Mod as ModType } from "@prisma/client";
 
 interface WorkspaceActions {
   setItemWorkspaceState: (
@@ -8,6 +7,9 @@ interface WorkspaceActions {
   setpage: (data: number) => void;
   setErrorExplaination: (message: string, description: string) => void;
   setErrorState: (data: boolean) => void;
+  addNewWikiElement: (wikiElement: WikiElement) => void;
+  editWikiElement: (index: number, wikiElement: WikiElement) => void;
+  deleteWikiElement: (index: number) => void;
 }
 
 interface WorksapceErorr {
@@ -36,11 +38,12 @@ enum WorkspaceType {
   Wiki = "Wiki",
 }
 
-interface WikiElement {
-  title: string;
+export interface WikiElement {
+  title?: string;
   content: string;
   image: string;
   links?: string[];
+  id: number;
 }
 
 interface ModWorkspace {}
