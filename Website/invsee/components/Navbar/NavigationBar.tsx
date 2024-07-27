@@ -4,7 +4,6 @@ import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { use, useEffect, useState } from "react";
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "@radix-ui/react-separator";
@@ -12,15 +11,13 @@ import { Crown, Hammer, Settings, Star, User } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
 import { redirect } from "next/navigation"; 
 import axios from "axios";
-import { Select, SelectContent } from "../ui/select";
-import { SelectTrigger } from "@radix-ui/react-select";
 
 import { usePersistStore } from "@/stores/persist_store";
 import { translations } from "@/utils/translations";
 import { trpc } from "@/app/_trpc/client";
 import { BsCircle } from "react-icons/bs";
 import { useWorkspaceStore } from "@/app/admin/workspace/stores/workspaceBroswerData";
-import { set } from "mongoose";
+import { motion } from "framer-motion";
 
 const NavigationBar = () => {
   const { data: token, status } = useSession();
@@ -76,7 +73,7 @@ const NavigationBar = () => {
   return (
     <div className="fixed w-full z-[2] top-0">
       {account_data[0] && account_data[0].role === "Admin" ? (
-        <div className="text-white font-medium justify-between bg-blue-700 flex gap-2 h-[30px] px-3 items-center">
+        <motion.div initial={{height: 0}} animate={{height: 30}} className="text-white font-medium justify-between bg-blue-700 flex gap-2 h-[30px] px-3 items-center">
           <div className="flex gap-3 items-center">
             <BsCircle className="text-green-500" />
             <a href="/dashboard?section=overview">
@@ -126,7 +123,7 @@ const NavigationBar = () => {
               </p>
             </div>
           </a>
-        </div>
+        </motion.div>
       ) : null}
       <div className="flex justify-between items-center p-1 bg-black h-[100px] top-0 z-100">
         <a href="/">

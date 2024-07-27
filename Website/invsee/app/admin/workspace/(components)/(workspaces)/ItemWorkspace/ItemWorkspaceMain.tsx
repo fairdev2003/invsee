@@ -1,15 +1,12 @@
 import { useState } from "react";
-import WorkspaceInput from "../../Input";
 import { useWorkspaceStore } from "../../../stores/workspaceBroswerData";
-import { Item } from "@radix-ui/react-select";
 import ItemWorkspace1 from "./ItemWorkspace1";
 import Loading from "../../Loading";
 import ItemWorkspace2 from "./ItemWorkspace2";
 import ItemWorkspace3 from "./ItemWorkspace3";
-import { set } from "mongoose";
 import { trpc } from "@/app/_trpc/client";
-import { isError } from "@tanstack/react-query";
 import Error from "../../Error";
+import { motion } from "framer-motion";
 
 const ItemWorkspace = () => {
   const [photo, setPhoto] = useState<string | null>(null);
@@ -55,7 +52,7 @@ const ItemWorkspace = () => {
   const step = itemWorksapce.step;
 
   return (
-    <div className="justify-center w-full px-[5%]">
+    <div className="justify-center w-full px-[5%] mb-20">
       {loading && <Loading />}
       {itemWorksapce.workspaceErorr.error && (
         <Error
@@ -66,12 +63,12 @@ const ItemWorkspace = () => {
       <div>
         <h1 className="text-3xl text-white font-bold">
           Item Workspace{" "}
-          <span className="text-gray-500 text-base">
+          <span className="ml-1 text-gray-500 text-base">
             Ediitng: {itemWorksapce.workspaceName}
           </span>
         </h1>
       </div>
-      <div className="grid grid-cols-3 gap-5 mt-10">
+      <motion.div initial={{height: 0}} animate={{height: 50}} className="grid grid-cols-3 gap-5 mt-10">
         <div
           className={`${
             step === 1 ? "text-white bg-blue-600" : "text-black bg-white"
@@ -100,7 +97,7 @@ const ItemWorkspace = () => {
             }
           }}
         >
-          2. Wiki Elements
+          2. Wiki Elementor
         </div>
         <div
           className={`${
@@ -115,7 +112,7 @@ const ItemWorkspace = () => {
         >
           3. Media
         </div>
-      </div>
+      </motion.div>
 
       {itemWorksapce.step === 1 && <ItemWorkspace1 />}
       {itemWorksapce.step === 2 && <ItemWorkspace2 />}

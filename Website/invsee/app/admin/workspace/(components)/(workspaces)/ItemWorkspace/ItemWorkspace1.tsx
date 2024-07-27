@@ -4,6 +4,7 @@ import { useWorkspaceStore } from "../../../stores/workspaceBroswerData";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Loading from "../../Loading";
+import "../../externalcss/dangerouslySetInnerHTML.css"
 
 const ItemWorkspace1 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
@@ -89,6 +90,7 @@ const ItemWorkspace1 = () => {
               name="Mod Tag"
               placeholder="Type item tag"
               value={itemWorksapce.modTag}
+              required
               onChange={(e) => {
                 setItemWorkspaceState("modTag", e.target.value);
               }}
@@ -108,7 +110,8 @@ const ItemWorkspace1 = () => {
             setItemWorkspaceState("itemDescription", e.target.value);
           }}
         />
-      </div>
+      </div>        
+
       
     </motion.div>
   );

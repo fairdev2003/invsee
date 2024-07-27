@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import WorkspaceInput from "../../Input";
 import { useWorkspaceStore } from "../../../stores/workspaceBroswerData";
+import { WikiContentHandler } from "../../../utils/WikiContentHandler";
+import "../../externalcss/dangerouslySetInnerHTML.css"
+import { motion } from "framer-motion";
+import WikiElementor from "../../WikiElementor";
 
 const ItemWorkspace2 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
 
   const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
+  const divRef = useRef<HTMLDivElement>(null);
 
   const uploadPhoto = (e: any) => {
     const file = e.target.files[0];
@@ -18,12 +23,16 @@ const ItemWorkspace2 = () => {
 
   return (
     <div>
-      <div className="mt-10 flex flex-col justify-center ">
-        <h1 className="text-3xl text-white font-bold border-[2px] min-h-[453px] border-transparent border-b-gray-200 pb-5">
+      <motion.div initial={{height: 0}} animate={{height: "100%"}} transition={{delay: 4}} className="mt-10 flex flex-col justify-center" ref={divRef}>
+        
+        <h1 className="text-3xl text-white font-bold pb-5 border-[2px] border-transparent border-b-gray-200">
           Wiki Elementor
         </h1>
+        {/* <div id="wrapper" className="text-white mt-10 p-5" dangerouslySetInnerHTML={{__html: WikiContentHandler({ content: itemWorksapce.itemDescription })}}/> */}
+        
+        <WikiElementor/>
 
-      </div>
+      </motion.div>
     </div>
   );
 };
