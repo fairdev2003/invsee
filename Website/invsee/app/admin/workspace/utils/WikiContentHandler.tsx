@@ -1,16 +1,30 @@
 "use client";
 
-const messageToFormat =
-  "This is a **message** with *bold* and *italic* text. This is a link [link](https://www.google.com)";
+import { cn } from '@/lib/utils';
+import React from 'react';
 
 interface WikiContentHandlerProps {
-  content: any;
+  content: string;
+  className?: string;
 }
 
-// **message bold** *message italic* (link)[https://www.google.com]
-export const WikiContentHandler = ({ content }: WikiContentHandlerProps) => {
-  const message = content;
-  const formattedMessage = message
+export const WikiContentHandler = ({ content, className }: WikiContentHandlerProps) => {
+  const escapeHtml = (unsafe: string) => {
+    return unsafe.replace(/[&<"']/g, (match) => {
+      const escape = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return escape[match as keyof typeof escape] || match;
+    });
+  };
+
+  const escapedMessage = escapeHtml(content);
+
+  const formattedMessage = escapedMessage
     .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
     .replace(/\*(.*?)\*/g, "<i>$1</i>")
     .replace(/\[(.*?)\]\((.*?)\)/g, "<a href='$2' class='text-blue-500 hover:underline font-bold'>$1</a>")
@@ -18,5 +32,9 @@ export const WikiContentHandler = ({ content }: WikiContentHandlerProps) => {
     .replace(/\-\-(.*?)\-\-/g, "<strike>$1</strike>")
     .replace(/\`(.*?)\`/g, "<code>$1</code>")
     .replace(/\{(.*?)\}\[(.*?)\]/g, "<span class='text-$2-500'>$1</span>")
-  return formattedMessage;
+    .replace(/\n/g, '');
+
+  return (
+    <div dangerouslySetInnerHTML={{ __html: formattedMessage }} className={cn(className)}/>
+  );
 };

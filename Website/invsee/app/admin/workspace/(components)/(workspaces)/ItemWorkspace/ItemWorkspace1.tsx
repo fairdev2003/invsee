@@ -5,9 +5,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Loading from "../../Loading";
 import "../../externalcss/dangerouslySetInnerHTML.css"
+import { translations } from "@/utils/translations";
+import { usePersistStore } from "@/stores/persist_store";
 
 const ItemWorkspace1 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
+  const { language } = usePersistStore();
 
   const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
   const [loading, setLoading] = useState<boolean>(false);
@@ -57,7 +60,7 @@ const ItemWorkspace1 = () => {
         <div className="h-[200px] mt-10 rounded-md font-bold text-xl flex flex-col gap-4 text-white col-span-4 ">
           <div className="grid grid-cols-2 gap-2">
             <WorkspaceInput
-              name="Item Name"
+              name={translations[language]["Workspace"]["ItemWorkspace"]["Item Name"]}
               placeholder="Type item name"
               value={itemWorksapce.itemName}
               required
@@ -66,8 +69,8 @@ const ItemWorkspace1 = () => {
               }}
             />
             <WorkspaceInput
-              name="Item Tag"
-              placeholder="Type item tag"
+              name={translations[language]["Workspace"]["ItemWorkspace"]["Item Tag"]}
+              placeholder="Type Item Tag"
               comment="(MOD__ITEM_NAME)"
               required
               value={itemWorksapce.itemTag}
@@ -78,7 +81,7 @@ const ItemWorkspace1 = () => {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <WorkspaceInput
-              name="Material Value"
+              name={translations[language]["Workspace"]["ItemWorkspace"]["Material Value"]}
               comment="(EMC)"
               placeholder="Type item name"
               value={itemWorksapce.materialValue}
@@ -87,7 +90,7 @@ const ItemWorkspace1 = () => {
               }}
             />
             <WorkspaceInput
-              name="Mod Tag"
+              name={translations[language]["Workspace"]["ItemWorkspace"]["Mod Tag"]}
               placeholder="Type item tag"
               value={itemWorksapce.modTag}
               required
@@ -100,7 +103,7 @@ const ItemWorkspace1 = () => {
       </div>
       <div className="mt-5">
         <WorkspaceInput
-          name="Item Description"
+          name={translations[language]["Workspace"]["ItemWorkspace"]["Item Description"]}
           placeholder="Type item description"
           value={itemWorksapce.itemDescription}
           textarea
