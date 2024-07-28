@@ -7,7 +7,7 @@ import { use, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "@radix-ui/react-separator";
-import { Crown, Hammer, Settings, Star, User } from "lucide-react";
+import { Crown, Hammer, Search, Settings, Star, User } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
 import { redirect } from "next/navigation"; 
 import axios from "axios";
@@ -18,6 +18,7 @@ import { trpc } from "@/app/_trpc/client";
 import { BsCircle } from "react-icons/bs";
 import { useWorkspaceStore } from "@/app/admin/workspace/stores/workspaceBroswerData";
 import { motion } from "framer-motion";
+import SearchBar from "./SearchBar";
 
 const NavigationBar = () => {
   const { data: token, status } = useSession();
@@ -126,9 +127,14 @@ const NavigationBar = () => {
         </motion.div>
       ) : null}
       <div className="flex justify-between items-center p-1 bg-black h-[100px] top-0 z-100">
-        <a href="/">
-          <h1 className="text-white text-2xl m-5 font-bold">Modopedia</h1>
-        </a>
+        <div className="flex gap-2 items-center">
+          <a href="/">
+            <h1 className="text-white text-2xl m-5 font-bold">Modopedia</h1>
+            
+          </a>
+          <SearchBar />
+        </div>
+        
         {account_data[0] && account_data.length > 0 ? (
           <div className="flex">
             {/* <Select>

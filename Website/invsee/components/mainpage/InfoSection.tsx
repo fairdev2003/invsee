@@ -24,7 +24,6 @@ const InfoSection = () => {
   );
   useEffect(() => {
     data.mutate("");
-
   }, [])
 
   return (
@@ -62,7 +61,7 @@ const InfoSection = () => {
             }} 
             placeholder={translations[language]["Mainpage"]["InfoSection"]["Search"]} className="bg-blue-500 mt-3 text-white placeholder:text-white"></Input>
             <div className="flex flex-col gap-4 mt-4">
-              {!data.isLoading && data.data && data.data.map((item: any, index: number) => {
+              {!data.isLoading && data.data && data.data.slice(0, 3).map((item: any, index: number) => {
                   return (
                     console.log(itemdata),
                     <div onClick={() => {
