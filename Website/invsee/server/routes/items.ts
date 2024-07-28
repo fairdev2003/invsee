@@ -157,24 +157,6 @@ export const itemsRouter = router({
 
       console.log("mutation: ", data);
 
-      return data.slice(0, 3);
+      return data;
     }),
 });
-
-interface ItemTypes {
-  type: "block" | "weapon" | "ore" | "tool";
-}
-
-interface Gallery {
-  title: string;
-  description: string;
-  link: string;
-}
-
-interface Item {
-  type: ItemTypes;
-  name: string;
-  emcValue: number;
-  gallery: Gallery[];
-  p;
-}

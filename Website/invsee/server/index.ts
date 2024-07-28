@@ -6,6 +6,7 @@ import { logRouter } from "./routes/actionLog";
 import { itemsRouter } from "./routes/items";
 import { db } from "@/prisma/prisma";
 import { modsRouter } from "./routes/mods";
+import { searchRouter } from "./routes/search";
 
 export const appRouter = router({
   getOverviewStats: publicProcedure.query(async () => {
@@ -75,7 +76,8 @@ export const appRouter = router({
   user: userRouter,
   log: logRouter,
   items: itemsRouter,
-  mods: modsRouter
+  mods: modsRouter,
+  search: searchRouter
   
    
 });

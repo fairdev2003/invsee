@@ -4,7 +4,7 @@ interface WorkspaceActions {
     key: "workspaceName" | "itemName" | "itemTag" | "itemImage" | "gallery" | "itemDescription" | "materialValue" | "wikiElements" | "modTag" | "step",
     value: any
   ) => void;
-  setpage: (data: number) => void;
+  setpage: (data: number | string) => void;
   setErrorExplaination: (message: string, description: string) => void;
   setErrorState: (data: boolean) => void;
   addNewWikiElement: (wikiElement: WikiElement) => void;

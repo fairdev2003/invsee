@@ -69,7 +69,7 @@ interface WikiElementProps {
 
 const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
   const { deleteWikiElement, editWikiElement } = useWorkspaceStore();
-  const [ editmode, setEditMode ] = useState(false);
+  const [editmode, setEditMode] = useState(false);
 
   const [titleValue, setTitleValue] = useState("");
   const [contentValue, setContentValue] = useState("");
@@ -86,7 +86,10 @@ const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
       <div>
         <div className="flex justify-between items-center mb-5">
           {!editmode ? (
-            <WikiContentHandler content={title} className="text-2xl font-semibold"/>
+            <WikiContentHandler
+              content={title}
+              className="text-2xl font-semibold whitespace-wrap"
+            />
           ) : (
             <motion.input
               initial={{ opacity: 0 }}
@@ -101,22 +104,33 @@ const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
             />
           )}
           <div className="flex gap-5">
-            {!editmode ? <Edit
-              size={20}
-              className="cursor-pointer"
-              onClick={() => {
-                setTitleValue(title);
-                setContentValue(content);
-                setEditMode(true);
-              }}
-            /> : <Check
-            size={25}
-            className="cursor-pointer"
-            onClick={() => {
-              editWikiElement(id, {title: titleValue, content: contentValue, image: "", links: [], id: id});
-              setEditMode(false);
-            }}
-          />}
+            {!editmode ? (
+              <Edit
+                size={20}
+                className="cursor-pointer"
+                onClick={() => {
+                  console.log(content);
+                  setTitleValue(title);
+                  setContentValue(content);
+                  setEditMode(true);
+                }}
+              />
+            ) : (
+              <Check
+                size={25}
+                className="cursor-pointer"
+                onClick={() => {
+                  editWikiElement(id, {
+                    title: titleValue,
+                    content: contentValue,
+                    image: "",
+                    links: [],
+                    id: id,
+                  });
+                  setEditMode(false);
+                }}
+              />
+            )}
             <Trash2
               size={20}
               className="cursor-pointer"
@@ -128,7 +142,7 @@ const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
         </div>
 
         {!editmode ? (
-          <WikiContentHandler content={content} />
+          <WikiContentHandler content={content} className="whitespace-wrap" />
         ) : (
           <motion.textarea
             initial={{ opacity: 0 }}
@@ -137,11 +151,13 @@ const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
             className="w-full h-[200px] bg-transparent border-[2px] border-gray-white rounded-lg p-3 mt-5"
             value={contentValue}
             onChange={(e) => {
-                setContentValue(e.target.value);
+              setContentValue(e.target.value);
             }}
           />
         )}
       </div>
+
+      
     </motion.div>
   );
 };
