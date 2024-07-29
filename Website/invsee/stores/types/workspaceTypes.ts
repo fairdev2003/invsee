@@ -1,7 +1,19 @@
+import { Mod } from "@prisma/client";
 
 interface WorkspaceActions {
   setItemWorkspaceState: (
-    key: "workspaceName" | "itemName" | "itemTag" | "itemImage" | "gallery" | "itemDescription" | "materialValue" | "wikiElements" | "modTag" | "step",
+    key:
+      | "workspaceName"
+      | "itemName"
+      | "itemTag"
+      | "itemImage"
+      | "gallery"
+      | "itemDescription"
+      | "materialValue"
+      | "wikiElements"
+      | "modTag"
+      | "step"
+      | "mod",
     value: any
   ) => void;
   setpage: (data: number | string) => void;
@@ -30,6 +42,7 @@ interface ItemWorkspaceProps {
   wikiElements: WikiElement[];
   modTag: string;
   step: 1 | 2 | 3;
+  mod: Mod;
 }
 
 enum WorkspaceType {

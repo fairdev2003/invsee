@@ -12,6 +12,7 @@ const searchForItems = async (query: string) => {
           {
             item_name: {
               contains: query,
+              mode: "insensitive",
             },
           },
 
@@ -48,6 +49,7 @@ const searchForMods = async (query: string) => {
           {
             modName: {
               contains: query,
+              mode: "insensitive",
             },
           },
           {

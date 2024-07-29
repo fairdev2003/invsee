@@ -1,7 +1,6 @@
 import { Item } from "@prisma/client";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-
 interface ItemRecordProps {
   item: any;
   index: number;
@@ -10,9 +9,10 @@ interface ItemRecordProps {
 const ItemRecord = ({ item, index }: ItemRecordProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0, x: -20 }}
+      id="item"
       className="bg-gray-700 flex gap-5 m-2 rounded-lg w-[97%] p-4"
     >
       <div>

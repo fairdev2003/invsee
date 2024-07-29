@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getServerSession } from 'next-auth';
 import { NextRequest } from 'next/server';
 import { LogAuthorized, LogUnAuthorized } from './trafficLogger';
+import { PrismaClient } from '@prisma/client';
 
 const trpc = initTRPC.create();
 
@@ -12,6 +13,7 @@ export const router = trpc.router;
 export const publicProcedure = trpc.procedure;
 
 export const createContext = async (req: NextRequest, opts?: CreateNextContextOptions) => {
+
     const session = await getServerSession({});
 
     const ip: any = (await axios.get("http://edns.ip-api.com/json")).data
@@ -23,6 +25,9 @@ export const createContext = async (req: NextRequest, opts?: CreateNextContextOp
 };
    
 const t = initTRPC.context<Awaited<ReturnType<typeof createContext>>>().create({
+
+    
+
     errorFormatter: ({ shape }) => {
         return shape;
     }
