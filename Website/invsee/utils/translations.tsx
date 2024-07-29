@@ -70,6 +70,14 @@ export const translations: any = {
                 "Item Description": "Opis przedmiotu",
                 "Wiki Elementor": "Elementor Wiki",
                 "Media": "Zdjęcia",
+                "Choose Mod": "Wybierz modyfikację",
+                "Type Item Name": "Wpisz nazwę przedmiotu",
+                "Type Item Tag": "Wpisz tag przedmiotu",
+                "Type Item Emc": "Wpisz wartość materiałową",
+                "Type Mod Tag": "Wpisz tag modyfikacji",
+                "Type Item Description": "Wpisz opis przedmiotu",
+                "Choose Author": "Wybierz autora",
+                "Selected Mod": "Wybrana modyfikacja",
             }
         },
         "Mainpage": {
@@ -230,6 +238,14 @@ export const translations: any = {
                 "Item Description": "Item Description",
                 "Wiki Elementor": "Wiki Elementor",
                 "Media": "Media",
+                "Choose Mod": "Choose Mod",
+                "Type Item Name": "Type item name",
+                "Type Item Tag": "Type Item Tag",
+                "Type Item Emc": "Type item emc",
+                "Type Mod Tag": "Type mod tag",
+                "Type Item Description": "Type item description",
+                "Choose Author": "Choose Author",
+                "Selected Mod": "Selected Mod",
             }
         },
         "Mainpage": {
@@ -391,6 +407,14 @@ export const translations: any = {
                 "Item Description": "Descripción del artículo",
                 "Wiki Elementor": "Wiki Elementor",
                 "Media": "Medios",
+                "Choose Mod": "Elegir mod",
+                "Type Item Name": "Escribe el nombre del artículo",
+                "Type Item Tag": "Escribe la etiqueta del artículo",
+                "Type Item Emc": "Escribe el emc del artículo",
+                "Type Mod Tag": "Escribe la etiqueta del mod",
+                "Type Item Description": "Escribe la descripción del artículo",
+                "Choose Author": "Elegir autor",
+                "Selected Mod": "Mod seleccionado",
             }
         },
         "Mainpage": {
