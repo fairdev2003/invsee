@@ -26,7 +26,7 @@ const ModSelector = ({ onClick, className, name }: ModSelectorProps) => {
       console.log(data);
     },
   });
-  const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
+  const { setItemWorkspaceState, itemWorkspace } = useWorkspaceStore();
 
   useEffect(() => {
     mods.mutate("");
@@ -172,18 +172,18 @@ const ModSelector = ({ onClick, className, name }: ModSelectorProps) => {
             }, 0);
           }}
         >
-          {!itemWorksapce.mod ? (
-            <p className="text-gray-400">Click to select a mod</p>
+          {!itemWorkspace.mod ? (
+            <p className="text-gray-400">{translations[language]["Workspace"]["ItemWorkspace"]["Click To Select Mod"]}</p>
           ) : (
             <AnimatePresence>
               <motion.div
-                key={itemWorksapce.mod.id}
+                key={itemWorkspace.mod.id}
                 initial={{ x: -20 }}
                 animate={{ x: 0 }}
                 className="flex gap-5"
               >
                 <Image
-                  src={itemWorksapce.mod.image_src}
+                  src={itemWorkspace.mod.image_src}
                   width={60}
                   height={60}
                   alt="mod_icon"
@@ -193,7 +193,7 @@ const ModSelector = ({ onClick, className, name }: ModSelectorProps) => {
                     {translations[language]["Workspace"]["ItemWorkspace"]["Selected Mod"]}
                   </p>
                   <p className="text-white text-medium font-semibold flex items-center">
-                    {itemWorksapce.mod.modName}
+                    {itemWorkspace.mod.modName}
                   </p>
                 </div>
               </motion.div>

@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { Mod } from "@prisma/client";
 import type {
   WorkspaceActions,
   Workspaces,
@@ -11,29 +12,33 @@ import ItemWorkspace from "../(components)/(workspaces)/ItemWorkspace/ItemWorksp
 
 export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
   persist((set) => ({
-    itemWorksapce: {
+    itemWorkspace: {
       workspaceErorr: {
         error: false,
         description: "",
         message: "",
       },
+      stackSize: "0",
       workspaceName: "My First Workspace",
       itemName: "",
       itemTag: "",
       itemImage: "",
       gallery: [],
       itemDescription: "",
-      materialValue: 0,
+      materialValue: "0",
       wikiElements: [],
       modTag: "",
+      itemType: "",
+      mod: {} as Mod,
+      itemTags: [],
       step: 1,
     },
     setErrorExplaination : async (message: string, description: string) => {
       set((state) => ({
-        itemWorksapce: {
-          ...state.itemWorksapce,
+        itemWorkspace: {
+          ...state.itemWorkspace,
           workspaceErorr: {
-            ...state.itemWorksapce.workspaceErorr,
+            ...state.itemWorkspace.workspaceErorr,
             message,
             description,
           },
@@ -42,10 +47,10 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
     },
     setErrorState: async (data: boolean) => {
       set((state) => ({
-        itemWorksapce: {
-          ...state.itemWorksapce,
+        itemWorkspace: {
+          ...state.itemWorkspace,
           workspaceErorr: {
-            ...state.itemWorksapce.workspaceErorr,
+            ...state.itemWorkspace.workspaceErorr,
             error: data,
           },
         },
@@ -54,8 +59,8 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
     page: "mainpage",
     setItemWorkspaceState: async (key: string, value: any) => {
       set((state) => ({
-        itemWorksapce: {
-          ...state.itemWorksapce,
+        itemWorkspace: {
+          ...state.itemWorkspace,
           [key]: value,
         },
       }));
@@ -63,36 +68,38 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
     setpage: async (data: any) => set({ page: data }),
     addNewWikiElement: async (wikiElement: any) => {
       set((state) => ({
-        itemWorksapce: {
-          ...state.itemWorksapce,
-          wikiElements: [...state.itemWorksapce.wikiElements, wikiElement],
+        itemWorkspace: {
+          ...state.itemWorkspace,
+          wikiElements: [...state.itemWorkspace.wikiElements, wikiElement],
         },
       }));
     },
    deleteWikiElement: async (index: number) => {
-      set((state) => {
+      set((state: WorkspaceActions & Workspaces) => {
 
         console.log(index);
         
         const newWikiTable: any = [];
-        state.itemWorksapce.wikiElements.forEach((element: any, i: number) => {
+        state.itemWorkspace.wikiElements.forEach((element: any, i: number) => {
           if (element.id !== index) {
             newWikiTable.push(element);
           }
         })
 
         return {
-          itemWorksapce: {
-            ...state.itemWorksapce,
+          itemWorkspace: {
+            ...state.itemWorkspace,
             wikiElements: newWikiTable,
           },
         };
       });
    },
+   
    editWikiElement: async (index: number, wikiElement: any) => {
+      // @ts-ignore
       set((state) => {
         const newWikiTable: any = [];
-        state.itemWorksapce.wikiElements.forEach((element: any, i: number) => {
+        state.itemWorkspace.wikiElements.forEach((element: any, i: number) => {
           if (element.id === index) {
             newWikiTable.push(wikiElement);
           } else {
@@ -102,7 +109,7 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
 
         return {
           itemWorksapce: {
-            ...state.itemWorksapce,
+            ...state.itemWorkspace,
             wikiElements: newWikiTable,
           },
         };

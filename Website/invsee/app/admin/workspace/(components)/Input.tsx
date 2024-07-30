@@ -26,7 +26,7 @@ const WorkspaceInput = ({
   comment,
 }: WorkspaceInputProps) => {
   return (
-    <div className="text-white text-sm font-semibold">
+    <div className={cn(className, "text-white text-sm font-semibold")}>
 
       <p className="text-sm font-semibold mb-2">
         {name} {required && <span className="text-red-500">*</span>}{" "}
@@ -41,7 +41,6 @@ const WorkspaceInput = ({
           value={value}
           onChange={onChange}
           className={cn(
-            className,
             `w-${width} h-${height} flex gap-7 items-center p-3 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg outline-none focus:bg-gray-600`
           )}
           placeholder={placeholder}

@@ -15,7 +15,7 @@ const SearchBar = () => {
   const searchRef = useRef<HTMLInputElement>(null);
   const [fallstart, setFallstart] = useState<boolean>(true);
   const [searchData, setSearchData] = useState<any>(null);
-  const { itemWorksapce } = useWorkspaceStore();
+  const { itemWorkspace } = useWorkspaceStore();
   const { searchlocked } = usePersistStore();
   var startTime: Date = new Date();
   var endTime: Date = new Date();
@@ -35,10 +35,7 @@ const SearchBar = () => {
     data.mutate("");
   }, []);
 
-  
-
   useEffect(() => {
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -118,7 +115,7 @@ const SearchBar = () => {
                   data={{
                     ...searchData,
                     workspaces: [
-                      { workspaceName: itemWorksapce.workspaceName },
+                      { workspaceName: itemWorkspace.workspaceName },
                     ],
                   }}
                 />
@@ -143,7 +140,7 @@ const SearchBar = () => {
         ) : null}
       </AnimatePresence>
       <button
-        className="flex gap-7 items-center p-3 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg"
+        className="flex gap-7 items-center p-3 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg select-none"
         onClick={() => {
           if (searchlocked) {
             return;

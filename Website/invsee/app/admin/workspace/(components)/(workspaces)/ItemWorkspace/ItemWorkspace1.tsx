@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import WorkspaceInput from "../../Input";
 import { useWorkspaceStore } from "../../../stores/workspaceBroswerData";
 import Image from "next/image";
@@ -8,12 +8,14 @@ import "../../externalcss/dangerouslySetInnerHTML.css";
 import { translations } from "@/utils/translations";
 import { usePersistStore } from "@/stores/persist_store";
 import ModSelector from "../../ModSelector";
+import TagSelector from "../../TagSelector";
 
 const ItemWorkspace1 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
   const { language } = usePersistStore();
+  const photoRef = useRef<HTMLImageElement>(null);
 
-  const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
+  const { setItemWorkspaceState, itemWorkspace } = useWorkspaceStore();
   const [loading, setLoading] = useState<boolean>(false);
 
   const uploadPhoto = (e: any) => {
@@ -49,7 +51,7 @@ const ItemWorkspace1 = () => {
                   "Type Item Name"
                 ]
               }
-              value={itemWorksapce.itemName}
+              value={itemWorkspace.itemName}
               required
               height="[70px]"
               onChange={(e) => {
@@ -68,14 +70,15 @@ const ItemWorkspace1 = () => {
               comment="(MOD__ITEM_NAME)"
               required
               height="[70px]"
-              value={itemWorksapce.itemTag}
+              value={itemWorkspace.itemTag}
               onChange={(e) => {
                 setItemWorkspaceState("itemTag", e.target.value);
               }}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             <WorkspaceInput
+              className="col-span-1"
               name={
                 translations[language]["Workspace"]["ItemWorkspace"][
                   "Material Value"
@@ -88,32 +91,56 @@ const ItemWorkspace1 = () => {
                 ]
               }
               height="[70px]"
-              value={itemWorksapce.materialValue}
+              value={itemWorkspace.materialValue}
               onChange={(e) => {
                 setItemWorkspaceState("materialValue", e.target.value);
               }}
             />
             <WorkspaceInput
+              placeholder={
+                translations[language]["Workspace"]["ItemWorkspace"][
+                  "Type Stack Size"
+                ]
+              }
               name={
-                translations[language]["Workspace"]["ItemWorkspace"]["Mod Tag"]
+                translations[language]["Workspace"]["ItemWorkspace"][
+                  "Stack Size"
+                ]
+              }
+              comment="(1-64)"
+              required
+              className="col-span-1"
+              value={itemWorkspace.stackSize}
+              onChange={(e) => {
+                setItemWorkspaceState("stackSize", e.target.value);
+              }}
+              height="[70px]"
+            />
+            <WorkspaceInput
+              className="col-span-2"
+              name={
+                translations[language]["Workspace"]["ItemWorkspace"][
+                  "Item Type"
+                ]
               }
               placeholder={
                 translations[language]["Workspace"]["ItemWorkspace"][
-                  "Type Mod Tag"
+                  "Type Item Type"
                 ]
               }
-              value={itemWorksapce.modTag}
+              value={itemWorkspace.itemType}
               required
               height="[70px]"
               onChange={(e) => {
-                setItemWorkspaceState("modTag", e.target.value);
+                setItemWorkspaceState("itemType", e.target.value);
               }}
             />
           </div>
         </div>
       </div>
       <div className="mt-5">
-        <div className="grid grid-cols-2 gap-4">
+        <TagSelector/>
+        <div className="grid grid-cols-2 mt-5 gap-4">
           <ModSelector
             onClick={() => {
               console.log("clicked!");
@@ -127,11 +154,43 @@ const ItemWorkspace1 = () => {
             <p className="text-white text-sm font-semibold mb-2">
               {
                 translations[language]["Workspace"]["ItemWorkspace"][
-                  "Choose Author"
+                  "Item Preview"
                 ]
               }
             </p>
-            <div className="h-[100px] flex gap-7 items-center p-3 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg outline-none focus:bg-gray-600"></div>
+            <div className="h-[100px] flex gap-7 items-center p-1 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg outline-none focus:bg-gray-600">
+              <motion.div
+                key={itemWorkspace.mod && itemWorkspace.mod.id}
+                initial={{ x: -20 }}
+                animate={{ x: 0 }}
+                className="flex gap-2"
+              >
+                <Image
+                  ref={photoRef}
+                  onError={(e) => {
+                    // @ts-ignore
+                    photoRef.current.src = "deafult.png";
+                  }}
+                  src={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709745445/${itemWorkspace.mod && itemWorkspace.mod.tag}/${itemWorkspace.itemTag}.png`}
+                  width={60}
+                  height={60}
+                  alt="mod_icon"
+                />
+                <div className="flex justify-between">
+                  <div className="flex flex-col">
+                    <p className="text-white font-semibold flex gap-1 items-center">
+                      {itemWorkspace.itemName} {">"}
+                      <span className="text-sm text-gray-400">
+                        {itemWorkspace.itemType}
+                      </span>
+                    </p>
+                    <p className="text-blue-500 font-medium">
+                      {itemWorkspace.mod && itemWorkspace.mod.modName}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -147,7 +206,7 @@ const ItemWorkspace1 = () => {
               "Type Item Description"
             ]
           }
-          value={itemWorksapce.itemDescription}
+          value={itemWorkspace.itemDescription}
           textarea
           height="[100px]"
           width="full"

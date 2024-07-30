@@ -11,7 +11,7 @@ interface WikiElementorProps {
 }
 
 const WikiElementor = ({ elements }: WikiElementorProps) => {
-  const { setItemWorkspaceState, addNewWikiElement, itemWorksapce } =
+  const { setItemWorkspaceState, addNewWikiElement, itemWorkspace } =
     useWorkspaceStore();
 
   const addNewElement = () => {
@@ -28,9 +28,9 @@ const WikiElementor = ({ elements }: WikiElementorProps) => {
       content:
         "Witam " + randomWords[Math.floor(Math.random() * randomWords.length)],
       image: "",
-      title: "Title " + (itemWorksapce.wikiElements.length + 1),
+      title: "Title " + (itemWorkspace.wikiElements.length + 1),
       links: [],
-      id: itemWorksapce.wikiElements.length + 1,
+      id: itemWorkspace.wikiElements.length + 1,
     });
   };
 
@@ -38,7 +38,7 @@ const WikiElementor = ({ elements }: WikiElementorProps) => {
     <div className="flex flex-col mt-10">
       <div className="flex flex-col gap-y-10">
         <AnimatePresence>
-          {itemWorksapce.wikiElements?.map((element, index) => (
+          {itemWorkspace.wikiElements?.map((element: any, index: any) => (
             <WikiElement
               id={element.id}
               key={index}
