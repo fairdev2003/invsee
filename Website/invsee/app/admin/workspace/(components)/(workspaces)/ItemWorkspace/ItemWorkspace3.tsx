@@ -5,7 +5,7 @@ import { useWorkspaceStore } from "../../../stores/workspaceBroswerData";
 const ItemWorkspace3 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
 
-  const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
+  const { setItemWorkspaceState, itemWorkspace } = useWorkspaceStore();
 
   const uploadPhoto = (e: any) => {
     const file = e.target.files[0];

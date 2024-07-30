@@ -12,15 +12,18 @@ interface WorkspaceActions {
       | "materialValue"
       | "wikiElements"
       | "modTag"
+      | "itemType"
       | "step"
-      | "mod",
-    value: any
+      | "mod"
+      | "stackSize"
+      | "itemTags",
+    value: any | Mod
   ) => void;
   setpage: (data: number | string) => void;
   setErrorExplaination: (message: string, description: string) => void;
   setErrorState: (data: boolean) => void;
   addNewWikiElement: (wikiElement: WikiElement) => void;
-  editWikiElement: (index: number, wikiElement: WikiElement) => void;
+  editWikiElement: (index: number, wikiElement: WikiElement | any) => void;
   deleteWikiElement: (index: number) => void;
 }
 
@@ -28,6 +31,11 @@ interface WorksapceErorr {
   error: boolean;
   description: string;
   message: string;
+}
+
+interface ItemTag {
+  id: number;
+  tagName: string;
 }
 
 interface ItemWorkspaceProps {
@@ -38,11 +46,14 @@ interface ItemWorkspaceProps {
   itemImage: any;
   gallery: string[];
   itemDescription: string;
-  materialValue: number;
+  materialValue: string;
   wikiElements: WikiElement[];
-  modTag: string;
+  modTag?: string;
+  itemType: string 
   step: 1 | 2 | 3;
+  stackSize: string;
   mod: Mod;
+  itemTags: ItemTag[];
 }
 
 enum WorkspaceType {
@@ -59,10 +70,8 @@ export interface WikiElement {
   id: number;
 }
 
-interface ModWorkspace {}
-
 interface Workspaces {
-  itemWorksapce: ItemWorkspaceProps;
+  itemWorkspace: ItemWorkspaceProps;
   page: string;
 }
 

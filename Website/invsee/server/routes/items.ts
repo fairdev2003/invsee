@@ -2,6 +2,7 @@ import { db } from "@/prisma/prisma";
 import { protectedProcedure, publicProcedure, router } from "../trpc";
 import { z } from "zod";
 import { connectMongo } from "@/app/api/mongo/mongo";
+import Tags from "@/components/dashboard/sections/Tags";
 
 export const itemsRouter = router({
   get_all: protectedProcedure.query(async ({ ctx }) => {
@@ -29,6 +30,27 @@ export const itemsRouter = router({
         include: {
           mod: true,
           gallery: true,
+        },
+      });
+
+      return data;
+    }),
+
+  saveItem: protectedProcedure
+    .input(z.object({
+      item_name: z.string(),
+      item_tag: z.string(),
+      material_value: z.number(),
+      stack_size: z.number().max(64).min(1),
+      type: z.string(),
+      tags: z.array(z.string()),
+      modId: z.string(),
+      short_description: z.string(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const data = await db.item.create({
+        data: {
+          ...input, authorId: ctx.user?.id || "",
         },
       });
 
