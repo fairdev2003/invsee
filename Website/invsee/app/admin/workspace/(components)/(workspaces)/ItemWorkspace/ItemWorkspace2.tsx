@@ -9,7 +9,7 @@ import WikiElementor from "../../WikiElementor";
 const ItemWorkspace2 = () => {
   const [photo, setPhoto] = useState<string | null>(null);
 
-  const { setItemWorkspaceState, itemWorksapce } = useWorkspaceStore();
+  const { setItemWorkspaceState, itemWorkspace } = useWorkspaceStore();
   const divRef = useRef<HTMLDivElement>(null);
 
   const uploadPhoto = (e: any) => {

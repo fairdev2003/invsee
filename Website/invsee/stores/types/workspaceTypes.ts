@@ -1,44 +1,30 @@
 import { Mod } from "@prisma/client";
 
-interface WorkspaceActions {
-  setItemWorkspaceState: (
-    key:
-      | "workspaceName"
-      | "itemName"
-      | "itemTag"
-      | "itemImage"
-      | "gallery"
-      | "itemDescription"
-      | "materialValue"
-      | "wikiElements"
-      | "modTag"
-      | "itemType"
-      | "step"
-      | "mod"
-      | "stackSize"
-      | "itemTags",
-    value: any | Mod
+type WorkspaceActions = {
+  setItemWorkspaceState: <WorkspaceKey extends keyof ItemWorkspaceProps>(
+    key: WorkspaceKey,
+    value: ItemWorkspaceProps[WorkspaceKey]
   ) => void;
   setpage: (data: number | string) => void;
   setErrorExplaination: (message: string, description: string) => void;
   setErrorState: (data: boolean) => void;
   addNewWikiElement: (wikiElement: WikiElement) => void;
-  editWikiElement: (index: number, wikiElement: WikiElement | any) => void;
+  editWikiElement: (index: number, wikiElement: WikiElement ) => void;
   deleteWikiElement: (index: number) => void;
-}
+};
 
-interface WorksapceErorr {
+type WorksapceErorr = {
   error: boolean;
   description: string;
   message: string;
-}
+};
 
-interface ItemTag {
+type ItemTag = {
   id: number;
   tagName: string;
-}
+};
 
-interface ItemWorkspaceProps {
+type ItemWorkspaceProps = {
   workspaceErorr: WorksapceErorr;
   workspaceName: string;
   itemName: string;
@@ -49,12 +35,12 @@ interface ItemWorkspaceProps {
   materialValue: string;
   wikiElements: WikiElement[];
   modTag?: string;
-  itemType: string 
-  step: 1 | 2 | 3;
+  itemType: string;
+  step: number;
   stackSize: string;
-  mod: Mod;
+  mod: Omit<Mod, "createdAt" | "updatedAt"> | null;
   itemTags: ItemTag[];
-}
+};
 
 enum WorkspaceType {
   Item = "Item",
@@ -62,24 +48,24 @@ enum WorkspaceType {
   Wiki = "Wiki",
 }
 
-export interface WikiElement {
+export type WikiElement = {
   title?: string;
   content: string;
   image: string;
   links?: string[];
   id: number;
-}
+};
 
-interface Workspaces {
+type Workspaces = {
   itemWorkspace: ItemWorkspaceProps;
   page: string;
-}
+};
 
-interface Workspace {
+type Workspace = {
   workspace: ItemWorkspaceProps;
   name?: string;
   type: WorkspaceType;
   page: 1 | 2 | 3;
-}
+};
 
 export type { WorkspaceActions, Workspace, Workspaces };

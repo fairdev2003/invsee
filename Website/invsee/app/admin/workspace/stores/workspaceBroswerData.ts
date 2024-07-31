@@ -4,11 +4,10 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Mod } from "@prisma/client";
 import type {
+  WikiElement,
   WorkspaceActions,
   Workspaces,
-  Workspace,
 } from "../../../../stores/types/workspaceTypes";
-import ItemWorkspace from "../(components)/(workspaces)/ItemWorkspace/ItemWorkspace1";
 
 export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
   persist((set) => ({
@@ -57,6 +56,7 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
       }));
     },
     page: "mainpage",
+
     setItemWorkspaceState: async (key: string, value: any) => {
       set((state) => ({
         itemWorkspace: {
@@ -65,6 +65,7 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
         },
       }));
     },
+
     setpage: async (data: any) => set({ page: data }),
     addNewWikiElement: async (wikiElement: any) => {
       set((state) => ({
@@ -96,10 +97,12 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
    },
    
    editWikiElement: async (index: number, wikiElement: any) => {
-      // @ts-ignore
+
+      // @ts-expect-error
+
       set((state) => {
-        const newWikiTable: any = [];
-        state.itemWorkspace.wikiElements.forEach((element: any, i: number) => {
+        const newWikiTable: WikiElement[] = [];
+        state.itemWorkspace.wikiElements.forEach((element: any) => {
           if (element.id === index) {
             newWikiTable.push(wikiElement);
           } else {
