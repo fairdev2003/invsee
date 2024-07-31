@@ -16,7 +16,7 @@ export const auth: NextAuthOptions = {
                 password: {label : "Password", type: "password", placeholder: "Enter your password"}
             },
 
-            // @ts-ignore
+            // @ts-expect-error
 
             async authorize(credentials: any) {
                 const password = credentials.password as string;

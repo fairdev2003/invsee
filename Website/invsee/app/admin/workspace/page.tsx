@@ -1,10 +1,7 @@
 "use client";
 
-import SelectWorkspaceCard from "./(components)/SelectWorkspaceCard";
-import WorksapcesBar from "./(components)/WorkspacesBar";
 import Loading from "./(components)/Loading";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import Mainpage from "./(components)/(workspaces)/Mainpage";
 import { useWorkspaceStore } from "./stores/workspaceBroswerData";
 import ModWorkspace from "./(components)/(workspaces)/ModWorkspace";
@@ -30,7 +27,7 @@ const Page = () => {
 
     
 
-    <div className="mt-[130px] mx-[15%] flex flex-col justify-center items-center">
+    <div className="mt-[130px] lg:mx-[15%] mx-[5%] flex flex-col justify-center items-center">
 
       {blocked && <Loading />}
       {page == "mainpage" && <Mainpage/>}

@@ -37,9 +37,9 @@ const ItemWorkspace1 = () => {
         </h1>
       </div>
 
-      <div className="mt-5">
-        <div className="mt-5 rounded-md font-bold text-xl flex flex-col gap-5 text-white col-span-5 ">
-          <div className="grid grid-cols-2 gap-4">
+      <div className="mt-5 md:flex-col md:flex-5 md:gap-5" >
+        <div className="mt-5 md:flex  rounded-md font-bold gap-5 text-xl flex flex-col text-white col-span-5 ">
+          <div className="lg:grid lg:grid-cols-2 md:flex md:flex-col gap-4 flex flex-col">
             <WorkspaceInput
               name={
                 translations[language]["Workspace"]["ItemWorkspace"][
@@ -76,7 +76,7 @@ const ItemWorkspace1 = () => {
               }}
             />
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="lg:grid lg:grid-cols-4 gap-4 md:flex md:flex-col flex flex-col">
             <WorkspaceInput
               className="col-span-1"
               name={
@@ -140,7 +140,7 @@ const ItemWorkspace1 = () => {
       </div>
       <div className="mt-5">
         <TagSelector/>
-        <div className="grid grid-cols-2 mt-5 gap-4">
+        <div className="lg:grid lg:grid-cols-2 mt-5 gap-4 md:flex md:flex-col flex flex-col">
           <ModSelector
             onClick={() => {
               console.log("clicked!");

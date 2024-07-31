@@ -120,6 +120,7 @@ const WikiElement = ({ content, image, title = "", id }: WikiElementProps) => {
                 size={25}
                 className="cursor-pointer"
                 onClick={() => {
+                  console.log(titleValue);
                   editWikiElement(id, {
                     title: titleValue,
                     content: contentValue,

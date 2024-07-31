@@ -27,10 +27,8 @@ const ItemWorkspace = () => {
   const saveaction = trpc.items.saveItem.useMutation();
 
   const saveItemWorksapceIntoDatabase = () => {
-    // Save the item workspace into
-    // the
-    // database
-    const tags: string[] = [];
+    type Tags = string;
+    const tags: Tags[] = [];
     itemWorkspace.itemTags.map((tag) => {
       tags.push(tag.tagName);
     });
@@ -43,18 +41,17 @@ const ItemWorkspace = () => {
       stackSize,
       itemType,
       materialValue,
-      itemTags,
     } = itemWorkspace;
 
     saveaction.mutate({
       item_tag: itemTag,
       item_name: itemName,
       short_description: itemDescription,
-      modId: mod.id,
+      modId: mod?.id as string,
       stack_size: parseInt(stackSize),
       type: itemType,
       material_value: parseInt(materialValue),
-      tags: itemTags,
+      tags,
     });
   };
 
@@ -76,7 +73,7 @@ const ItemWorkspace = () => {
   const step = itemWorkspace.step;
 
   return (
-    <div className="justify-center w-full px-[5%] mb-20 mt-5">
+    <div className="flex flex-col justify-center w-full lg:px-[5%] mt-5 mb-20">
       {loading && <Loading />}
       {itemWorkspace.workspaceErorr.error && (
         <Error
@@ -84,8 +81,8 @@ const ItemWorkspace = () => {
           description={itemWorkspace.workspaceErorr.description}
         />
       )}
-      <div>
-        <h1 className="text-3xl text-white font-bold">
+      <div className="lg:flex lg:flex-row md:flex md:flex-row items-end">
+        <h1 className="text-3xl flex flex-col gap-2 text-white font-bold">
           {
             translations[language]["Workspace"]["ItemWorkspace"][
               "Item Workspace"
@@ -99,8 +96,8 @@ const ItemWorkspace = () => {
       </div>
       <motion.div
         initial={{ height: 0 }}
-        animate={{ height: 50 }}
-        className="grid grid-cols-3 gap-5 mt-10"
+        animate={{ height: "100%" }}
+        className="lg:grid lg:grid-cols-3 flex-col flex w-auto gap-5 mt-10"
       >
         <div
           className={`${
@@ -197,7 +194,7 @@ const ItemWorkspace = () => {
               setItemWorkspaceState("step", itemWorkspace.step + 1);
             }, 1500);
           }}
-          className="bg-blue-600 rounded-xl p-4 w-[250px] hover:bg-white hover:text-black transition-colors h-[70px] text-white font-medium text-lg"
+          className="bg-blue-600 rounded-xl p-4 lg:w-[250px] md:w-[250px] w-full hover:bg-white hover:text-black transition-colors h-[70px] text-white font-medium text-lg"
         >
           {itemWorkspace.step === 3
             ? `${translations[language]["Workspace"]["Save"]}`

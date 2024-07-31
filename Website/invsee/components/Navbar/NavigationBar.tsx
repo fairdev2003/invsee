@@ -25,7 +25,7 @@ const NavigationBar = () => {
 
   const { account_data, setAccountData } = useUserStore();
 
-  const { page, setpage, itemWorksapce } = useWorkspaceStore();
+  const { page, setpage, itemWorkspace } = useWorkspaceStore();
 
 
   const { language, setLanguage } = usePersistStore();
@@ -74,21 +74,21 @@ const NavigationBar = () => {
   return (
     <div className="fixed w-full z-[2] top-0">
       {account_data[0] && account_data[0].role === "Admin" ? (
-        <motion.div initial={{height: 0}} animate={{height: 30}} className="text-white font-medium justify-between bg-blue-700 flex gap-2 h-[30px] px-3 items-center">
-          <div className="flex gap-3 items-center">
+        <motion.div initial={{height: 0}} animate={{height: 30}} className="text-white  font-medium justify-between flex-col md:h-[30px] md:flex md:flex-row lg:flex lg:flex-row lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center hidden">
+          <div className="lg:flex md:flex flex lg:gap-5 gap-3 items-center">
             <BsCircle className="text-green-500" />
             <a href="/dashboard?section=overview">
               <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">DASHBOARD</p>
             </a>
             <a href="/admin/workspace">
-              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">WORKSPACE</p>
+              <p className="text-[13px] hidden md:hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">WORKSPACE</p>
             </a>
             <a href="/dashboard?section=items">
-              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">ITEMS & BLOCKS</p>
+              <p className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">ITEMS & BLOCKS</p>
             </a>
 
             <p
-              className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
+              className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
               onClick={() => {
                 if (g === 2) {
                   setg(0);
@@ -101,7 +101,7 @@ const NavigationBar = () => {
               CHANGE LANGUAGE
             </p>
             <p
-              className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
+              className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
               onClick={() => {
                 if (p === 2) {
                   setp(0);
@@ -111,12 +111,12 @@ const NavigationBar = () => {
                 setpage(pages[p]);
               }}
             >
-              Editing {itemWorksapce.workspaceName}
+              Editing {itemWorkspace.workspaceName}
             </p>
             <Settings size={20} className="cursor-pointer" />
           </div>
           <a href="/dashboard?section=account-settings">
-            <div className="text-[13px] flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
+            <div className="text-[13px] hidden lg:flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
               <User size={20} />{" "}
               <p>
                 {account_data[0].first_name.toUpperCase()}{" "}
@@ -132,7 +132,7 @@ const NavigationBar = () => {
             <h1 className="text-white text-2xl m-5 font-bold">Modopedia</h1>
             
           </a>
-          <SearchBar />
+          <SearchBar/>
         </div>
         
         {account_data[0] && account_data.length > 0 ? (
