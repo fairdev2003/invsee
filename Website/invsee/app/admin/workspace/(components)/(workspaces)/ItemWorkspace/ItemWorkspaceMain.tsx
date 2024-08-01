@@ -194,7 +194,7 @@ const ItemWorkspace = () => {
               setItemWorkspaceState("step", itemWorkspace.step + 1);
             }, 1500);
           }}
-          className="bg-blue-600 rounded-xl p-4 lg:w-[250px] md:w-[250px] w-full hover:bg-white hover:text-black transition-colors h-[70px] text-white font-medium text-lg"
+          className="bg-blue-600 mb-10 rounded-xl p-4 lg:w-[250px] md:w-[250px] w-full hover:bg-white hover:text-black transition-colors h-[70px] text-white font-medium text-lg"
         >
           {itemWorkspace.step === 3
             ? `${translations[language]["Workspace"]["Save"]}`

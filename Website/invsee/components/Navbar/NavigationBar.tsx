@@ -3,13 +3,13 @@
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-import { use, useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useEffect, useState } from "react";
+import { Avatar, AvatarImage } from "../ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Separator } from "@radix-ui/react-separator";
-import { Crown, Hammer, Search, Settings, Star, User } from "lucide-react";
+import { Crown, Hammer, Settings, Star, User } from "lucide-react";
 import { useUserStore } from "@/stores/user_store";
-import { redirect } from "next/navigation"; 
+import { redirect } from "next/navigation";
 import axios from "axios";
 
 import { usePersistStore } from "@/stores/persist_store";
@@ -21,12 +21,11 @@ import { motion } from "framer-motion";
 import SearchBar from "./SearchBar";
 
 const NavigationBar = () => {
-  const { data: token, status } = useSession();
+  const { data: token } = useSession();
 
   const { account_data, setAccountData } = useUserStore();
 
-  const { page, setpage, itemWorkspace } = useWorkspaceStore();
-
+  const { setpage, itemWorkspace } = useWorkspaceStore();
 
   const { language, setLanguage } = usePersistStore();
 
@@ -67,127 +66,106 @@ const NavigationBar = () => {
   };
 
   const languages = ["pl", "en", "es"];
-  const pages = ["mainpage" , "item" , "mod" , "crafting" , "user"];
+  const pages = ["mainpage", "item", "mod", "crafting", "user"];
   const [g, setg] = useState(0);
   const [p, setp] = useState(0);
+  const [mobilenavigation, setmobilenavigation] = useState(false);
+
+  const AdminNavigation = (): JSX.Element => {
+    return (
+      <>
+        <div className="lg:flex md:flex flex lg:gap-5 gap-3 items-center">
+          <BsCircle className="text-green-500" />
+          <a href="/dashboard?section=overview">
+            <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">
+              DASHBOARD
+            </p>
+          </a>
+          <a href="/admin/workspace">
+            <p className="text-[13px] hidden md:hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">
+              WORKSPACE
+            </p>
+          </a>
+          <a href="/dashboard?section=items">
+            <p className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">
+              ITEMS & BLOCKS
+            </p>
+          </a>
+
+          <p
+            className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
+            onClick={() => {
+              if (g === 2) {
+                setg(0);
+              } else {
+                setg(g + 1);
+              }
+              setLanguage(languages[g]);
+            }}
+          >
+            CHANGE LANGUAGE
+          </p>
+          <p
+            className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
+            onClick={() => {
+              if (p === 2) {
+                setp(0);
+              } else {
+                setp(p + 1);
+              }
+              setpage(pages[p]);
+            }}
+          >
+            Editing {itemWorkspace.workspaceName}
+          </p>
+          <Settings size={20} className="cursor-pointer" />
+        </div>
+        <a href="/dashboard?section=account-settings">
+          <div className="text-[13px] hidden lg:flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
+            <User size={20} />{" "}
+            <p>
+              {account_data[0].first_name.toUpperCase()}{" "}
+              {account_data[0].last_name.toUpperCase()}
+            </p>
+          </div>
+        </a>
+      </>
+    );
+  };
 
   return (
     <div className="fixed w-full z-[2] top-0">
-      {account_data[0] && account_data[0].role === "Admin" ? (
-        <motion.div initial={{height: 0}} animate={{height: 30}} className="text-white  font-medium justify-between flex-col md:h-[30px] md:flex md:flex-row lg:flex lg:flex-row lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center hidden">
-          <div className="lg:flex md:flex flex lg:gap-5 gap-3 items-center">
-            <BsCircle className="text-green-500" />
-            <a href="/dashboard?section=overview">
-              <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">DASHBOARD</p>
-            </a>
-            <a href="/admin/workspace">
-              <p className="text-[13px] hidden md:hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">WORKSPACE</p>
-            </a>
-            <a href="/dashboard?section=items">
-              <p className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">ITEMS & BLOCKS</p>
-            </a>
-
-            <p
-              className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
-              onClick={() => {
-                if (g === 2) {
-                  setg(0);
-                } else {
-                  setg(g + 1);
-                }
-                setLanguage(languages[g]);
-              }}
-            >
-              CHANGE LANGUAGE
-            </p>
-            <p
-              className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl"
-              onClick={() => {
-                if (p === 2) {
-                  setp(0);
-                } else {
-                  setp(p + 1);
-                }
-                setpage(pages[p]);
-              }}
-            >
-              Editing {itemWorkspace.workspaceName}
-            </p>
-            <Settings size={20} className="cursor-pointer" />
-          </div>
-          <a href="/dashboard?section=account-settings">
-            <div className="text-[13px] hidden lg:flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
-              <User size={20} />{" "}
-              <p>
-                {account_data[0].first_name.toUpperCase()}{" "}
-                {account_data[0].last_name.toUpperCase()}
-              </p>
-            </div>
-          </a>
-        </motion.div>
-      ) : null}
+      {account_data[0] && account_data[0].role === "Admin" && (
+        <div>
+          {/* // pc navigation */}
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: 30 }}
+            className="text-white  font-medium justify-between flex-col md:h-[30px] md:flex md:flex-row lg:flex lg:flex-row lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center hidden"
+          >
+            {AdminNavigation()}
+          </motion.div>
+          {/* // mobile navigation */}
+          <motion.div
+            initial={{ height: -20 }}
+            animate={{ height: 70 }}
+            className="text-white rounded-t-xl font-medium fixed bottom-0 w-full justify-between mt-10 flex-col md:h-[30px] h-[70px] md:hidden flex lg:hidden lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center"
+          >
+            s
+          </motion.div>
+        </div>
+          
+      )}
       <div className="flex justify-between items-center p-1 bg-black h-[100px] top-0 z-100">
         <div className="flex gap-2 items-center">
           <a href="/">
             <h1 className="text-white text-2xl m-5 font-bold">Modopedia</h1>
-            
           </a>
-          <SearchBar/>
+          <SearchBar />
         </div>
-        
+
         {account_data[0] && account_data.length > 0 ? (
           <div className="flex">
-            {/* <Select>
-              <SelectTrigger className="w-[50px] h-[35px]">
-                <Button variant="secondary" className="p-3 px-5 h-[35px]">
-
-                    {language === "en" ? (
-                      <p className="mx-3">
-                        {translations[language]["Dashboard"]["English"]}
-                      </p>
-                    ) : null}
-                    {language === "es" ? (
-                      <p className="mx-3">
-                        {translations[language]["Dashboard"]["Spanish"]}
-                      </p>
-                    ) : null}
-                    {language === "pl" ? (
-                      <p className="mx-3">
-                        {translations[language]["Dashboard"]["Polish"]}
-                      </p>
-                    ) : null}
-                </Button>
-              </SelectTrigger>
-              <SelectContent className="bg-black text-white border-none">
-                <Button
-                  onClick={() => {
-                    setLanguage("en");
-                  }}
-                  variant="outline"
-                  className="w-full bg-none h-[35px] flex justify-start"
-                >
-                  <p>{translations[language]["Dashboard"]["English"]}</p>
-                </Button>
-                <Button
-                  onClick={() => {
-                    setLanguage("pl");
-                  }}
-                  variant="outline"
-                  className="w-full bg-none h-[35px] flex justify-start"
-                >
-                  <p>{translations[language]["Dashboard"]["Polish"]}</p>
-                </Button>
-                <Button
-                  onClick={() => {
-                    setLanguage("es");
-                  }}
-                  variant="outline"
-                  className="w-full bg-none h-[35px] flex justify-start"
-                >
-                  <p>{translations[language]["Dashboard"]["Spanish"]}</p>
-                </Button>
-              </SelectContent>
-            </Select> */}
             <Popover>
               <PopoverTrigger className="mr-5">
                 <Avatar>
@@ -224,9 +202,7 @@ const NavigationBar = () => {
                     : "loading..."}
                 </p> */}
                 <p className="mx-2 my-1 text-[12px] truncate text-red-500">
-                  {account_data.length > 0
-                    ? "EMAIL IS HIDDEN"
-                    : 'loading...'}
+                  {account_data.length > 0 ? "EMAIL IS HIDDEN" : "loading..."}
                 </p>
                 <Separator
                   orientation="horizontal"
@@ -274,7 +250,15 @@ const NavigationBar = () => {
               </PopoverContent>
             </Popover>
           </div>
-        ) : <Button variant="secondary" className="mr-5" onClick={() => window.location.href = '/login'}>Login</Button>}
+        ) : (
+          <Button
+            variant="secondary"
+            className="mr-5"
+            onClick={() => (window.location.href = "/login")}
+          >
+            Login
+          </Button>
+        )}
       </div>
     </div>
   );
