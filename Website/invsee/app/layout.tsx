@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins,  } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { SessionProvider } from "next-auth/react";
@@ -27,24 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        
         <AuthProvider>
-          
+          {children}
           <Provider>
-            <NavigationBar/>
-            {children}
-          
-
-
-      
+            <NavigationBar />
+            
+            
           </Provider>
-          
         </AuthProvider>
-
-
-
       </body>
     </html>
   );
 }
-

@@ -9,7 +9,7 @@ type WorkspaceActions = {
   setErrorExplaination: (message: string, description: string) => void;
   setErrorState: (data: boolean) => void;
   addNewWikiElement: (wikiElement: WikiElement) => void;
-  editWikiElement: (index: number, wikiElement: WikiElement ) => void;
+  editWikiElement: (index: number, wikiElement: any ) => void;
   deleteWikiElement: (index: number) => void;
 };
 
@@ -65,7 +65,7 @@ type Workspace = {
   workspace: ItemWorkspaceProps;
   name?: string;
   type: WorkspaceType;
-  page: 1 | 2 | 3;
+  page: number;
 };
 
-export type { WorkspaceActions, Workspace, Workspaces };
+export type { WorkspaceActions, ItemWorkspaceProps, Workspace, Workspaces };

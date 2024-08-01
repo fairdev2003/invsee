@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <AuthProvider>
           <Provider>
-            { children }
+           { children }
           </Provider>
         </AuthProvider>
           
