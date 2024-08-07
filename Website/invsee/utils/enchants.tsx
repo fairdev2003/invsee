@@ -1,4 +1,11 @@
-export const EnchantmentsDictonary : any = {
+
+
+
+type Enchantments<T extends string> = {
+    [K in `${"minecraft" | "ae2"}:${T[0]}`]: string;
+}
+
+export const EnchantmentsDictonary : Enchantments<string> = {
     "minecraft:mending": "Mending",
     "minecraft:sharpness": "Sharpness",
     "minecraft:unbreaking": "Unbreaking",
@@ -15,6 +22,7 @@ export const EnchantmentsDictonary : any = {
     "minecraft:bane_of_arthropods": "Bane of Arthropods",
     "minecraft:protection": "Protection",
     "minecraft:thorns": "Thorns",
+    "ae2:grind": "Grind",
 }
 
 export const NumberFormula: any = {

@@ -91,7 +91,7 @@ model Item {
     RecipeIngredient  RecipeIngredient[]
     recipesId         String?            @db.ObjectId()
     tags              String[]
-    material_value    Int               @default(0)
+    material_value    Int                @default(0)
     LiveChatMessages  LiveChatMessages[]
 }
 

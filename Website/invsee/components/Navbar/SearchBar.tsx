@@ -10,6 +10,8 @@ import SearchResults from "./components/SearchResults";
 import { useWorkspaceStore } from "@/app/admin/workspace/stores/workspaceBroswerData";
 import { usePersistStore } from "@/stores/persist_store";
 import { cn } from "@/lib/utils";
+import { linkSync } from "fs";
+import { websiteroutes } from "@/utils/data/webisteRoutes";
 
 type SearchBarProps = {
   className?: string;
@@ -22,20 +24,34 @@ const SearchBar = ({ className }: SearchBarProps) => {
   const [searchData, setSearchData] = useState<any>(null);
   const { itemWorkspace } = useWorkspaceStore();
   const { searchlocked } = usePersistStore();
+  const [searchValue, setSearchValue] = useState<string>("");
   var startTime: Date = new Date();
   var endTime: Date = new Date();
 
   const [timespent, setTimespent] = useState<any>(null);
 
+  type serverDataType = typeof data;
+
+  const handleUtilsSearch = (input: string, data: any) => {
+
+    const searchLinks = websiteroutes.filter((item) => item?.name.toLowerCase().includes(input.toLowerCase()))
+
+    const searchResults = {...data, links: searchLinks};
+    console.log(searchResults);
+
+    return searchResults;
+  };
+
   const data = trpc.search.searchEverything.useMutation({
     onSettled: (data) => {
-      setSearchData({ data: { ...data } });
+      setSearchData({ data: { ...handleUtilsSearch(searchValue, data) } });
 
       endTime = new Date();
       setTimespent(endTime.getTime() - startTime.getTime());
       console.log(timespent);
     },
   });
+
   useEffect(() => {
     data.mutate("");
   }, []);
@@ -92,8 +108,8 @@ const SearchBar = ({ className }: SearchBarProps) => {
                   <input
                     spellCheck={false}
                     onChange={(e) => {
+                      setSearchValue(e.currentTarget.value);
                       if (e.currentTarget.value.length > 0) {
-                        startTime = new Date();
                         search(e.currentTarget.value);
                       } else {
                         setSearchData({ data: { ...data } });
@@ -116,7 +132,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                     }, 0);
                   }}
                 >
-                  <XIcon className="lg:hidden flex"/>
+                  <XIcon className="lg:hidden flex" />
                   <code className="lg:flex hidden">ESC</code>
                 </div>
               </div>
@@ -149,7 +165,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
             </motion.div>
           </motion.div>
         ) : null}
-    </AnimatePresence>
+      </AnimatePresence>
       <SearchIcon
         color="white"
         className="lg:hidden md:hidden flex text-white"

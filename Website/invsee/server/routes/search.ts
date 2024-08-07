@@ -23,6 +23,9 @@ export const searchRouter = router({
   searchEverything: publicProcedure
     .input(z.string())
     .mutation(async ({ input }) => {
+
+      console.profile("api");
+
       if (input.startsWith("@")) {
         return searchItemWithMod(input);
       }
@@ -39,19 +42,20 @@ export const searchRouter = router({
 
       const items = await searchForItems(input);
       const mods = await searchForMods(input);
-      const links = websiteroute.filter((item) =>
-        item.name.toLowerCase().includes(input.toLowerCase())
-      );
 
-      console.log(items.items);
+      console.log(items.items); 
 
-      return { items: items.items, mods: mods.mods, links: links };
+      console.profileEnd();
+      return { items: items.items, mods: mods.mods };
+
+
+
     }),
 });
 
 const searchItemWithMod = async (input: string) => {
   const type = input.split(" ")[0].slice(1);
-  const item = input.split(" ")[1];
+  const item = input.split(type + " ")[1];
 
   const items = await db.item.findMany({
     include: {

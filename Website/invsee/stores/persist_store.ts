@@ -1,15 +1,19 @@
+import language from "react-syntax-highlighter/dist/esm/languages/hljs/1c";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface LanguageStore {
+type PersistStoreArgs = {
   language: string;
   color: string;
-  searchlocked: boolean;
+  searchlocked: boolean; 
+}
+
+type PersistStoreActions = {
   setLanguage: (language: string) => void;
   setSearchLocked: (searchlocked: boolean) => void;
 }
 
-export const usePersistStore = create<LanguageStore>()(
+export const usePersistStore = create<PersistStoreArgs & PersistStoreActions>()(
   persist(
     (set) => ({
       searchlocked: false,

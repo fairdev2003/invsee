@@ -5,7 +5,6 @@ import axios from 'axios';
 import { getServerSession } from 'next-auth';
 import { NextRequest } from 'next/server';
 import { LogAuthorized, LogUnAuthorized } from './trafficLogger';
-import { PrismaClient } from '@prisma/client';
 
 const trpc = initTRPC.create();
 
