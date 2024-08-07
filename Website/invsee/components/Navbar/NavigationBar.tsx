@@ -139,9 +139,9 @@ const NavigationBar = () => {
         <div>
           {/* // pc navigation */}
           <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 30 }}
-            className="text-white  font-medium justify-between flex-col md:h-[30px] md:flex md:flex-row lg:flex lg:flex-row lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center hidden"
+            initial={{ height: "0px" }}
+            animate={{ height: "auto" }}
+            className="text-white p-1 font-medium justify-between flex-col md:h-[30px] md:flex md:flex-row lg:flex lg:flex-row lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center hidden"
           >
             {AdminNavigation()}
           </motion.div>
@@ -149,7 +149,7 @@ const NavigationBar = () => {
           <motion.div
             initial={{ height: -20 }}
             animate={{ height: 70 }}
-            className="text-white rounded-t-xl font-medium fixed bottom-0 w-full justify-between mt-10 flex-col md:h-[30px] h-[70px] md:hidden flex lg:hidden lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center"
+            className="text-white rounded-t-xl h-[70px] font-medium fixed bottom-0 w-full justify-between mt-10 flex-col md:h-[30px] md:hidden flex lg:hidden lg:h-[30px] bg-blue-700 md:gap-2 px-3 items-center"
           >
             s
           </motion.div>

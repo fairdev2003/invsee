@@ -1,10 +1,19 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-
+type OldUser = {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    nick: string;
+    connected_accounts: string[];
+    badges: string[];
+    role: string;
+    image_src: string;
+}
 
 interface UserStore {
-    account_data: any[];
+    account_data: OldUser[];
     users: any[];
     loading: boolean;
 }

@@ -1,0 +1,26 @@
+/* HTML: <div class="loader"></div> */
+#loader {
+    width: 40px;
+    height: 40px;
+    --c:no-repeat linear-gradient(rgb(37 99 235) 0 0);
+    background: var(--c),var(--c),var(--c),var(--c);
+    background-size: 21px 21px;
+    animation: l5 1.5s infinite cubic-bezier(0.3,1,0,1);
+}
+@keyframes l5 {
+   0%   {background-position: 0    0,100% 0   ,100% 100%,0 100%}
+   33%  {background-position: 0    0,100% 0   ,100% 100%,0 100%;width:60px;height: 60px}
+   66%  {background-position: 100% 0,100% 100%,0    100%,0 0   ;width:60px;height: 60px}
+   100% {background-position: 100% 0,100% 100%,0    100%,0 0   }
+}
+
+/* HTML: <div class="loader"></div> */
+#loader2 {
+    width: calc(80px / cos(45deg));
+    height: 14px;
+    background: repeating-linear-gradient(-45deg,rgb(37 99 235) 0 15px,#0000 0 20px) left/200% 100%;
+    animation: l3 2s infinite linear;
+  }
+  @keyframes l3 {
+      100% {background-position:right}
+  }

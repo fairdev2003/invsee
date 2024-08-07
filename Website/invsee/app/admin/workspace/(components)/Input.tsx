@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ChangeEventHandler } from "react";
 
 interface WorkspaceInputProps {
   name: string;
@@ -10,7 +11,7 @@ interface WorkspaceInputProps {
   required?: boolean;
   comment?: string;
   textarea?: boolean;
-  onChange: (e: any) => void;
+  onChange: () => ChangeEventHandler<HTMLTextAreaElement>
 }
 
 const WorkspaceInput = ({

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectMongo } from '@/app/api/mongo/mongo';
-import { createItem, updateItem } from "@/actions/itemHelpers";
-import { create } from "domain";
 import { NextApiResponse } from "next";
 
 export async function GET(req: NextRequest, res: Response){
