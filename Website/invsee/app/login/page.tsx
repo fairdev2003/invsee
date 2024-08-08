@@ -10,6 +10,14 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProviders";
 
+type LoginElements = {
+  email: string;
+  password: string;
+  error: string;
+  loading: boolean;
+  showpass: boolean;
+};
+
 export default function Login() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -17,56 +25,78 @@ export default function Login() {
   const [loading, setloading] = useState(false);
   const [showpass, setshowpass] = useState<boolean>(false);
 
+  const [loginElements, setLoginElements] = useState<LoginElements>({
+    email: "",
+    password: "",
+    error: "",
+    loading: false,
+    showpass: false,
+  });
+
   const passRef = useRef<any>(null);
   const emailRef = useRef<any>(null);
 
   async function Login() {
-    setloading(true);
-    setserror("");
+    setLoginElements({ ...loginElements, loading: true });
+    setLoginElements({ ...loginElements, error: "" });
 
-    if (email.length === 0 || password.length === 0) {
-      setloading(false);
-      setserror("All fields are required");
+    if (
+      loginElements.email.length === 0 ||
+      loginElements.password.length === 0
+    ) {
+      setLoginElements({ ...loginElements, loading: false });
+      setLoginElements({ ...loginElements, error: "All fields are required" });
+
       return;
     }
 
-    if (email.includes("@") === false) {
-      setloading(false);
-      setserror("Invalid email");
+    if (loginElements.email.includes("@") === false) {
+      setLoginElements({ ...loginElements, loading: false });
+      setLoginElements({ ...loginElements, error: "Invalid email" });
       return;
     }
 
-    if (password.length < 8) {
-      setloading(false);
-      setserror("Password should be at least 8 characters long");
+    if (loginElements.password.length < 8) {
+      setLoginElements({ ...loginElements, loading: false });
+      setLoginElements({
+        ...loginElements,
+        error: "Password should be at least 8 characters long",
+      });
       return;
     }
 
-    setTimeout(async () => {
-      try {
-        setemail(email.trim());
-        setpassword(password.trim());
-        const res = await signIn("credentials", {
-          email,
-          password,
-          redirect: false,
+    try {
+      setLoginElements({ ...loginElements, email: email.trim() });
+      setLoginElements({ ...loginElements, password: password.trim() });
+      const res = await signIn("credentials", {
+        email: loginElements.email,
+        password: loginElements.password,
+        redirect: false,
+      });
+      if (res?.ok) {
+        window.location.href = "/admin/dashboard";
+        setLoginElements({ ...loginElements, loading: false });
+        passRef.current.value = "";
+        emailRef.current.value = "";
+      } else {
+        setLoginElements({ ...loginElements, loading: false });
+        setLoginElements({
+          ...loginElements,
+          error: "Invalid email or password",
         });
-        if (res?.ok) {
-          setloading(false);
-          window.location.href = "/dashboard?section=overview";
-        } else {
-          setloading(false);
-          setserror("Invalid email or password");
-        }
-      } catch (error) {
-      } finally {
       }
-    }, 3000);
+    } catch (error) {
+      setLoginElements({ ...loginElements, loading: false });
+      setLoginElements({
+        ...loginElements,
+        error: "Invalid email or password",
+      });
+    }
   }
 
   useEffect(() => {
-    setserror("");
-  }, [password, email]);
+    setLoginElements({ ...loginElements, error: "" });
+  }, [loginElements.password, loginElements.email]);
 
   return (
     <AuthProvider>
@@ -91,7 +121,10 @@ export default function Login() {
                 id="input"
                 autoComplete="off"
                 onChange={(input) => {
-                  setemail(input.target.value);
+                  setLoginElements({
+                    ...loginElements,
+                    email: input.target.value,
+                  });
                 }}
                 className="bg-transparent outline-none w-full"
                 placeholder="Enter your email"
@@ -105,29 +138,38 @@ export default function Login() {
                 id="input"
                 autoComplete="off"
                 onChange={(input) => {
-                  setpassword(input.target.value);
+                  setLoginElements({
+                    ...loginElements,
+                    password: input.target.value,
+                  });
                 }}
                 className="bg-transparent outline-none w-full"
                 placeholder="Enter your password"
-                type={showpass ? "text" : "password"}
+                type={loginElements.showpass ? "text" : "password"}
               ></input>
-              {showpass ? (
+              {loginElements.showpass ? (
                 <Eye
                   className="cursor-pointer"
                   onClick={() => {
-                    setshowpass(!showpass);
+                    setLoginElements({
+                      ...loginElements,
+                      showpass: !loginElements.showpass,
+                    });
                   }}
                 ></Eye>
               ) : (
                 <EyeOff
                   className="cursor-pointer"
                   onClick={() => {
-                    setshowpass(!showpass);
+                    setLoginElements({
+                      ...loginElements,
+                      showpass: !loginElements.showpass,
+                    });
                   }}
                 ></EyeOff>
               )}
             </div>
-            {!loading ? (
+            {!loginElements.loading ? (
               <button
                 onClick={Login}
                 className="bg-gray-900/90 select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
@@ -142,9 +184,9 @@ export default function Login() {
                 <p>Sign in</p>
               </button>
             )}
-            {error.length > 0 ? (
+            {loginElements.error.length > 0 ? (
               <div className="text-red-500 p-4 font-medium rounded-md bg-red-500/40 border-[1px] h-[50px] border-red-500 flex items-center justify-center mb-3">
-                {error}
+                {loginElements.error}
               </div>
             ) : null}
             <div className="flex gap-2 justify-center items-center">

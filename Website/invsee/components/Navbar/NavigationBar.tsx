@@ -23,6 +23,12 @@ import SearchBar from "./SearchBar";
 const NavigationBar = () => {
   const { data: token } = useSession();
 
+  const login = trpc.user.getSingleUser.useMutation({
+    onSettled: (data) => {
+      setAccountData([data]);
+    },
+  });
+
   const { account_data, setAccountData } = useUserStore();
 
   const { setpage, itemWorkspace } = useWorkspaceStore();
@@ -31,17 +37,11 @@ const NavigationBar = () => {
 
   const [isLogged, setIsLogged] = useState<boolean>(false);
 
-  const userStatus = trpc.user.getUserByEmail.useMutation({});
-
   const fetch_user = async () => {
     try {
-      const response = await axios.get(
-        `/api/user?search_by=email&name=${token?.user?.email}`
-      );
-      const email: any = token?.user?.email;
-      userStatus.mutate(email);
-      const data = response.data;
-      setAccountData(data);
+      // @ts-ignore
+      login.mutate(token?.user?.email);
+      
     } catch (error) {
       console.error("Error fetching user:", error);
     }
@@ -50,7 +50,6 @@ const NavigationBar = () => {
   useEffect(() => {
     if (token?.user?.email) {
       setIsLogged(true);
-      console.log(account_data);
 
       fetch_user();
     } else {
@@ -124,8 +123,10 @@ const NavigationBar = () => {
           <div className="text-[13px] hidden lg:flex gap-1 items-center cursor-pointer hover:bg-blue-600 transition-colors rounded-xl">
             <User size={20} />{" "}
             <p>
-              {account_data[0].first_name.toUpperCase()}{" "}
-              {account_data[0].last_name.toUpperCase()}
+              {account_data[0].firstName &&
+                account_data[0].firstName.toUpperCase()}{" "}
+              {account_data[0].lastName &&
+                account_data[0].lastName.toUpperCase()}
             </p>
           </div>
         </a>
@@ -154,7 +155,6 @@ const NavigationBar = () => {
             s
           </motion.div>
         </div>
-          
       )}
       <div className="flex justify-between items-center p-1 bg-black h-[100px] top-0 z-100">
         <div className="flex gap-2 items-center">
@@ -172,7 +172,7 @@ const NavigationBar = () => {
                   <AvatarImage
                     className="w-30 h-30"
                     src={
-                      account_data[0]?.image_src ||
+                      account_data[0]?.image ||
                       "https://res.cloudinary.com/dzaslaxhw/image/upload/v1709757036/users/deafult.avif"
                     }
                     alt="@avatar"

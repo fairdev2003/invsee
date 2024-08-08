@@ -1,15 +1,17 @@
-import withAuth from "next-auth/middleware"
+import withAuth from "next-auth/middleware";
 
-export const config = { matcher: ["/dashboard", '/admin/workspace'], redirect: "/" }
+export const config = {
+  matcher: ["/dashboard", "/admin/workspace"],
+  redirect: "/",
+  
+};
 
 withAuth({
-  
-    pages: {
-      signIn: '/login',
-      error: '/error',
-      newUser: '/'
-}})
+  pages: {
+    signIn: "/login",
+    error: "/error",
+    newUser: "/",
+  },
+});
 
-
-export default withAuth
-
+export default withAuth;
