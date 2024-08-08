@@ -128,6 +128,10 @@ export const userRouter = router({
           }
         }
 
+        const returnData = {
+          
+        }
+
         return {
           user
         }
