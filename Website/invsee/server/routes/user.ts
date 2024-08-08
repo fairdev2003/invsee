@@ -111,7 +111,8 @@ export const userRouter = router({
           where: {
             email,
             password
-          }
+          },
+          
         });
 
         if (!user) {
