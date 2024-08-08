@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -13,7 +14,7 @@ type OldUser = {
 }
 
 interface UserStore {
-    account_data: OldUser[];
+    account_data: User[];
     users: any[];
     loading: boolean;
 }
