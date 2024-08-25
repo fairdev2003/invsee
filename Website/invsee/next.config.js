@@ -16,6 +16,7 @@ module.exports = {
       "res.cloudinary.com",
       "appliedenergistics.org",
       "www.minecraft.net",
+      "wallpapers-clan.com",
     ],
     formats: ["image/avif", "image/webp"],
   },

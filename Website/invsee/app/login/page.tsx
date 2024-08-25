@@ -19,12 +19,6 @@ type LoginElements = {
 };
 
 export default function Login() {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [error, setserror] = useState("");
-  const [loading, setloading] = useState(false);
-  const [showpass, setshowpass] = useState<boolean>(false);
-
   const [loginElements, setLoginElements] = useState<LoginElements>({
     email: "",
     password: "",
@@ -66,8 +60,11 @@ export default function Login() {
     }
 
     try {
-      setLoginElements({ ...loginElements, email: email.trim() });
-      setLoginElements({ ...loginElements, password: password.trim() });
+      setLoginElements({ ...loginElements, email: loginElements.email.trim() });
+      setLoginElements({
+        ...loginElements,
+        password: loginElements.password.trim(),
+      });
       const res = await signIn("credentials", {
         email: loginElements.email,
         password: loginElements.password,

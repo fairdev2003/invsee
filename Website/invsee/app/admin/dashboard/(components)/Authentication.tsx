@@ -10,7 +10,7 @@ type AuthenticationProps = {
 const Authentication = ({ loading }: AuthenticationProps) => {
   return (
     <>
-    
+      
       {loading && (
         <div
           key={1}

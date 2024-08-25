@@ -99,6 +99,27 @@ export const userRouter = router({
 
       return collection;
     }),
+
+  getFirstThreeUsers: publicProcedure.query(async () => {
+    const users = await db.user.findMany({
+    take: 3
+    })
+    return users;
+  }),
+
+
+  checkIfUserExists: publicProcedure.input(z.string()).mutation(async (email) => {
+    const { input  } = email;
+
+    const user = await db.user.findFirst({
+      where: {
+        email: input,
+      },
+    });
+
+    
+  }),
+
   login: publicProcedure
     .input(z.object({ emailInput: z.string(), passwordInput: z.string() }))
     .mutation(async ({ input }) => {
@@ -112,6 +133,8 @@ export const userRouter = router({
           error_code: 400,
         };
       }
+
+      
 
       if (emailInput.includes("@") === false) {
         return {
@@ -198,5 +221,6 @@ class LoginLogic {
       user: protectedUser,
     };
   }
+  
 
 }
