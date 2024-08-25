@@ -23,7 +23,6 @@ import {
   PopoverTrigger,
 } from "@radix-ui/react-popover";
 import { AddItemModal } from "../Modal";
-import { getAllItems } from "@/actions/itemHelpers";
 
 const handleDeafultImage = (e: any) => {
   e.target.src = "deafult.png";
@@ -57,7 +56,7 @@ export default function Items() {
 
     console.log("Successfully deleted" + response)
 
-    getAllItems()
+    
   }
 
   const [key, setKey] = useState(0);
