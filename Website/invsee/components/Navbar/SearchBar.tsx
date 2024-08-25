@@ -133,7 +133,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                   }}
                 >
                   <XIcon className="lg:hidden flex" />
-                  <code className="lg:flex hidden">ESC</code>
+                  <p className="lg:flex hidden">ESC</p>
                 </div>
               </div>
               <div className="h-[2px] w-full bg-gray-600 mt-2 mb-3" />
@@ -148,12 +148,17 @@ const SearchBar = ({ className }: SearchBarProps) => {
                 />
               ) : (
                 <div className="flex justify-center items-center h-full w-full">
-                  <div className="loader"></div>
+                  <div className="loader"/>
                 </div>
               )}
               <div className="h-[2px] w-full bg-gray-600 flex justify-end items-center"></div>
               <div className="h-20 w-full items-center p-2 px-4 flex flex-col md:justify-between md:flex-row lg:justify-between">
-                <p className="font-semibold">Elapsed in: {timespent}</p>
+                <div
+                  className="p-1 px-3 bg-gray-900 rounded-xl cursor-pointer "
+                >
+                  <XIcon className="lg:hidden hidden" />
+                  <p className="text-sm"><span className="font-bold">CTRL + K</span> - to focus on search bar</p>
+                </div>
                 <p>
                   <span className="text-gray-400">Powered by</span>
                   <span className="text-blue-500 font-semibold">
@@ -201,12 +206,12 @@ const SearchBar = ({ className }: SearchBarProps) => {
           <SearchIcon className="h-5 w-5 text-gray-400" />
           <p className="text-gray-400">Search Mods...</p>
         </div>
-        <code className="text-gray-400 items-center gap-1 text-sm p-1 px-3 bg-gray-900 lg:flex hidden rounded-xl">
+        <p className="text-gray-400 items-center gap-1 text-sm p-1 px-3 bg-gray-900 lg:flex hidden rounded-xl">
           CTRL<span>+</span>K
-        </code>
+        </p>
       </button>
     </div>
   );
 };
 
-export default SearchBar;
+export default SearchBar

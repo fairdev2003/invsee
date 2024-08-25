@@ -37,10 +37,22 @@ export const modsRouter = router({
     return { data, count };
   }),
 
+  getFirstThreeMods: publicProcedure.query(async () => {
+    const data = await db.mod.findMany({
+      include: {
+        author: true,
+      },
+      take: 3,
+    });
+
+    return data;
+  }),
+
   // get mods with relations
   getMods: publicProcedure.query(async () => {
     const data = await db.mod.findMany({
       include: {
+        author: true,
         items: {
           include: {
             author: true,
@@ -51,6 +63,7 @@ export const modsRouter = router({
       },
     });
     const count = await db.mod.count();
+    console.log(data);
     return { data, count };
   }),
 

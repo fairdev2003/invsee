@@ -4,7 +4,7 @@ const Workspaces = () => {
   return (
     <div>
       <button onClick={() => {
-        window.location.href = '/admin/dashboard/workspaces';
+        window.location.href = '/admin/workspace';
       }}>Redirect to workspaces</button>
     </div>
   );

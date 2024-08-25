@@ -75,7 +75,7 @@ const NavigationBar = () => {
       <>
         <div className="lg:flex md:flex flex lg:gap-5 gap-3 items-center">
           <BsCircle className="text-green-500" />
-          <a href="/dashboard?section=overview">
+          <a href="/admin/dashboard">
             <p className="text-[13px] cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">
               DASHBOARD
             </p>
@@ -85,7 +85,7 @@ const NavigationBar = () => {
               WORKSPACE
             </p>
           </a>
-          <a href="/dashboard?section=items">
+          <a href="/admin/dashboard?section=items">
             <p className="text-[13px] hidden lg:flex cursor-pointer select-none hover:bg-blue-600 transition-colors rounded-xl">
               ITEMS & BLOCKS
             </p>

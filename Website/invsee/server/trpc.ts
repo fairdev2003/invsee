@@ -11,11 +11,19 @@ const trpc = initTRPC.create();
 export const router = trpc.router;
 export const publicProcedure = trpc.procedure;
 
+type IP = {
+    dns: {
+        ip: string;
+        geo: string;
+    }
+}
+
 export const createContext = async (req: NextRequest, opts?: CreateNextContextOptions) => {
 
     const session = await getServerSession({});
 
-    const ip: any = (await axios.get("http://edns.ip-api.com/json")).data
+    const ip: IP = (await axios.get("http://edns.ip-api.com/json")).data
+    console.log("IP", ip)
    
     return {
         ip,

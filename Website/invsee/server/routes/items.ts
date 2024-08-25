@@ -20,6 +20,18 @@ export const itemsRouter = router({
     return { count, data };
   }),
 
+  getFirstThreeItems: publicProcedure.query(async () => {
+    const data = await db.item.findMany({
+      take: 3,
+      include: {
+        mod: true,
+        gallery: true,
+      },
+    });
+
+    return data;
+  }),
+
   getItemByTag: publicProcedure
     .input(z.string().includes("__"))
     .mutation(async ({ input }) => {
@@ -37,20 +49,23 @@ export const itemsRouter = router({
     }),
 
   saveItem: protectedProcedure
-    .input(z.object({
-      item_name: z.string(),
-      item_tag: z.string(),
-      material_value: z.number(),
-      stack_size: z.number().max(64).min(1),
-      type: z.string(),
-      tags: z.array(z.string()),
-      modId: z.string(),
-      short_description: z.string(),
-    }))
+    .input(
+      z.object({
+        item_name: z.string(),
+        item_tag: z.string(),
+        material_value: z.number(),
+        stack_size: z.number().max(64).min(1),
+        type: z.string(),
+        tags: z.array(z.string()),
+        modId: z.string(),
+        short_description: z.string(),
+      })
+    )
     .mutation(async ({ input, ctx }) => {
       const data = await db.item.create({
         data: {
-          ...input, authorId: ctx.user?.id || "",
+          ...input,
+          authorId: ctx.user?.id || "",
         },
       });
 
@@ -99,7 +114,7 @@ export const itemsRouter = router({
 
   checkifitemexists: protectedProcedure
     .input(z.string())
-    .mutation(async ({input}) => {
+    .mutation(async ({ input }) => {
       const data = await db.item.findFirst({
         where: {
           item_tag: input,

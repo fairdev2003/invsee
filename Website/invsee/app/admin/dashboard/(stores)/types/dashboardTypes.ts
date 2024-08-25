@@ -57,7 +57,7 @@ const sections: Section[] = [
     accessLevel: "ACCESS_USER_ROLES",
     description: "This is section 3",
     active: false,
-  },
+  }
 ] as const;
 
 type SectionListType = {
@@ -69,7 +69,7 @@ type SectionListType = {
 type DashboardTag = (typeof sections)[number]["tag"];
 
 type DashboardActions = {
-  setSelectedDashboardSection: (value: DashboardTag) => void;
+  setSelectedDashboardSection: (value: (typeof sections)[number]["tag"]) => void;
 
   editDashboardStore: (value: any) => void;
 };
