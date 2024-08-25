@@ -18,7 +18,7 @@ import { Suspense, useEffect } from "react";
 const Page = () => {
   const { data: token } = useSession();
 
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const router = useRouter();
 
   const { selectedDashboardSection, setSelectedDashboardSection } =
@@ -34,12 +34,12 @@ const Page = () => {
   ];
 
   const auth = new Auth(selectedDashboardSection, permissionWithAccess);
-  useEffect(() => {
-    if (searchParams?.get("section")) {
-      setSelectedDashboardSection(searchParams?.get("section") as string);
-      router.replace("/admin/dashboard");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (searchParams?.get("section")) {
+  //     setSelectedDashboardSection(searchParams?.get("section") as string);
+  //     router.replace("/admin/dashboard");
+  //   }
+  // }, []);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
