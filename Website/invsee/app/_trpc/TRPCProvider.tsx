@@ -12,7 +12,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "https://invsee.vercel.app/api/trpc",
+          url: "/api/trpc",
         }),
       ],
     })

@@ -1,5 +1,4 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-
 import { appRouter } from '@/server';
 import { createContext } from '@/server/trpc';
 import { NextRequest } from 'next/server';
