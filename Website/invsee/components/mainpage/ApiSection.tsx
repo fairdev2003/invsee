@@ -89,7 +89,7 @@ const ApiComponent = () => {
           </h3>
           <SyntaxHighlighter language="bash" style={style}>
             {
-              "https://www.inv-see.com/api/user?token=<YOUR_TOKEN>&modder_name=thetechnici4n"
+              "https://www.inv-see.com/api/user.ts?token=<YOUR_TOKEN>&modder_name=thetechnici4n"
             }
           </SyntaxHighlighter>
         </div>

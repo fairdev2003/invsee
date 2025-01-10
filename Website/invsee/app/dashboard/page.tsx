@@ -202,7 +202,7 @@ function Dashboard() {
         </div>
       ) : (
         <div className="flex flex-col w-full h-[750px] gap-5 justify-center items-center select-none">
-          <span className="loader"></span>
+          <span className="loader3"></span>
           <p className="text-white">Loading Dashboard</p>
         </div>
       )}

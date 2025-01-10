@@ -3,7 +3,7 @@
 import { useDashboardStore } from "../(stores)/dashboardStore";
 import type { PermissionLevel } from "@/lib/types/userTypes";
 import { Section } from "../(stores)/types/dashboardTypes";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 type SectionSelectionComponentProps = {
   sections: Section[];
@@ -46,8 +46,21 @@ const SectionSelection = ({
 };
 
 const SectionTile = ({ name, active, onClick }: SectionTileComponentProps) => {
+  const variants = {
+    hidden: { width: "0px" },
+    visible: { width: "100%", transition: { duration: 0.2 } },
+    initial: { width: "0px" },
+  };
+
   return (
-    <div className="cursor-pointer group" onClick={onClick}>
+    <motion.div
+    
+      initial="initial"
+      animate="initial"
+      whileHover="visible"
+      className="cursor-pointer group select-none"
+      onClick={onClick}
+    >
       <h1
         className={`text-2xl font-bold group-hover:text-blue-500 transition-colors  ${
           active ? "text-blue-500" : "text-white"
@@ -55,12 +68,18 @@ const SectionTile = ({ name, active, onClick }: SectionTileComponentProps) => {
       >
         {name}
       </h1>
-      <div
-        className={`h-1 mt-2 w-full mb-1 group-hover:bg-blue-500 transition-opacity ${
-          active ? "bg-blue-500" : "bg-transparent"
-        } rounded-full`}
-      ></div>
-    </div>
+      {!active ? (
+        <motion.div
+          variants={variants}
+          exit={{ width: "0px" }}
+          className={`h-1 mt-2 w-full mb-1 group-hover:bg-blue-500 transition-opacity bg-blue-500 `}
+        ></motion.div>
+      ) : (
+        <div
+          className={`h-1 mt-2 w-full mb-1 group-hover:bg-blue-500 transition-opacity bg-blue-500 `}
+        ></div>
+      )}
+    </motion.div>
   );
 };
 

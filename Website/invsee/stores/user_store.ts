@@ -1,6 +1,6 @@
-import { User } from '@prisma/client';
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import {UserType} from "@/types";
+import {persist} from "zustand/middleware";
 
 type OldUser = {
     _id: string;
@@ -14,7 +14,7 @@ type OldUser = {
 }
 
 interface UserStore {
-    account_data: User[];
+    account_data: UserType | null;
     users: any[];
     loading: boolean;
 }
@@ -25,11 +25,21 @@ interface UserActions {
     updateUsers: ( data: any ) => void;
 }
 
-export const useUserStore = create<UserStore & UserActions>((set) => ({
-    account_data: [],
-    loading: false,
-    users: [],
-    setAccountData: async (data : any) => {set({account_data: data})},
-    setUsers: async (data : any) => {set({users: data})},
-    updateUsers: async (data) => {set({users: data})}
-}))
+export const useUserStore = create<UserStore & UserActions>()(
+    persist(
+        (set) => ({
+            account_data: {} as UserType, // Initialize as null
+            users: [],
+            loading: false,
+            setAccountData: (data) => {
+                console.log("account_data", data);
+                set({ account_data: data });
+            },
+            setUsers: (data) => set({ users: data }),
+            updateUsers: (data) => set({ users: data }),
+        }),
+        {
+            name: "user-store", // Local storage key
+        }
+    )
+);

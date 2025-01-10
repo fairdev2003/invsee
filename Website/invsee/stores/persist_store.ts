@@ -5,22 +5,26 @@ import { persist } from "zustand/middleware";
 type PersistStoreArgs = {
   language: string;
   color: string;
-  searchlocked: boolean; 
+  searchLocked: boolean;
+  token: string
 }
 
 type PersistStoreActions = {
   setLanguage: (language: string) => void;
   setSearchLocked: (searchlocked: boolean) => void;
+  setToken: (token: string) => void;
 }
 
 export const usePersistStore = create<PersistStoreArgs & PersistStoreActions>()(
   persist(
     (set) => ({
-      searchlocked: false,
-      language: "pl",
-      color: "blue-500",
-      setSearchLocked: (searchlocked: boolean) => set({ searchlocked }),
-      setLanguage: (language: string) => set({ language }),
+        token: "",
+        searchLocked: false,
+        language: "pl",
+        color: "blue-500",
+        setSearchLocked: (searchLocked: boolean) => set({ searchLocked }),
+        setLanguage: (language: string) => set({ language }),
+        setToken: (token: string) => set({ token }),
     }),
     {
       name: "language",

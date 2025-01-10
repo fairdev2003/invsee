@@ -78,7 +78,7 @@ export const UsersWithAccess = () => {
     console.log(updateUserRole.data);
     setUsers([]);
     fetch_users();
-    toast("Changed role to: " + value + " for user with email: " + email, {
+    toast("Changed role to: " + value + " for user.ts with email: " + email, {
         duration: 5000,
         closeButton: true
     });

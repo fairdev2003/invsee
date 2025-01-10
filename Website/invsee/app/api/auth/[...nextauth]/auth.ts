@@ -1,6 +1,6 @@
 
 
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, RequestInternal } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/prisma/prisma";
@@ -27,12 +27,12 @@ export const auth: NextAuthOptions = {
       },
 
       
+      
 
-      // @ts-ignore
-      async authorize(credentials : any) {
-        'use server'
+      async authorize(credentials : Record<>) {
+
         const password = credentials.password as string;
-        const email = credentials.email as string;
+        const email = credentials.email;
 
         const ctx = await db.user.findFirst({
           where: {
@@ -44,7 +44,7 @@ export const auth: NextAuthOptions = {
         const user = ctx;
 
         if (ctx !== null) {
-          return user;
+          return {user};
         } else {
           return false;
         }

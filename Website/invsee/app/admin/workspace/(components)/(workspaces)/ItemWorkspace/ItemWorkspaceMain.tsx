@@ -15,60 +15,8 @@ const ItemWorkspace = () => {
   const {
     setItemWorkspaceState,
     itemWorkspace,
-    setErrorExplaination,
-    setErrorState,
   } = useWorkspaceStore();
-  const [photo, setPhoto] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
-  const fakeloadingtime = 1000;
-  const items = trpc.items.checkifitemexists.useMutation();
-
-  const saveaction = trpc.items.saveItem.useMutation();
-
-  const saveItemWorksapceIntoDatabase = () => {
-    type Tags = string;
-    const tags: Tags[] = [];
-    itemWorkspace.itemTags.map((tag) => {
-      tags.push(tag.tagName);
-    });
-
-    const {
-      itemTag,
-      itemName,
-      itemDescription,
-      mod,
-      stackSize,
-      itemType,
-      materialValue,
-    } = itemWorkspace;
-
-    saveaction.mutate({
-      item_tag: itemTag,
-      item_name: itemName,
-      short_description: itemDescription,
-      modId: mod?.id as string,
-      stack_size: parseInt(stackSize),
-      type: itemType,
-      material_value: parseInt(materialValue),
-      tags,
-    });
-  };
-
-  const setStep = (step: number) => {
-    if (itemWorkspace.step === step) return;
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setItemWorkspaceState("step", step);
-    }, fakeloadingtime);
-  };
-
-  const serverAction = (item_tag: string): boolean => {
-    items.mutate(item_tag);
-    console.log(items.data?.item_tag === item_tag);
-    return items.data?.item_tag === item_tag;
-  };
+    const [loading, setLoading] = useState<boolean>(false);
 
   const step = itemWorkspace.step;
 
@@ -105,7 +53,7 @@ const ItemWorkspace = () => {
           } h-[50px] w-full px-3 flex items-center rounded-lg cursor-pointer font-semibold`}
           onClick={() => {
             if (step === 2 || step === 3) {
-              setStep(1);
+
             }
           }}
         >
@@ -124,7 +72,7 @@ const ItemWorkspace = () => {
           } h-[50px] w-full px-3 flex items-center rounded-lg cursor-pointer font-semibold`}
           onClick={() => {
             if (step === 3) {
-              setStep(2);
+
             }
           }}
         >
@@ -177,20 +125,13 @@ const ItemWorkspace = () => {
         <button
           onClick={() => {
             if (itemWorkspace.step === 3) {
-              saveItemWorksapceIntoDatabase();
+
               return;
             }
             setLoading(true);
             setTimeout(() => {
               setLoading(false);
-              if (serverAction(itemWorkspace.itemTag)) {
-                setErrorState(true);
-                setErrorExplaination(
-                  "Item tag already exists",
-                  "Please change the item tag"
-                );
-                return;
-              }
+
               setItemWorkspaceState("step", itemWorkspace.step + 1);
             }, 1500);
           }}

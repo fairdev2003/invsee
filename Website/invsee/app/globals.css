@@ -48,7 +48,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* HTML: <div class="loader"></div> */
-.loader {
+.loader3 {
   width: 50px;
   aspect-ratio: 1;
   border-radius: 50%;

@@ -88,7 +88,7 @@ export const useWorkspaceStore = create<WorkspaceActions & Workspaces>()(
                 newWikiTable.push(element);
               }
             }
-          );
+          );    
 
           return {
             itemWorkspace: {

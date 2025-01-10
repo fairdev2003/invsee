@@ -9,6 +9,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { AuthProvider } from "@/components/AuthProviders";
+import {useMutation} from "@tanstack/react-query";
+import LoginEngine from "@/app/login/index";
+import axios, {AxiosError} from "axios";
+import {ItemType, GoodServerResponse} from "@/types";
+import {usePersistStore} from "@/stores/persist_store";
+import {useUserStore} from "@/stores/user_store";
+
 
 type LoginElements = {
   email: string;
@@ -17,6 +24,10 @@ type LoginElements = {
   loading: boolean;
   showpass: boolean;
 };
+
+
+
+const loginEngine = new LoginEngine();
 
 export default function Login() {
   const [loginElements, setLoginElements] = useState<LoginElements>({
@@ -27,76 +38,74 @@ export default function Login() {
     showpass: false,
   });
 
+  const { setToken, token } = usePersistStore()
+
+  const [response, setResponse] = useState<GoodServerResponse>({
+    code: 401,
+    message: "Error",
+    token: "null"
+  });
+
   const passRef = useRef<any>(null);
   const emailRef = useRef<any>(null);
 
-  async function Login() {
-    setLoginElements({ ...loginElements, loading: true });
-    setLoginElements({ ...loginElements, error: "" });
-
-    if (
-      loginElements.email.length === 0 ||
-      loginElements.password.length === 0
-    ) {
-      setLoginElements({ ...loginElements, loading: false });
-      setLoginElements({ ...loginElements, error: "All fields are required" });
-
-      return;
-    }
-
-    if (loginElements.email.includes("@") === false) {
-      setLoginElements({ ...loginElements, loading: false });
-      setLoginElements({ ...loginElements, error: "Invalid email" });
-      return;
-    }
-
-    if (loginElements.password.length < 8) {
-      setLoginElements({ ...loginElements, loading: false });
-      setLoginElements({
-        ...loginElements,
-        error: "Password should be at least 8 characters long",
-      });
-      return;
-    }
-
-    try {
-      setLoginElements({ ...loginElements, email: loginElements.email.trim() });
-      setLoginElements({
-        ...loginElements,
-        password: loginElements.password.trim(),
-      });
-      const res = await signIn("credentials", {
-        email: loginElements.email,
-        password: loginElements.password,
-        redirect: false,
-      });
-      if (res?.ok) {
-        window.location.href = "/admin/dashboard";
-        setLoginElements({ ...loginElements, loading: false });
-        passRef.current.value = "";
-        emailRef.current.value = "";
-      } else {
-        setLoginElements({ ...loginElements, loading: false });
-        setLoginElements({
-          ...loginElements,
-          error: "Invalid email or password",
-        });
+  const data = useMutation(
+      {
+        mutationFn: ({email, password}: {email: string, password: string}) => {
+          console.log(`Password: "${password}"`);
+          console.log(`Email: "${email}"`);
+          return loginEngine.Server(email, password).then((result) => {
+            setResponse(result.data);
+          }).catch((error) => {
+            setLoginElements({...loginElements, error: error.response?.data?.error});
+          });
+        },
       }
-    } catch (error) {
-      setLoginElements({ ...loginElements, loading: false });
-      setLoginElements({
-        ...loginElements,
-        error: "Invalid email or password",
-      });
+  )
+
+  const user = useMutation({
+    mutationFn: (token: string) => {
+      return axios.get("http://localhost:9090/honego/v1/private/user/me", {headers: {
+          Authorization: `Bearer ${token}`
+        }}).then((response) => {
+          setAccountData(response.data);
+      })
     }
-  }
+  })
+
+  const handleLogin = (email: string, password: string) => {
+    setLoginElements({ ...loginElements, loading: true, error: "" });
+
+    data.mutate({ email, password });
+  };
+
+  useEffect(() => {
+    if (response.token && response.token !== "null") {
+      setToken(response.token);
+      user.mutate(response.token);
+    }
+  }, [response.token]);
+
+  useEffect(() => {
+    if (response.code !== 200) {
+      setLoginElements({ ...loginElements, error: response.message });
+    } else {
+      setLoginElements({ ...loginElements, error: "", loading: false });
+    }
+  }, [response]);
+
+  const { account_data, setAccountData } = useUserStore();
 
   useEffect(() => {
     setLoginElements({ ...loginElements, error: "" });
   }, [loginElements.password, loginElements.email]);
 
+  if (account_data) {
+    window.location.href = "/u/@me"
+  }
+
   return (
-    <AuthProvider>
+    <div>
       <section className="mt-[130px] mt flex items-center justify-center">
         <div className="w-[500px] h-[auto] bg-gray-900/60 rounded-xl p-10">
           <div className="flex flex-col justify-center gap-4 items-center">
@@ -168,14 +177,14 @@ export default function Login() {
             </div>
             {!loginElements.loading ? (
               <button
-                onClick={Login}
-                className="bg-gray-900/90 select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
+                  onClick={() => {handleLogin(emailRef.current.value, passRef.current.value)}}
+                  className="bg-gray-900/90 select-none w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 hover:bg-[#222327] transition-colors"
               >
                 <p>Sign in</p>
               </button>
             ) : (
               <button
-                onClick={Login}
+                onClick={() => {handleLogin(emailRef.current.value, passRef.current.value)}}
                 className="bg-gray-900/90 w-full h-[50px] rounded-xl text-white flex items-center justify-center mb-3 gap-3 opacity-30 cursor-default"
               >
                 <p>Sign in</p>
@@ -217,6 +226,6 @@ export default function Login() {
           </div>
         </div>
       </section>
-    </AuthProvider>
+    </div>
   );
 }

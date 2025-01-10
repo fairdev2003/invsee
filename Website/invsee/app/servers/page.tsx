@@ -39,7 +39,7 @@ function Chat() {
   const [message, setmessage] = useState("")
   const [messages, setmessages]: any = useState([])
   const [isClient, setIsClient] = useState(false)
-  const [socket] = useState<any>(io("http://localhost:3005")) 
+  const [socket] = useState<any>(io("http://localhost:9090/socket.io"))
 
   const chatbox_ref = useRef<any>();
 
@@ -72,15 +72,28 @@ function Chat() {
         socket.off("server_info");
         socket.off("receive_server_info")
     };
-
+    
   })
 
-  const input_ref = useRef(null)
+  const input_ref = useRef(typeof Input)
   const getRarityColor: any = (rarity: string) => {
-    if (rarity === "common") { return "white" };
-    if (rarity === "uncommon") { return "#FAFA33" };
-    if (rarity === "rare") { return "rgb(59 130 246 / 1" };
-    if (rarity === "epic") { return "#7851A9" };
+    switch (rarity) {
+        case "epic": {
+            return "#7851A9";
+        }
+        case "rare": {
+            return "rgb(59 130 246 / 1";
+        }
+        case "uncommon": {
+            return "rgb(0, 0, 255)";
+        }
+        case "common": {
+            return "white";
+        }
+        default: {
+            return "black";
+        }
+    }
   };
 
   const sendMessage = ( message_query: any ) => {
@@ -92,94 +105,113 @@ function Chat() {
     event.target.src = 'deafult.png';
   }
   
-  
+  type MessageType = {
+        message: string,
+        type: string,
+        user_name: string,
+        uuid: string,
+        
+        item_data: {
+            nbt_data?: {
+                [key: string]: any
+            }
+            registry_name: string,
+            display_name: string,
+            rarity: string,
+            enchants: {
+                id: string,
+                level: number
+            }[]
+        }
+      
+  }
 
-  const message_handler = ( object: any ) => {
-    if (object.type === "player_joined") {
+  const message_handler = ( message: MessageType ) => {
+    if (message.type === "player_joined") {
         return (<Alert variant="joined" className='flex gap-2 items-center bg-[#88dd88] max-w-[98%]'>
             <div className='text-[green]'><FaArrowRight size={20}/></div>
-            <AlertDescription className='font-[600]'>{object.message}</AlertDescription>
+            <AlertDescription className='font-[600]'>{message.message}</AlertDescription>
         </Alert>) 
     } 
-    if ( object.type === "player_left") {
+    if ( message.type === "player_left") {
         return (<Alert variant="left" className='flex gap-2 items-center bg-[#e7a4a4] max-w-[98%]'>
             <div className='text-destructive'><FaArrowLeft size={20}/></div>
-            <AlertDescription className='font-[600]'>{object.message}</AlertDescription>
+            <AlertDescription className='font-[600]'>{message.message}</AlertDescription>
         </Alert>)
     }
-    if (object.type === "player_chat") {
+    if (message.type === "player_chat") {
         return (<Alert variant="message" className='flex gap-5 items-center bg-[#dad2d2] max-w-[98%]'>
-            <img src={`https://mc-heads.net/avatar/${object.uuid}`} alt={`image-${object.user_name}`} className='w-10 h-10 rounded-lg'/>
+            <img src={`https://mc-heads.net/avatar/${message.uuid}`} alt={`image-${message.user_name}`} className='w-10 h-10 rounded-lg'/>
             <div>
-                <AlertTitle>{object.user_name}</AlertTitle>
-                <AlertDescription>{object.message}</AlertDescription>
+                <AlertTitle>{message.user_name}</AlertTitle>
+                <AlertDescription>{message.message}</AlertDescription>
             </div>
             
         </Alert>)
     }
-    if (object.type === "share_item") {
+    if (message.type === "share_item") {
         return (<Alert variant="shared_item" className='flex gap-5 items-center max-w-[98%] relative z-0'>
             <div id='hover_trigger' className='cursor-pointer'>
-                <img  src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}/>
-                    <div style={{borderColor: getRarityColor(object.item_data.rarity)}} className='w-[auto] h-[auto] bg-[#16181c] border-[5px] p-5 absolute z-2 left-[5rem] top-5 rounded-lg z-2' id='hover_content'>
+                <img  src={`http://localhost:3005/images/icon/${message.item_data.registry_name}/${message.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${message.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}/>
+                    <div style={{borderColor: getRarityColor(message.item_data.rarity)}} className='w-[auto] h-[auto] bg-[#16181c] border-[5px] p-5 absolute z-2 left-[5rem] top-5 rounded-lg z-2' id='hover_content'>
                         <div className='flex gap-4 items-center mb-5'>
-                            <img src={`http://localhost:3005/images/icon/${object.item_data.registry_name}/${object.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${object.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}></img>
+                            <img src={`http://localhost:3005/images/icon/${message.item_data.registry_name}/${message.item_data.enchants.length > 0 ? "true" : "false"}`} alt={`image-${message.user_name}`} className='image w-10 h-10 relative' onError={(event) => {handleDeafultImage(event)}}></img>
                             <div>
-                                <h1 style={{color: getRarityColor(object.item_data.rarity)}} className={`text-md font-[800]`}>{object.item_data.display_name}</h1>
+                                <h1 style={{color: getRarityColor(message.item_data.rarity)}} className={`text-md font-[800]`}>{message.item_data.display_name}</h1>
                                 <p className='text-gray-200 text-sm font-[600]'>Tool</p>
                             </div>
                         </div>
 
                         <div>
-                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:eternal" ? <div>
+                            {message.item_data.nbt_data["Modifier"] === "forbidden_arcanus:eternal" ? <div>
                                 <p className='text-white'>+ <span className='text-green-600'>Eternal Modifer</span></p>
                                 <p className='text-white'><i>Tool is indestructible!</i></p>
                                 
                             </div> : null}
-                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:fiery" ? <div>
+                            {message.item_data.nbt_data["Modifier"] === "forbidden_arcanus:fiery" ? <div>
                                 <p className='text-white'>+ <span className='text-red-600'>Fiery Modifer</span></p>
                                 <p className='text-white'><i>Allows the tool to smelt the mined block</i></p>
                                 </div>
                                  : null}
-                            {object.item_data.nbt_data["Modifier"] === "forbidden_arcanus:demolishing" ? <div>
+                            {message.item_data.nbt_data["Modifier"] === "forbidden_arcanus:demolishing" ? <div>
                                 <p className='text-white'>+ <span className='text-[brown]'>Demolishing Modifer</span></p>
                                 <p className='text-white'><i>Tool can mine 3x3 area</i></p>
                                 </div>
                                  : null}
-                            {NbtContent(object.item_data.registry_name.split("__")[0], object.item_data, getRarityColor(object.item_data.rarity))}
+                            {NbtContent(message.item_data.registry_name.split("__")[0], message.item_data, getRarityColor(message.item_data.rarity))}
                         </div>
                         
                         <div className=''>
                             {/* <div className='w-[200px]'><i className='text-white my-3'>"Mystical tool which takes alheim mystical power to conquer the world. This tool is used to mine magical side of the world, be carefull!"</i></div> */}
                             <div className='mt-4'>
-                                {object.item_data.enchants ? object.item_data.enchants.map((item: any, number: number) => {
+                                {message.item_data.enchants ? message.item_data.enchants.map((item: any, number: number) => {
                                     return (
                                         <p className='text-white font-[500]'>{EnchantmentsDictonary[item.id]} {NumberFormula[item.lvl]}</p>
                                     )
                                 }) : null}
                             </div>
                         </div>
-                        <p className='text-blue-500'>{ModName[object.item_data.registry_name.split("__")[0]]}</p>
+                        <p className='text-blue-500'>{ModName[message.item_data.registry_name.split("__")[0]]}</p>
                     </div>
                 <img/>
             </div>
             <div>
-                <AlertTitle>{`${object.item_data.amount > 1 ? object.item_data.amount + "x" : ""} ${object.item_data.display_name}`}</AlertTitle>
-                <AlertDescription>shared by <b>{object.user_name}</b></AlertDescription>
+                <AlertTitle>{`${message.item_data.amount > 1 ? message.item_data.amount + "x" : ""} ${message.item_data.display_name}`}</AlertTitle>
+                <AlertDescription>shared by <b>{message.user_name}</b></AlertDescription>
             </div>
             
         </Alert>)
     }
-    if (object.type === "web_chat") {
+    if (message.type === "web_chat") {
         return (<Alert variant="message" className='gap-2 items-center bg-[#d2d3da] max-w-[98%]'>
             <AlertTitle>You</AlertTitle>
-            <AlertDescription>{object.message}</AlertDescription>
+            <AlertDescription>{message.message}</AlertDescription>
         </Alert>)
     }
-    if ( object.type === "player_death") {
+    if ( message.type === "player_death") {
         return (<Alert variant="left" className='flex gap-2 items-center bg-[#e7a4a4] max-w-[98%]'>
             <div className='text-destructive'><GiDeathSkull size={20}/></div>
-            <AlertDescription className='font-[600]'>{object.message}</AlertDescription>
+            <AlertDescription className='font-[600]'>{message.message}</AlertDescription>
         </Alert>)
     }
     }
@@ -216,7 +248,7 @@ function Chat() {
                     
                     <Button size='lg' variant='admin' onClick={() => {
                         sendMessage({message: message, type: "web_chat"})
-                        // @ts-ignore
+                        
                         input_ref.current.value = '';
                         }}>Send Message</Button>
                 </div>

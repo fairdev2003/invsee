@@ -17,7 +17,6 @@ import Social from '@/components/mainpage/Gallery';
 export default async function Home() {
   return (
     <main className="flex flex-col justify-center items-center" id='mainpage'>
-      
       <ExploreSection/>
       <InfoSection/>
       <LiveChatPresentSection/>

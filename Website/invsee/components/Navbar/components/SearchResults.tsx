@@ -4,18 +4,25 @@ import ModRecord from "./ModRecord";
 import WorkspaceRecord from "./WorkspaceRecord";
 import LinkRecord from "./LinkRecord";
 import "./externalcss/scrollbar.css";
+import {useEffect} from "react";
 
 interface SearchResultsProps {
   data: any;
 }
 
 const SearchResults = ({ data }: SearchResultsProps) => {
+
+  useEffect(() => {
+    console.log("Component mounted");
+
+  })
+
   return (
     <div
       className="text-white flex flex-col gap-2 h-[800px] overflow-y-scroll p-2 mb-2"
       id="modal"
     >
-      {data && data.data && data.data.mods && data.data.mods.length > 0 && (
+      {data && data && data.mods && data.mods.length > 0 && (
         <AnimatePresence>
           <p className="text-gray-400 font-semibold text-lg pl-2">
             Mods Results:
@@ -26,12 +33,12 @@ const SearchResults = ({ data }: SearchResultsProps) => {
         </AnimatePresence>
       )}
 
-      {data && data.data && data.data.items && data.data.items.length > 0 && (
+      {data.items && data.items.data && data.items.data.length > 0 && (
         <AnimatePresence>
           <p className="text-gray-400 font-semibold text-lg pl-2">
             Items Results:
           </p>
-          {data.data.items.map((item: any, index: number) => {
+          {data.items.data.map((item: any, index: number) => {
             return <ItemRecord key={item.id} index={index} item={item} />;
           })}
         </AnimatePresence>

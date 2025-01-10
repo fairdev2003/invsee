@@ -12,6 +12,9 @@ import { usePersistStore } from "@/stores/persist_store";
 import { cn } from "@/lib/utils";
 import { linkSync } from "fs";
 import { websiteroutes } from "@/utils/data/webisteRoutes";
+import {useMutation} from "@tanstack/react-query";
+import axios from "axios";
+import {ItemType} from "@/types";
 
 type SearchBarProps = {
   className?: string;
@@ -23,7 +26,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
   const [fallstart, setFallstart] = useState<boolean>(true);
   const [searchData, setSearchData] = useState<any>(null);
   const { itemWorkspace } = useWorkspaceStore();
-  const { searchlocked } = usePersistStore();
+  const { searchLocked } = usePersistStore();
   const [searchValue, setSearchValue] = useState<string>("");
   var startTime: Date = new Date();
   var endTime: Date = new Date();
@@ -42,18 +45,20 @@ const SearchBar = ({ className }: SearchBarProps) => {
     return searchResults;
   };
 
-  const data = trpc.search.searchEverything.useMutation({
-    onSettled: (data) => {
-      setSearchData({ data: { ...handleUtilsSearch(searchValue, data) } });
-
-      endTime = new Date();
-      setTimespent(endTime.getTime() - startTime.getTime());
-      console.log(timespent);
+  const data = useMutation({
+    mutationFn: (query: { query: string }) => {
+      return axios.post<ItemType>(`http://localhost:9090/honego/v1/item/find`, {query: searchValue})
     },
-  });
+    onSuccess: (data: any) => {
+      setSearchData({items: data});
+      console.log(searchData)
+    },
+  })
+
+
 
   useEffect(() => {
-    data.mutate("");
+    data.mutate({query: ""});
   }, []);
 
   useEffect(() => {
@@ -63,7 +68,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
         document.body.style.overflow = "";
         setSearching(false);
       }
-      if (e.key === "k" && e.ctrlKey && !searchlocked) {
+      if (e.key === "k" && e.ctrlKey && !searchLocked) {
         e.preventDefault();
         document.body.style.overflow = "hidden";
         setSearching(true);
@@ -83,13 +88,13 @@ const SearchBar = ({ className }: SearchBarProps) => {
 
   const search = (input: string) => {
     setFallstart(true);
-    data.mutate(input);
+    data.mutate({query: input});
   };
 
   return (
     <div>
       <AnimatePresence>
-        {searching && !searchlocked ? (
+        {searching && !searchLocked ? (
           <motion.div
             className={cn(
               className,
@@ -112,7 +117,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                       if (e.currentTarget.value.length > 0) {
                         search(e.currentTarget.value);
                       } else {
-                        setSearchData({ data: { ...data } });
+                        setSearchData({ data: { items: { ...data } } });
                       }
                     }}
                     ref={searchRef}
@@ -148,7 +153,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
                 />
               ) : (
                 <div className="flex justify-center items-center h-full w-full">
-                  <div className="loader"/>
+                  <div className="loader3"/>
                 </div>
               )}
               <div className="h-[2px] w-full bg-gray-600 flex justify-end items-center"></div>
@@ -175,7 +180,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
         color="white"
         className="lg:hidden md:hidden flex text-white"
         onClick={() => {
-          if (searchlocked) {
+          if (searchLocked) {
             return;
           }
           document.body.style.overflow = "hidden";
@@ -191,7 +196,7 @@ const SearchBar = ({ className }: SearchBarProps) => {
           "lg:flex md:flex hidden gap-7 items-center p-3 px-3 bg-gray-800 hover:bg-gray-600 cursor-pointer rounded-lg select-none"
         )}
         onClick={() => {
-          if (searchlocked) {
+          if (searchLocked) {
             return;
           }
           document.body.style.overflow = "hidden";

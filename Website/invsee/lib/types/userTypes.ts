@@ -42,7 +42,7 @@ const PermissionLevels = [
   {
     pName: "Access User Roles",
     pCode: "ACCESS_USER_ROLES",
-    pDescription: "Access to the user roles page",
+    pDescription: "Access to the user.ts roles page",
   },
   {
     pName: "Access Items",

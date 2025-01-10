@@ -409,7 +409,7 @@ export default function Items() {
             <div>
               {items.length ? (
                 <div className="flex flex-col gap-4 justify-center items-center mt-10">
-                  <span className="loader"></span>
+                  <span className="loader3"></span>
                   <p className="text-white">Loading Items...</p>
                 </div>
               ) : (

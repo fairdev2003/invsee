@@ -1,12 +1,6 @@
 import DashboardError from "./sections/DashboardError";
-import Overview from "./sections/Overview";
-import Mods from "./sections/Mods";
-import Workspaces from "./sections/Workspaces";
-import { sections } from "../(stores)/types/dashboardTypes";
-import { Component } from "lucide-react";
 import { useEffect } from "react";
 import sectionList from "../components";
-import type { ReturnTypePermissions } from "..";
 
 type SectionHandlerComponentProps = {
   section: string;

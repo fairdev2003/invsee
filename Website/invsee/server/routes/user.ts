@@ -5,6 +5,7 @@ import { db } from "@/prisma/prisma";
 import { User } from "@prisma/client";
 
 export const userRouter = router({
+
   getUsersByEmail: publicProcedure
     .input(z.string().includes("@"))
     .mutation(async (e) => {
@@ -17,6 +18,19 @@ export const userRouter = router({
       });
 
       return data;
+    }),
+
+
+    checkIfUserExists: publicProcedure.input(z.string()).mutation(async (email) => {
+        const { input  } = email;
+
+        const user = await db.user.findFirst({
+            where: {
+                email: input,
+            },
+        });
+
+
     }),
 
   getUserByEmail: publicProcedure.input(z.string()).mutation(async (e) => {

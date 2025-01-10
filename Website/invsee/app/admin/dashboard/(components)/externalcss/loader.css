@@ -38,7 +38,7 @@
   }
   
   #loader3:before,
-    .loader:after {
+    .loader3:after {
     content: "";
     position: absolute;
     border-radius: 50%;

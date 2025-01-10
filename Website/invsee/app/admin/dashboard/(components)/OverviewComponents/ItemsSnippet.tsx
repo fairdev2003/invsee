@@ -38,7 +38,7 @@ const ItemsSnippet = ({ items }: { items: any }) => {
           <h1 className="font-bold text-2xl">Items</h1>
         </div>
         <div className="flex flex-col gap-y-3 mt-2">
-          {data?.map((item) => {
+          {data?.map((item: any) => {
             return (
               <ItemRecord
                 image={`https://res.cloudinary.com/dzaslaxhw/image/upload/v1709745445/${item?.mod.tag}/${item.item_tag}.png`}
@@ -70,7 +70,7 @@ const ItemRecord = ({
   image,
   item_tag,
   item_name,
-  children,
+  children
 }: Pick<Item, "item_tag" | "item_name"> & {
   children?: ReactNode;
 } & { mod: Mod; image: string; children?: ReactNode }) => {

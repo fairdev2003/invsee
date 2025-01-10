@@ -36,7 +36,7 @@ export default function Navbar() {
       const data = response.data;
       setAccountData(data);
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error("Error fetching user.ts:", error);
     }
   };
 

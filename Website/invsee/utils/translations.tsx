@@ -209,7 +209,7 @@ export const translations: any = {
             "Dashboard Stats": "Dashboard Stats",
             "Dashboard Stats desc": "Super duper charts for dashboard stats!",
             "User Logs": "User Logs",
-            "User Logs Desc": "What actions user performed on the dashboard!",
+            "User Logs Desc": "What actions user.ts performed on the dashboard!",
             "Users with access": "Users with access",
             "Users with access desc": "Users with access to the dashboard",
             "Quick Stats": "Quick stats",
