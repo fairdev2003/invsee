@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+
+Folder structure  
+Webiste
+  frontend (Next.js):
+    package.json and more....
+  backend (Golang):
+    cmd:
+      main.go
+  compose.yaml
+  Dockerfile
+mam takie sciezki do poszczegolnych seerwisów, prosze pomoz mi z compose.yaml i Dockerfile
+
+
+
