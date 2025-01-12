@@ -24,9 +24,9 @@ func NewUserService(usercollection *mongo.Collection, ctx context.Context) servi
 	}
 }
 
-func (i *UserServiceImpl) GetPublicUser(nick string) (bson.M, error) {
+func (i *UserServiceImpl) GetPublicUser(key string, value string) (bson.M, error) {
 	var user bson.M
-	filter := bson.M{"nick": nick}
+	filter := bson.M{key: value}
 	err := i.usercollection.FindOne(i.ctx, filter, options.FindOne().SetProjection(bson.M{
 		"password":  0,
 		"updatedAt": 0,
@@ -117,7 +117,7 @@ func (u *UserServiceImpl) GetAll() ([]*models.User, error) {
 }
 
 func (u *UserServiceImpl) UpdateUser(user *models.User) error {
-	filter := bson.D{primitive.E{Key: "_id", Value: user.ID}}
+	filter := bson.D{primitive.E{Key: "userId", Value: user.UserId}}
 	update := bson.D{primitive.E{Key: "$set", Value: bson.D{
 		primitive.E{Key: "nick", Value: user.Nick},
 		primitive.E{Key: "firstName", Value: user.FirstName},

@@ -13,7 +13,7 @@ type UserService interface {
 	GetUsers(string, string) ([]*models.User, error)
 	DeleteUser(*string) error
 	Me(email string) (bson.M, error)
-	GetPublicUser(nick string) (bson.M, error)
+	GetPublicUser(key string, value string) (bson.M, error)
 	AdminUpdateOne(by string, value string) error
 	UpdateOne(by string, value string, nick string) error
 }

@@ -40,6 +40,7 @@ export type SearchBarResponse = {
 
 export type UserType = {
     _id: string;
+    userId: string;
     nick: string;
     firstName: string;
     lastName: string;

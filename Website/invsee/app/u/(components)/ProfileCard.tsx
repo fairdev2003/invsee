@@ -4,6 +4,11 @@ import Image from "next/image";
 import {AccessPower, UserType} from "@/types";
 import {useUserStore} from "@/stores/user_store";
 import {EditProvider} from "@/app/u/(components)/tools/EditProvider";
+import {useMutation} from "@tanstack/react-query";
+import ApiClient from "@/api/fetchClient";
+import {useEffect, useState} from "react";
+import {cn} from "@/lib/utils";
+import {AxiosResponse} from "axios";
 
 /**
  * ```js
@@ -16,14 +21,27 @@ import {EditProvider} from "@/app/u/(components)/tools/EditProvider";
 type ProfileCardProps = Omit<UserType, "password"> & {
     accessPower: AccessPower;
 }
-const ProfileCard = ({ _id, firstName, lastName, nick, image, email, role, backgroundImage, accessPower }: ProfileCardProps) => {
+const ProfileCard = ({ _id, firstName, lastName, nick, image, email, role, backgroundImage, accessPower, userId }: ProfileCardProps) => {
 
     const { account_data } = useUserStore()
+    const [color, setColor] = useState<string>("black")
+
+    const colorFn = useMutation({
+        mutationFn: () => {
+            return ApiClient.get(`/user/color?userId=${userId}`)
+        },
+        onSettled: (data: any) => {
+            setColor(data.data.color)
+        }
+    })
+
+    useEffect(() => {
+        colorFn.mutate()
+    }, [])
 
     return (
-        <div className='flex flex-col gap-[10px] h-[500px]'>
-
-            {!backgroundImage && <div className='gap-2 bg-lime-200 h-[200px] w-full relative'>
+        <div className='textw-white flex flex-col gap-[10px] h-[500px]'>
+            {!backgroundImage && <div style={{backgroundColor: color}} className={cn(`gap-2 h-[200px] w-full relative`)}>
                 <Image alt={`profile-pfp-${nick}`} src={image} className="w-[150px] h-[150px] rounded-full absolute bottom-[-50px] left-[30px] border-black border-[10px]" width={150} height={150} />
             </div>}
             <div className="flex items-center w-full h-[40px] px-[200px]">

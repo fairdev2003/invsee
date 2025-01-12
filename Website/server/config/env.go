@@ -26,6 +26,9 @@ func getEnv(key string, fallback string) string {
 		log.Printf("Błąd podczas ładowania pliku .env: %v", err)
 		return fallback
 	}
+	if len(os.Getenv(key)) == 0 {
+		panic("System doesnt have important keys from .env file, please add those into the configuration file or via docker compose way")
+	}
 
 	return os.Getenv(key)
 }

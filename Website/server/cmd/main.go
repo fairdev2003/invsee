@@ -87,7 +87,7 @@ func main() {
 	requestPerSecond := 10
 
 	basepath.Use(helpers.RateLimmiter(requestPerSecond))
-	
+
 	adminPath.Use(helpers.AuthMiddleware())
 	adminPath.Use(helpers.VerifyAdmin(us))
 	privatePath.Use(helpers.RateLimmiter(requestPerSecond))
@@ -97,7 +97,6 @@ func main() {
 	ic.RegisterItemRoutes(basepath) // ITEM
 
 	uc.RegisterRoutes(basepath, privatePath, adminPath) // USER
-
 	defer mongoclient.Disconnect(ctx)
 	if err := server.Run(":9090"); err != nil {
 		log.Fatalf("Failed to run server: %s", err)

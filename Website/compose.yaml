@@ -1,28 +1,47 @@
-version: '3.9'
-
 services:
-  app:
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile
-    working_dir: /app
+      dockerfile: ./invsee/Dockerfile
+    working_dir: /invsee
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
-      - /app/node_modules
-    command: npm run dev
+      - ./invsee:/invsee
+      - /invsee/node_modules
+    environment:
+      - NODE_ENV=development
+    develop:
+      watch:
+        - path: ./invsee/package.json
+          action: rebuild
+        - path: ./invsee/package-lock.json
+          action: rebuild
+        - path: ./invsee
+          ignore:
+            - ./node_modules
+          target: /app
+          action: sync
+  backend:
 
-Folder structure  
-Webiste
-  frontend (Next.js):
-    package.json and more....
-  backend (Golang):
-    cmd:
-      main.go
-  compose.yaml
-  Dockerfile
-mam takie sciezki do poszczegolnych seerwisów, prosze pomoz mi z compose.yaml i Dockerfile
-
-
-
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    working_dir: /server
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./server/.env:/server/.env
+      - ./server:/server
+    environment:
+      - GO_ENV=debug
+      - GIN_MODE=debug
+      - DATABASE_URI=${DATABASE_URI}
+      - SUPER_SECRET_TOKEN=${SUPER_SECRET_TOKEN}
+    env_file:
+      - .env
+    develop:
+      watch:
+        - path: ./server
+          action: sync+restart
+          target: /

@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
+	"image/png"
+	"io"
 	"net/http"
 )
 
@@ -187,7 +189,8 @@ func (uc *UserController) Login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := helpers.GenerateToken(foundUser.ID, foundUser.Nick)
+	helpers.LOGGER("userId:", foundUser.UserId)
+	token, err := helpers.GenerateToken(foundUser.UserId, foundUser.Nick)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
@@ -227,7 +230,7 @@ func (uc *UserController) GetPublicUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := uc.UserService.GetPublicUser(nick)
+	user, err := uc.UserService.GetPublicUser("nick", nick)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"code": http.StatusNotFound, "error": "User is not found", "message": err.Error()})
 		return
@@ -267,6 +270,72 @@ func (uc *UserController) UpdateOne(ctx *gin.Context) {
 
 }
 
+func (uc *UserController) RandomUuid(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{
+		"response": helpers.GenerateRandomID(),
+	})
+}
+
+func (uc *UserController) GetBackgroundColor(ctx *gin.Context) {
+	uuid := ctx.Query("userId")
+
+	user, err := uc.UserService.GetUser("userId", uuid)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"code":    http.StatusUnauthorized,
+			"error":   err.Error(),
+			"message": config.InvalidCredentials,
+		})
+	}
+	image, err := helpers.FetchImageFromURL(user.Image)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"code":    http.StatusUnauthorized,
+			"error":   err.Error(),
+			"message": config.InvalidCredentialsMessage,
+		})
+	}
+	color := helpers.MostCommonColor(image)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":  http.StatusOK,
+		"color": color,
+	})
+
+}
+
+func (uc *UserController) SendImage(ctx *gin.Context) {
+	// Open the image file
+	userId := ctx.Query("userId")
+	user, err := uc.UserService.GetUser("userId", userId)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"code":    http.StatusUnauthorized,
+			"error":   err.Error(),
+			"message": config.InvalidCredentials,
+		})
+	}
+
+	file, err := helpers.FetchImageFromURL(user.Image)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Set the correct headers for the image type
+	ctx.Header("Content-Type", "image/png")
+
+	// Write the image to the response body
+	ctx.Stream(func(w io.Writer) bool {
+		err := png.Encode(w, file)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "unable to stream image"})
+			return false
+		}
+		return false
+	})
+}
+
 // RegisterUserRoutes is used to register user routes by functions above
 // // uc.RegisterUserRoutes
 func (uc *UserController) RegisterUserRoutes(rg *gin.RouterGroup) {
@@ -275,6 +344,9 @@ func (uc *UserController) RegisterUserRoutes(rg *gin.RouterGroup) {
 	userroute.POST("/login", uc.Login)
 	userroute.GET("/get", uc.GetPublicUser)
 	userroute.POST("/update", uc.UpdateOne)
+	userroute.GET("/uuid", uc.RandomUuid)
+	userroute.GET("/color", uc.GetBackgroundColor)
+	userroute.GET("/image", uc.SendImage)
 }
 
 func (uc *UserController) RegisterPrivateUserRoutees(rg *gin.RouterGroup) {

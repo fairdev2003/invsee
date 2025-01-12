@@ -30,4 +30,6 @@ forge*changelog.txt
 /Website/client/node_modules
 /Website/server/.env
 /Website/client/.env
+./Website/invsee/.env
+./Website/server/.env
 

@@ -12,6 +12,7 @@ type FindType struct {
 type User struct {
 	ID        string    `json:"_id" bson:"_id,omitempty"`
 	Nick      string    `json:"nick" bson:"nick,omitempty"`
+	UserId    string    `json:"userId" bson:"userId,omitempty"`
 	FirstName string    `json:"firstName" bson:"firstName,omitempty"`
 	LastName  string    `json:"lastName" bson:"lastName,omitempty"`
 	Email     string    `json:"email" bson:"email,omitempty"`

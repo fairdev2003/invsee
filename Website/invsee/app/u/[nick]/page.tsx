@@ -1,5 +1,5 @@
 'use client'
-import { useMutation } from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import axios, {AxiosError, AxiosResponse} from "axios";
 import {useEffect, useState} from "react";
 import {usePersistStore} from "@/stores/persist_store";
@@ -55,7 +55,8 @@ const Page = ({ params }: { params: { nick: string } }) => {
             onError: (error: AxiosError<ErrorServerResponse>) => {
                 setError(error)
             }
-        })
+        }),
+
     }
 
     useEffect(() => {
@@ -93,11 +94,17 @@ const Page = ({ params }: { params: { nick: string } }) => {
         return <Loading />
     }
     return (
-        <div className="">
+        <div className="text-white">
+
 
             {account_data?.role === "Admin" ? <AdminView user={user} viewName={"User Page"}/> : null}
             <div className="text-white  mx-auto w-[60%] mt-10">
-                <h1 className="text-3xl flex flex-col gap-2 text-white font-bold pb-5">User Profile</h1>
+                <h1 className="text-3xl flex flex-col gap-2 text-white font-bold pb-5">
+                    User Profile
+                    <span className="text-sm">
+                        {`Id: ${user.userId}`}
+                    </span>
+                </h1>
                 <ProfileCard accessPower={checkAccessPower(account_data, user)} {...user}/>
                 {account_data?._id == user._id && <p className='px-5 text-green-500'>This is You</p>}
                 <UserCreations/>

@@ -1,17 +1,12 @@
-FROM node:18-slim
+FROM node:alpine
+WORKDIR /invsee
 
-# Set working directory
-WORKDIR /app
+COPY invsee/package*.json ./
 
-# Copy package files and install dependencies
-COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the application
-COPY . .
+COPY invsee ./
 
-# Expose port
 EXPOSE 3000
 
-# Run the application in development mode
 CMD ["npm", "run", "dev"]

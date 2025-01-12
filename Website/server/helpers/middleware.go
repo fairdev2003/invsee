@@ -7,7 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/time/rate"
+	"math/rand"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -107,10 +109,8 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Println(claims["id"].(string))
-
 		ctx.Set("nick", claims["nick"])
-		ctx.Set("id", claims["id"])
+		ctx.Set("userId", claims["userId"])
 
 		ctx.Next()
 	}
@@ -118,23 +118,23 @@ func AuthMiddleware() gin.HandlerFunc {
 
 func GenerateToken(id string, nick string) (string, error) {
 	claims := jwt.MapClaims{
-		"id":   id,
-		"nick": nick,
-		"exp":  time.Now().Add(time.Hour * 1).Unix(),
+		"userId": id,
+		"nick":   nick,
+		"exp":    time.Now().Add(time.Hour * 1).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.Envs.SuperSecretToken))
+	return token.SignedString([]byte("mongodb+srv://admin:NKGpsKXllhHGaEIM@spotify-clone.ucfqqik.mongodb.net/?retryWrites=true&w=majority&appName=spotify-clone"))
 }
 
 func VerifyAdmin(user services.UserService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
-		param := ctx.GetString("nick")
-		id := ctx.GetString("id")
-		fmt.Println("nick:", param)
-		fmt.Println("id:", id)
+		nick := ctx.GetString("nick")
+		userId := ctx.GetString("userId")
+		LOGGER("userId", userId)
+		LOGGER("nick", nick)
 
-		dbUser, err := user.GetUser("nick", param)
+		dbUser, err := user.GetUser("userId", userId)
 		if err != nil {
 			ctx.JSON(http.StatusUnauthorized, gin.H{
 				"code":  http.StatusUnauthorized,
@@ -163,4 +163,25 @@ func VerifyAdmin(user services.UserService) gin.HandlerFunc {
 			ctx.Abort()
 		}
 	}
+}
+
+func GenerateRandomID() string {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	chars := []rune("0123456789")
+	length := 12
+	id := make([]rune, length)
+	for i := range id {
+		id[i] = chars[rand.Intn(len(chars))]
+	}
+	year := strconv.Itoa(int(time.Now().Year()))
+	month := strconv.Itoa(int(time.Now().Month()))
+	day := strconv.Itoa(int(time.Now().Day()))
+	if len(month) == 1 {
+		month = "0" + month
+	}
+	if len(day) == 1 {
+		day = "0" + day
+	}
+	uuid := year[len(year)-2:] + month + day + string(id)
+	return uuid
 }
