@@ -70,6 +70,11 @@ const request = "https://www.invsee.com/api/item?token=<YOUR_TOKEN>&item_tag=min
 const request = "https://www.invsee.com/api/user?token=<YOUR_TOKEN>&modder_name=thetechnici4n"
 ```
 
+#### Get Update README.md info
+```javascript
+const request = "https://www.invsee.com/api/user?token=<YOUR_TOKEN>&readme.md=thetechnici4n"
+```
+
 #### Get mod info
 ```javascript
 const request = "https://www.invsee.com/api/mod?token=<YOUR_TOKEN>&mod_name=applied-energistics-2"
