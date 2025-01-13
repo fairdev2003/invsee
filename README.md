@@ -75,6 +75,11 @@ const request = "https://www.invsee.com/api/user?token=<YOUR_TOKEN>&modder_name=
 const request = "https://www.invsee.com/api/user?token=<YOUR_TOKEN>&readme.md=thetechnici4n"
 ```
 
+Update README.md -
+Create .env - 
+git rm .env - 
+Create important_passwords.json
+
 #### Get mod info
 ```javascript
 const request = "https://www.invsee.com/api/mod?token=<YOUR_TOKEN>&mod_name=applied-energistics-2"
